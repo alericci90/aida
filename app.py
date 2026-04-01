@@ -257,30 +257,30 @@ if modalita == "Companies DB":
         else:
             company_names = [f.stem for f in excel_files]
 
-            if "submitted" not in st.session_state:
-                st.session_state.submitted = False
-
+            # inizializza lo stato
             if "selected_company" not in st.session_state:
-                st.session_state.selected_company = None
+                st.session_state.selected_company = None    
 
+            # selectbox sincronizzata allo stato
             selected_company = st.selectbox(
                 "Select a company from repository:",
                 company_names,
                 index=company_names.index(st.session_state.selected_company)
-                if st.session_state.selected_company in company_names else 0
-                )
-            
-            if st.session_state.submitted:
-                st.session_state.submitted = True
-                st.session_state.selected_company = selected_company
+                    if st.session_state.selected_company in company_names
+                    else 0
+            )
+
+            # aggiorna sempre lo stato appena cambia selezione
+            st.session_state.selected_company = selected_company
 
             # ✅ Form per evitare refresh UI violento
             with st.form("load_company_form"):
                 submit_company = st.form_submit_button("Load Company Data")
 
             if submit_company:
+                st.session_state.selected_company = selected_company
 
-                file_path = repo_path / f"{st.session_state.selected_company}.xlsx"
+                file_path = repo_path / f"{selected_company}.xlsx"
 
                 try:
                     df = pd.read_excel(file_path, sheet_name="input CEE", header=None)
