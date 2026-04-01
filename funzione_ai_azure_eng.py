@@ -3,7 +3,7 @@ import hashlib
 import json
 import streamlit as st
 
-from azure_llm import call_azure_llm
+from new_azure_llm import call_azure_llm
 
 
 def bilancio_ai_component_eng(anno_bil, bilancio_data: dict):
