@@ -130,7 +130,7 @@ if modalita == "Manual Entry":
 
 
 # INPUT FILE EXCEL
-if modalita == "Upload Excel":
+elif modalita == "Upload Excel":
     file = st.file_uploader(
         "Upload Excel file (.xlsx) – sheet: 'input CEE'",
         type=["xlsx"]
@@ -246,7 +246,7 @@ if modalita == "Upload Excel":
 
 
 # INPUT AZIENDE SALVATE
-if modalita == "Companies DB":
+elif modalita == "Companies DB":
     repo_path = Path("./repository_aziende")
 
     if not repo_path.exists():
