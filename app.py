@@ -647,7 +647,7 @@ if st.session_state.submitted:
             )
 
             st.plotly_chart(
-                sparkline(indicatori_storici[key], anno_bil),
+                sparkline(indicatori_storici[key], st.session_state.anno_bil),
                 use_container_width=True
             )
 
@@ -684,7 +684,7 @@ if st.session_state.submitted:
 
 
             st.plotly_chart(
-                sparkline(trend_ricavi['cagr_ricavi'], anno_bil),
+                sparkline(trend_ricavi['cagr_ricavi'], st.session_state.anno_bil),
                 use_container_width=True
             )
 
@@ -718,7 +718,7 @@ if st.session_state.submitted:
         )
 
         st.plotly_chart(
-            sparkline(score_int_storico['integrato'], anno_bil, score_intg=True),
+            sparkline(score_int_storico['integrato'], st.session_state.anno_bil, score_intg=True),
             use_container_width=True
         )
 
@@ -794,7 +794,7 @@ if st.session_state.submitted:
     with col_logo_2:
         st.image("aida.png", use_container_width=True)
 
-    bilancio_ai_component_eng(anno_bil, bilancio_data)
+    bilancio_ai_component_eng(st.session_state.anno_bil, bilancio_data)
 
     st.divider()
 
@@ -830,11 +830,11 @@ if st.session_state.submitted:
                     "CAGR Ricavi": cagr_ricavi
                 },
                 grafici={
-                    "Struttura": sparkline(indicatori_storici["struttura"], anno_bil),
-                    "Liquidità": sparkline(indicatori_storici["liquidita"], anno_bil),
-                    "Leva": sparkline(indicatori_storici["leva"], anno_bil),
-                    "Cash Flow": sparkline(indicatori_storici["cashflow"], anno_bil),
-                    "Profitability": sparkline(indicatori_storici["profitability"], anno_bil),
+                    "Struttura": sparkline(indicatori_storici["struttura"], st.session_state.anno_bil),
+                    "Liquidità": sparkline(indicatori_storici["liquidita"], st.session_state.anno_bil),
+                    "Leva": sparkline(indicatori_storici["leva"], st.session_state.anno_bil),
+                    "Cash Flow": sparkline(indicatori_storici["cashflow"], st.session_state.anno_bil),
+                    "Profitability": sparkline(indicatori_storici["profitability"], st.session_state.anno_bil),
                     "Radar": fig
                 }
             )
