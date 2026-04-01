@@ -320,4 +320,4 @@ def bilancio_ai_component_eng(anno_bil, bilancio_data: dict, customer_data: dict
             })
 
             # forza refresh visivo mantenendo lo stato
-            # st.rerun()
+            st.rerun()
