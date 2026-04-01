@@ -260,9 +260,14 @@ if modalita == "Companies DB":
             selected_company = st.selectbox(
                 "Select a company from repository:",
                 company_names,
-                index=None,
+                index=company_names.index(st.session_state.get("selected_company"))
+                    if st.session_state.get("selected_company") in company_names
+                    else None,
                 placeholder="Select a company"
-            )
+                )
+            
+            if selected_company:
+                st.session_state["selected_company"] = selected_company
 
             # ✅ Form per evitare refresh UI violento
             with st.form("load_company_form"):
