@@ -1,0 +1,21 @@
+{
+  "Name": "LINDE",
+  "TaxCode": "03691250231",
+  "Active Contracts": 5,
+
+  "Outstanding": {
+    "Overall Oustanding": 191542.51,
+    "Rental and Remarketing Total": 191542.51,
+    "Rental": 191542.51,
+    "Remarketing": 0,
+    "Retail and Leasing Total": 0,
+    "Retail": 0,
+    "Leasing": 0
+  },
+
+  "Scaduto": {
+    "Overall Past-due": 18.96,
+    "Rental fees Past-due": 0,
+    "Rental extra-fees Past-due": 0
+  }
+}

@@ -6,7 +6,7 @@ import streamlit as st
 from new_azure_llm import call_azure_llm
 
 
-def bilancio_ai_component_eng(anno_bil, bilancio_data: dict):
+def bilancio_ai_component_eng(anno_bil, bilancio_data: dict, customer_data: dict):
     """
     Componente Streamlit riutilizzabile per:
     - analisi di solvibilità
@@ -98,7 +98,12 @@ def bilancio_ai_component_eng(anno_bil, bilancio_data: dict):
     # =====================================================
     # INIZIALIZZAZIONE STATO
     # =====================================================
-    current_fp = compute_bilancio_fingerprint(bilancio_data)
+    # current_fp = compute_bilancio_fingerprint(bilancio_data)
+    
+    current_fp = compute_bilancio_fingerprint({
+        "bilancio_data": bilancio_data,
+        "customer_data": customer_data
+    })
 
     if "bilancio_fingerprint" not in st.session_state:
         st.session_state.bilancio_fingerprint = current_fp
@@ -177,10 +182,23 @@ def bilancio_ai_component_eng(anno_bil, bilancio_data: dict):
             with st.spinner("Financial‑statement analysis in progress..."):
 
                 # Preparazione payload e indicatori per i follow-up
-                payload_dict = deep_format_numbers(bilancio_data)
-                payload = json.dumps(payload_dict, indent=2, ensure_ascii=False)
+                # payload_dict = deep_format_numbers(bilancio_data)
+                # payload = json.dumps(payload_dict, indent=2, ensure_ascii=False)
+                combined_payload = {
+                    "financial_statement": deep_format_numbers(bilancio_data),
+                    "customer_data": deep_format_numbers(customer_data)
+                    }
+                payload = json.dumps(combined_payload, indent=2, ensure_ascii=False)
 
-                st.session_state.indicators_str = build_indicators_str(bilancio_data)
+                # st.session_state.indicators_str = build_indicators_str(bilancio_data)
+                st.session_state.indicators_str = json.dumps(
+                    {
+                        "financial_statement": deep_format_numbers(bilancio_data),
+                        "customer_data": deep_format_numbers(customer_data)
+                        }, 
+                        indent=2,
+                        ensure_ascii=False
+                        )
 
                 initial_prompt = f"""
                 Based on the following financial‑statement data and indicators,
