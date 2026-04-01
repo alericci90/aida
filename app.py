@@ -291,95 +291,95 @@ elif modalita == "Companies DB":
 
                     # LETTURA CELLE
                     # ULTIMO ANNO
-                    anno_bil = df.iloc[0, 3]
+                    st.session_state.anno_bil = df.iloc[0, 3]
 
-                    pn = df.iloc[2, 8]  # I3
-                    pn_1 = df.iloc[2, 7]
-                    pn_2 = df.iloc[2, 6]
+                    st.session_state.pn = df.iloc[2, 8]  # I3
+                    st.session_state.pn_1 = df.iloc[2, 7]
+                    st.session_state.pn_2 = df.iloc[2, 6]
 
-                    attivo = df.iloc[83, 3]  # D84
-                    attivo_1 = df.iloc[83, 2]
-                    attivo_2 = df.iloc[83, 1]
+                    st.session_state.attivo = df.iloc[83, 3]  # D84
+                    st.session_state.attivo_1 = df.iloc[83, 2]
+                    st.session_state.attivo_2 = df.iloc[83, 1]
 
-                    att_breve = (
+                    st.session_state.att_breve = (
                             df.iloc[38, 3] + df.iloc[46, 3] + df.iloc[49, 3] + df.iloc[52, 3] + df.iloc[54, 3] +
                             df.iloc[56, 3] + df.iloc[59, 3] + df.iloc[62, 3] + df.iloc[64, 3] + df.iloc[73, 3]
                     )
-                    att_breve_1 = (
+                    st.session_state.att_breve_1 = (
                             df.iloc[38, 2] + df.iloc[46, 2] + df.iloc[49, 2] + df.iloc[52, 2] + df.iloc[54, 2] +
                             df.iloc[56, 2] + df.iloc[59, 2] + df.iloc[62, 2] + df.iloc[64, 2] + df.iloc[73, 2]
                     )
-                    att_breve_2 = (
+                    st.session_state.att_breve_2 = (
                             df.iloc[38, 1] + df.iloc[46, 1] + df.iloc[49, 1] + df.iloc[52, 1] + df.iloc[54, 1] +
                             df.iloc[56, 1] + df.iloc[59, 1] + df.iloc[62, 1] + df.iloc[64, 1] + df.iloc[73, 1]
                     )
 
-                    pass_breve = (
+                    st.session_state.pass_breve = (
                             df.iloc[36, 8] + df.iloc[39, 8] + df.iloc[42, 8] + df.iloc[45, 8] + df.iloc[48, 8] +
                             df.iloc[51, 8] + df.iloc[54, 8] + df.iloc[57, 8] + df.iloc[60, 8] + df.iloc[63, 8] +
                             df.iloc[66, 8] + df.iloc[69, 8]
                     )
-                    pass_breve_1 = (
+                    st.session_state.pass_breve_1 = (
                             df.iloc[36, 7] + df.iloc[39, 7] + df.iloc[42, 7] + df.iloc[45, 7] + df.iloc[48, 7] +
                             df.iloc[51, 7] + df.iloc[54, 7] + df.iloc[57, 7] + df.iloc[60, 7] + df.iloc[63, 7] +
                             df.iloc[66, 7] + df.iloc[69, 7]
                     )
-                    pass_breve_2 = (
+                    st.session_state.pass_breve_2 = (
                             df.iloc[36, 6] + df.iloc[39, 6] + df.iloc[42, 6] + df.iloc[45, 6] + df.iloc[48, 6] +
                             df.iloc[51, 6] + df.iloc[54, 6] + df.iloc[57, 6] + df.iloc[60, 6] + df.iloc[63, 6] +
                             df.iloc[66, 6] + df.iloc[69, 6]
                     )
 
-                    debiti = df.iloc[34, 8]  # I35
-                    debiti_1 = df.iloc[34, 7]
-                    debiti_2 = df.iloc[34, 6]
+                    st.session_state.debiti = df.iloc[34, 8]  # I35
+                    st.session_state.debiti_1 = df.iloc[34, 7]
+                    st.session_state.debiti_2 = df.iloc[34, 6]
 
-                    liquidita = (
+                    st.session_state.liquidita = (
                             df.iloc[73, 3] + df.iloc[46, 3] + df.iloc[49, 3] + df.iloc[52, 3] + df.iloc[54, 3] +
                             df.iloc[56, 3] + df.iloc[59, 3] + df.iloc[62, 3] + df.iloc[64, 3]
                     )
-                    liquidita_1 = (
+                    st.session_state.liquidita_1 = (
                             df.iloc[73, 2] + df.iloc[46, 2] + df.iloc[49, 2] + df.iloc[52, 2] + df.iloc[54, 2] +
                             df.iloc[56, 2] + df.iloc[59, 2] + df.iloc[62, 2] + df.iloc[64, 2]
                     )
-                    liquidita_2 = (
+                    st.session_state.liquidita_2 = (
                             df.iloc[73, 1] + df.iloc[46, 1] + df.iloc[49, 1] + df.iloc[52, 1] + df.iloc[54, 1] +
                             df.iloc[56, 1] + df.iloc[59, 1] + df.iloc[62, 1] + df.iloc[64, 1]
                     )
 
-                    ebitda = (
+                    st.session_state.ebitda = (
                             df.iloc[92, 3] + df.iloc[93, 3] + df.iloc[94, 3] + df.iloc[95, 3] - df.iloc[113, 3] -
                             df.iloc[99, 3] + df.iloc[96, 3] - df.iloc[116, 3] -df.iloc[100, 3] - df.iloc[102, 3] -
                             df.iloc[101, 3]
                     )
-                    ebitda_1 = (
+                    st.session_state.ebitda_1 = (
                             df.iloc[92, 2] + df.iloc[93, 2] + df.iloc[94, 2] + df.iloc[95, 2] - df.iloc[113, 2] -
                             df.iloc[99, 2] + df.iloc[96, 2] - df.iloc[116, 2] -df.iloc[100, 2] - df.iloc[102, 2] -
                             df.iloc[101, 2]
                     )
-                    ebitda_2 = (
+                    st.session_state.ebitda_2 = (
                             df.iloc[92, 1] + df.iloc[93, 1] + df.iloc[94, 1] + df.iloc[95, 1] - df.iloc[113, 1] -
                             df.iloc[99, 1] + df.iloc[96, 1] - df.iloc[116, 1] -df.iloc[100, 1] - df.iloc[102, 1] -
                             df.iloc[101, 1]
                     )
 
-                    cf = df.iloc[159, 3] + df.iloc[114, 3]  # D160 + D115
-                    cf_1 = df.iloc[159, 2] + df.iloc[114, 2]
-                    cf_2 = df.iloc[159, 1] + df.iloc[114, 1]
+                    st.session_state.cf = df.iloc[159, 3] + df.iloc[114, 3]  # D160 + D115
+                    st.session_state.cf_1 = df.iloc[159, 2] + df.iloc[114, 2]
+                    st.session_state.cf_2 = df.iloc[159, 1] + df.iloc[114, 1]
 
-                    oneri = (
+                    st.session_state.oneri = (
                             df.iloc[35, 8] + df.iloc[38, 8] + df.iloc[41, 8] + df.iloc[44, 8] + df.iloc[59, 8]
                     )
-                    oneri_1 = (
+                    st.session_state.oneri_1 = (
                             df.iloc[35, 7] + df.iloc[38, 7] + df.iloc[41, 7] + df.iloc[44, 7] + df.iloc[59, 7]
                     )
-                    oneri_2 = (
+                    st.session_state.oneri_2 = (
                             df.iloc[35, 6] + df.iloc[38, 6] + df.iloc[41, 6] + df.iloc[44, 6] + df.iloc[59, 6]
                     )
 
-                    ricavi = df.iloc[92, 3]  # D93
-                    ricavi_1 = df.iloc[92, 2]
-                    ricavi_2 = df.iloc[92, 1]
+                    st.session_state.ricavi = df.iloc[92, 3]  # D93
+                    st.session_state.ricavi_1 = df.iloc[92, 2]
+                    st.session_state.ricavi_2 = df.iloc[92, 1]
 
                     st.session_state.submitted = True
                     st.success("Excel File uploaded correctly")
@@ -391,32 +391,32 @@ elif modalita == "Companies DB":
 
 # CALCOLO + OUTPUT
 if st.session_state.submitted:
-    ind1 = pn / attivo
-    ind2 = att_breve / pass_breve
-    ind3 = (debiti - liquidita) / ebitda
-    ind4 = cf / attivo
-    ind5 = oneri / ricavi
+    ind1 = st.session_state.pn / st.session_state.attivo
+    ind2 = st.session_state.att_breve / st.session_state.pass_breve
+    ind3 = (st.session_state.debiti - st.session_state.liquidita) / st.session_state.ebitda
+    ind4 = st.session_state.cf / st.session_state.attivo
+    ind5 = st.session_state.oneri / st.session_state.ricavi
     cagr_ricavi = (
-        (ricavi / ricavi_2) ** 0.5 - 1
-        if ricavi_2 > 0 else
-        (ricavi / ricavi_1) - 1
-        if ricavi_1 > 0 else
+        (st.session_state.ricavi / st.session_state.ricavi_2) ** 0.5 - 1
+        if st.session_state.ricavi_2 > 0 else
+        (st.session_state.ricavi / st.session_state.ricavi_1) - 1
+        if st.session_state.ricavi_1 > 0 else
         np.nan
     )
 
-    trend_ricavi = {'cagr_ricavi' : [ricavi_2, ricavi_1, ricavi]}
+    trend_ricavi = {'cagr_ricavi' : [st.session_state.ricavi_2, st.session_state.ricavi_1, st.session_state.ricavi]}
 
-    ind1_1 = pn_1 / attivo_1
-    ind2_1 = att_breve_1 / pass_breve_1
-    ind3_1 = (debiti_1 - liquidita_1) / ebitda_1
-    ind4_1 = cf_1 / attivo_1
-    ind5_1 = oneri_1 / ricavi_1
+    ind1_1 = st.session_state.pn_1 / st.session_state.attivo_1
+    ind2_1 = st.session_state.att_breve_1 / st.session_state.pass_breve_1
+    ind3_1 = (st.session_state.debiti_1 - st.session_state.liquidita_1) / st.session_state.ebitda_1
+    ind4_1 = st.session_state.cf_1 / st.session_state.attivo_1
+    ind5_1 = st.session_state.oneri_1 / st.session_state.ricavi_1
 
-    ind1_2 = pn_2 / attivo_2
-    ind2_2 = att_breve_2 / pass_breve_2
-    ind3_2 = (debiti_2 - liquidita_2) / ebitda_2
-    ind4_2 = cf_2 / attivo_2
-    ind5_2 = oneri_2 / ricavi_2
+    ind1_2 = st.session_state.pn_2 / st.session_state.attivo_2
+    ind2_2 = st.session_state.att_breve_2 / st.session_state.pass_breve_2
+    ind3_2 = (st.session_state.debiti_2 - st.session_state.liquidita_2) / st.session_state.ebitda_2
+    ind4_2 = st.session_state.cf_2 / st.session_state.attivo_2
+    ind5_2 = st.session_state.oneri_2 / st.session_state.ricavi_2
 
     # INDICATORI SINTETICI STORICI
     indicatori_storici = {
@@ -429,54 +429,54 @@ if st.session_state.submitted:
 
     bilancio_data = {
         "patrimonio_netto": {
-            "t-2": pn_2,
-            "t-1": pn_1,
-            "t": pn
+            "t-2": st.session_state.pn_2,
+            "t-1": st.session_state.pn_1,
+            "t": st.session_state.pn
         },
         "attivo": {
-            "t-2": attivo_2,
-            "t-1": attivo_1,
-            "t": attivo
+            "t-2": st.session_state.attivo_2,
+            "t-1": st.session_state.attivo_1,
+            "t": st.session_state.attivo
         },
         "attivo_breve": {
-            "t-2": att_breve_2,
-            "t-1": att_breve_1,
-            "t": att_breve
+            "t-2": st.session_state.att_breve_2,
+            "t-1": st.session_state.att_breve_1,
+            "t": st.session_state.att_breve
         },
         "passivo_breve": {
-            "t-2": pass_breve_2,
-            "t-1": pass_breve_1,
-            "t": pass_breve
+            "t-2": st.session_state.pass_breve_2,
+            "t-1": st.session_state.pass_breve_1,
+            "t": st.session_state.pass_breve
         },
         "debiti": {
-            "t-2": debiti_2,
-            "t-1": debiti_1,
-            "t": debiti
+            "t-2": st.session_state.debiti_2,
+            "t-1": st.session_state.debiti_1,
+            "t": st.session_state.debiti
         },
         "liquidita": {
-            "t-2": liquidita_2,
-            "t-1": liquidita_1,
-            "t": liquidita
+            "t-2": st.session_state.liquidita_2,
+            "t-1": st.session_state.liquidita_1,
+            "t": st.session_state.liquidita
         },
         "ebitda": {
-            "t-2": ebitda_2,
-            "t-1": ebitda_1,
-            "t": ebitda
+            "t-2": st.session_state.ebitda_2,
+            "t-1": st.session_state.ebitda_1,
+            "t": st.session_state.ebitda
         },
         "cashflow": {
-            "t-2": cf_2,
-            "t-1": cf_1,
-            "t": cf
+            "t-2": st.session_state.cf_2,
+            "t-1": st.session_state.cf_1,
+            "t": st.session_state.cf
         },
         "oneri_finanziari": {
-            "t-2": oneri_2,
-            "t-1": oneri_1,
-            "t": oneri
+            "t-2": st.session_state.oneri_2,
+            "t-1": st.session_state.oneri_1,
+            "t": st.session_state.oneri
         },
         "ricavi": {
-            "t-2": ricavi_2,
-            "t-1": ricavi_1,
-            "t": ricavi
+            "t-2": st.session_state.ricavi_2,
+            "t-1": st.session_state.ricavi_1,
+            "t": st.session_state.ricavi
         },
 
         # --- Indicatori ---
@@ -572,17 +572,17 @@ if st.session_state.submitted:
     st.header("📋 Financial Statement Indicators")
 
     dati_bilancio = {
-        "Most recent Financial Year": anno_bil,
-        "Net Worth": pn,
-        "Total Assets": attivo,
-        "Current Assets": att_breve,
-        "Current Liabilities": pass_breve,
-        "Total Debts": debiti,
-        "Liquidity": liquidita,
-        "EBITDA": ebitda,
-        "Cash Flow": cf,
-        "Financial Payables": oneri,
-        "Revenues": ricavi
+        "Most recent Financial Year": st.session_state.anno_bil,
+        "Net Worth": st.session_state.pn,
+        "Total Assets": st.session_state.attivo,
+        "Current Assets": st.session_state.att_breve,
+        "Current Liabilities": st.session_state.pass_breve,
+        "Total Debts": st.session_state.debiti,
+        "Liquidity": st.session_state.liquidita,
+        "EBITDA": st.session_state.ebitda,
+        "Cash Flow": st.session_state.cf,
+        "Financial Payables": st.session_state.oneri,
+        "Revenues": st.session_state.ricavi
     }
 
     col1, col2 = st.columns(2)
