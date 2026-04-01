@@ -1,3 +1,6 @@
+aiohappyeyeballs==2.6.1
+aiohttp==3.13.5
+aiosignal==1.4.0
 altair==6.0.0
 annotated-types==0.7.0
 anyio==4.11.0
@@ -27,6 +30,7 @@ distro==1.9.0
 executing==2.2.1
 fastjsonschema==2.21.2
 fqdn==1.5.1
+frozenlist==1.8.0
 gitdb==4.0.12
 GitPython==3.1.45
 h11==0.16.0
@@ -60,6 +64,7 @@ lark==1.3.1
 MarkupSafe==3.0.3
 matplotlib-inline==0.2.1
 mistune==3.1.4
+multidict==6.7.1
 narwhals==2.18.1
 nbclient==0.10.2
 nbconvert==7.16.6
@@ -68,6 +73,7 @@ nbformat==5.10.4
 nest-asyncio==1.6.0
 notebook_shim==0.2.4
 numpy==2.4.4
+openai==0.28.0
 overrides==7.7.0
 packaging==25.0
 pandas==3.0.2
@@ -79,6 +85,7 @@ platformdirs==4.5.0
 plotly==6.6.0
 prometheus_client==0.23.1
 prompt_toolkit==3.0.52
+propcache==0.4.1
 protobuf==7.34.1
 psutil==7.1.3
 ptyprocess==0.7.0
@@ -124,3 +131,4 @@ wcwidth==0.2.14
 webcolors==25.10.0
 webencodings==0.5.1
 websocket-client==1.9.0
+yarl==1.23.0
