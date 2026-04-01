@@ -1,12 +1,12 @@
 import os
 from openai import AzureOpenAI
 
-endpoint = "https://aleri-mljnd89q-eastus2.cognitiveservices.azure.com/"
 model_name = "gpt-4o-mini"
 deployment = "gpt-4o-mini"
 
-subscription_key = os.getenv("AZURE_OPENAI_KEY")
-api_version = "2024-12-01-preview"
+endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
+subscription_key = os.getenv("AZURE_OPENAI_API_KEY")
+api_version = os.getenv("AZURE_OPENAI_API_VERSION")
 
 client = AzureOpenAI(
     api_version=api_version,
