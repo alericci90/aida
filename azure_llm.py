@@ -5,7 +5,7 @@ endpoint = "https://aleri-mljnd89q-eastus2.cognitiveservices.azure.com/"
 model_name = "gpt-4o-mini"
 deployment = "gpt-4o-mini"
 
-subscription_key = os.getenv("AZURE_OPENAI_KEY")
+subscription_key = os.getenv("AZURE_OPENAI_KEY") #prova
 api_version = "2024-12-01-preview"
 
 client = AzureOpenAI(
