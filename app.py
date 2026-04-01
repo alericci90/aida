@@ -890,7 +890,10 @@ if st.session_state.submitted:
     with col_logo_2:
         st.image("aida.png", use_container_width=True)
 
-    bilancio_ai_component_eng(st.session_state.anno_bil, bilancio_data, dati_cliente)
+    if st.session_state.anno_bil:
+        bilancio_ai_component_eng(st.session_state.anno_bil, bilancio_data, dati_cliente
+
+    # bilancio_ai_component_eng(st.session_state.anno_bil, bilancio_data, dati_cliente)
 
     st.divider()
 
