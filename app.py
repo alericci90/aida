@@ -383,8 +383,8 @@ elif modalita == "Companies DB":
                     st.session_state.ricavi_2 = df.iloc[92, 1]
 
                     st.session_state.submitted = True
-                    st.success("Excel File uploaded correctly")
-                    st.success(f"✅ Company '{selected_company}' loaded successfully!")
+                    # st.success("Excel File uploaded correctly")
+                    # st.success(f"✅ Company '{selected_company}' loaded successfully!")
 
                 except Exception as e:
                     st.error(f"Error loading saved company: {e}")
@@ -429,7 +429,7 @@ if json_path.exists():
         st.session_state.Rental_extra_fees_Past_due = Scaduto.get("Rental extra-fees Past-due")
 
         # ✅ (opzionale) conferma interna
-        st.success("JSON loaded and variables assigned.")
+        # st.success("JSON loaded and variables assigned.")
 
     except Exception as e:
         st.error(f"❌ Error reading JSON file: {e}")
