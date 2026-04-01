@@ -13,11 +13,11 @@ import plotly.graph_objects as go
 import streamlit as st
 import tempfile
 
-from dashboard.functions import (
+from functions import (
     commento_trend_intelligente_eng, genera_pdf_leasys, sparkline, classe_struttura, classe_liquidita, classe_leva,
     classe_cashflow, classe_profit, classe_cagr, badge, commento_score_integrato_eng, commento_cagr_ricavi_eng)
-from dashboard.funzione_ai_azure_eng import bilancio_ai_component_eng
-from dashboard.objects import (DESCRIZIONI_eng, DESCRIZIONE_INTEGRATO_eng, radar_labels_eng, colori_classi_radar,
+from funzione_ai_azure_eng import bilancio_ai_component_eng
+from objects import (DESCRIZIONI_eng, DESCRIZIONE_INTEGRATO_eng, radar_labels_eng, colori_classi_radar,
                                descr_cagr_eng)
 
 # %% dashboard

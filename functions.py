@@ -10,7 +10,7 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import cm
 from io import BytesIO
 
-from dashboard.objects import INDICATOR_META, INDICATOR_META_eng
+from objects import INDICATOR_META, INDICATOR_META_eng
 
 
 def commento_trend(valori):
