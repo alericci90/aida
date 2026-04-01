@@ -170,8 +170,12 @@ def bilancio_ai_component_eng(anno_bil, bilancio_data: dict):
     # ANALISI INIZIALE (eseguita una sola volta)
     # =====================================================
     if not st.session_state.bilancio_analysis_done:
-        if st.button("🧠 Start AI Analysis"):
-            with st.spinner("Financial‑statement analysis in progress..."):
+        with st.form("ai_start_form"):
+            start_analysis = st.form_submit_button("🧠 Start AI Analysis")
+            
+        if start_analysis:
+            with st.spinner("Financial‑statement analysis in progress...")
+
                 # Preparazione payload e indicatori per i follow-up
                 payload_dict = deep_format_numbers(bilancio_data)
                 payload = json.dumps(payload_dict, indent=2, ensure_ascii=False)
