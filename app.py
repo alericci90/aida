@@ -250,27 +250,32 @@ if modalita == "Companies DB":
     if not repo_path.exists():
         st.error("La cartella './repository_aziende' non esiste. Creala e inserisci i file Excel.")
     else:
-        # Lista dei file .xlsx
         excel_files = list(repo_path.glob("*.xlsx"))
 
         if not excel_files:
             st.warning("Nessuna azienda trovata nella repository.")
         else:
-            # Estraggo nomi leggibili (senza estensione)
             company_names = [f.stem for f in excel_files]
 
-            # Selezione da dropdown  
             selected_company = st.selectbox(
-                "Select a company from repository:", company_names, index=None, placeholder="Select a company")
+                "Select a company from repository:",
+                company_names,
+                index=None,
+                placeholder="Select a company"
+            )
 
-            # Bottone per caricare i dati
-            if st.button("Load Company Data"):
+            # ✅ Form per evitare refresh UI violento
+            with st.form("load_company_form"):
+                submit_company = st.form_submit_button("Load Company Data")
+
+            if submit_company:
 
                 file_path = repo_path / f"{selected_company}.xlsx"
 
                 try:
                     df = pd.read_excel(file_path, sheet_name="input CEE", header=None)
                     df = df.fillna(0)
+
 
                     # LETTURA CELLE
                     # ULTIMO ANNO
@@ -366,8 +371,6 @@ if modalita == "Companies DB":
 
                     submitted = True
                     st.success("Excel File uploaded correctly")
-
-                    submitted = True
                     st.success(f"✅ Company '{selected_company}' loaded successfully!")
 
                 except Exception as e:
