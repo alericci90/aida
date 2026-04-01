@@ -78,7 +78,9 @@ st.divider()
 st.header("📥 Entering Financial Statement Data")
 
 modalita = st.radio("Mode:", ["Companies DB", "Upload Excel", "Manual Entry"])
-submitted = False
+
+if "submitted" not in st.session_state:
+    st.session_state.submitted = False
 
 
 # INPUT MANUALE
@@ -236,7 +238,7 @@ if modalita == "Upload Excel":
             ricavi_1 = df.iloc[92, 2]
             ricavi_2 = df.iloc[92, 1]
 
-            submitted = True
+            st.session_state.submitted = True
             st.success("Excel File uploaded correctly")
 
         except Exception as e:
@@ -379,7 +381,7 @@ if modalita == "Companies DB":
                     ricavi_1 = df.iloc[92, 2]
                     ricavi_2 = df.iloc[92, 1]
 
-                    submitted = True
+                    st.session_state.submitted = True
                     st.success("Excel File uploaded correctly")
                     st.success(f"✅ Company '{selected_company}' loaded successfully!")
 
@@ -388,7 +390,7 @@ if modalita == "Companies DB":
 
 
 # CALCOLO + OUTPUT
-if submitted:
+if st.session_state.submitted:
     ind1 = pn / attivo
     ind2 = att_breve / pass_breve
     ind3 = (debiti - liquidita) / ebitda
