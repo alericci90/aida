@@ -77,7 +77,7 @@ st.divider()
 # MODALITÀ INPUT
 st.header("📥 Entering Financial Statement Data")
 
-modalita = st.radio("Mode:", ["Upload Excel", "Manual Entry"])
+modalita = st.radio("Mode:", ["Companies DB", "Upload Excel", "Manual Entry"])
 submitted = False
 
 
@@ -241,6 +241,137 @@ if modalita == "Upload Excel":
 
         except Exception as e:
             st.error(f"Error in the file reading: {e}")
+
+
+# INPUT AZIENDE SALVATE
+if modalita == "Companies DB":
+    repo_path = Path("./repository_aziende")
+
+    if not repo_path.exists():
+        st.error("La cartella './repository_aziende' non esiste. Creala e inserisci i file Excel.")
+    else:
+        # Lista dei file .xlsx
+        excel_files = list(repo_path.glob("*.xlsx"))
+
+        if not excel_files:
+            st.warning("Nessuna azienda trovata nella repository.")
+        else:
+            # Estraggo nomi leggibili (senza estensione)
+            company_names = [f.stem for f in excel_files]
+
+            # Selezione da dropdown  
+            selected_company = st.selectbox(
+                "Select a company from repository:", company_names, index=None, placeholder="Select a company")
+
+            # Bottone per caricare i dati
+            if st.button("Load Company Data"):
+
+                file_path = repo_path / f"{selected_company}.xlsx"
+
+                try:
+                    df = pd.read_excel(file_path, sheet_name="input CEE", header=None)
+                    df = df.fillna(0)
+
+                    # LETTURA CELLE
+                    # ULTIMO ANNO
+                    anno_bil = df.iloc[0, 3]
+
+                    pn = df.iloc[2, 8]  # I3
+                    pn_1 = df.iloc[2, 7]
+                    pn_2 = df.iloc[2, 6]
+
+                    attivo = df.iloc[83, 3]  # D84
+                    attivo_1 = df.iloc[83, 2]
+                    attivo_2 = df.iloc[83, 1]
+
+                    att_breve = (
+                            df.iloc[38, 3] + df.iloc[46, 3] + df.iloc[49, 3] + df.iloc[52, 3] + df.iloc[54, 3] +
+                            df.iloc[56, 3] + df.iloc[59, 3] + df.iloc[62, 3] + df.iloc[64, 3] + df.iloc[73, 3]
+                    )
+                    att_breve_1 = (
+                            df.iloc[38, 2] + df.iloc[46, 2] + df.iloc[49, 2] + df.iloc[52, 2] + df.iloc[54, 2] +
+                            df.iloc[56, 2] + df.iloc[59, 2] + df.iloc[62, 2] + df.iloc[64, 2] + df.iloc[73, 2]
+                    )
+                    att_breve_2 = (
+                            df.iloc[38, 1] + df.iloc[46, 1] + df.iloc[49, 1] + df.iloc[52, 1] + df.iloc[54, 1] +
+                            df.iloc[56, 1] + df.iloc[59, 1] + df.iloc[62, 1] + df.iloc[64, 1] + df.iloc[73, 1]
+                    )
+
+                    pass_breve = (
+                            df.iloc[36, 8] + df.iloc[39, 8] + df.iloc[42, 8] + df.iloc[45, 8] + df.iloc[48, 8] +
+                            df.iloc[51, 8] + df.iloc[54, 8] + df.iloc[57, 8] + df.iloc[60, 8] + df.iloc[63, 8] +
+                            df.iloc[66, 8] + df.iloc[69, 8]
+                    )
+                    pass_breve_1 = (
+                            df.iloc[36, 7] + df.iloc[39, 7] + df.iloc[42, 7] + df.iloc[45, 7] + df.iloc[48, 7] +
+                            df.iloc[51, 7] + df.iloc[54, 7] + df.iloc[57, 7] + df.iloc[60, 7] + df.iloc[63, 7] +
+                            df.iloc[66, 7] + df.iloc[69, 7]
+                    )
+                    pass_breve_2 = (
+                            df.iloc[36, 6] + df.iloc[39, 6] + df.iloc[42, 6] + df.iloc[45, 6] + df.iloc[48, 6] +
+                            df.iloc[51, 6] + df.iloc[54, 6] + df.iloc[57, 6] + df.iloc[60, 6] + df.iloc[63, 6] +
+                            df.iloc[66, 6] + df.iloc[69, 6]
+                    )
+
+                    debiti = df.iloc[34, 8]  # I35
+                    debiti_1 = df.iloc[34, 7]
+                    debiti_2 = df.iloc[34, 6]
+
+                    liquidita = (
+                            df.iloc[73, 3] + df.iloc[46, 3] + df.iloc[49, 3] + df.iloc[52, 3] + df.iloc[54, 3] +
+                            df.iloc[56, 3] + df.iloc[59, 3] + df.iloc[62, 3] + df.iloc[64, 3]
+                    )
+                    liquidita_1 = (
+                            df.iloc[73, 2] + df.iloc[46, 2] + df.iloc[49, 2] + df.iloc[52, 2] + df.iloc[54, 2] +
+                            df.iloc[56, 2] + df.iloc[59, 2] + df.iloc[62, 2] + df.iloc[64, 2]
+                    )
+                    liquidita_2 = (
+                            df.iloc[73, 1] + df.iloc[46, 1] + df.iloc[49, 1] + df.iloc[52, 1] + df.iloc[54, 1] +
+                            df.iloc[56, 1] + df.iloc[59, 1] + df.iloc[62, 1] + df.iloc[64, 1]
+                    )
+
+                    ebitda = (
+                            df.iloc[92, 3] + df.iloc[93, 3] + df.iloc[94, 3] + df.iloc[95, 3] - df.iloc[113, 3] -
+                            df.iloc[99, 3] + df.iloc[96, 3] - df.iloc[116, 3] -df.iloc[100, 3] - df.iloc[102, 3] -
+                            df.iloc[101, 3]
+                    )
+                    ebitda_1 = (
+                            df.iloc[92, 2] + df.iloc[93, 2] + df.iloc[94, 2] + df.iloc[95, 2] - df.iloc[113, 2] -
+                            df.iloc[99, 2] + df.iloc[96, 2] - df.iloc[116, 2] -df.iloc[100, 2] - df.iloc[102, 2] -
+                            df.iloc[101, 2]
+                    )
+                    ebitda_2 = (
+                            df.iloc[92, 1] + df.iloc[93, 1] + df.iloc[94, 1] + df.iloc[95, 1] - df.iloc[113, 1] -
+                            df.iloc[99, 1] + df.iloc[96, 1] - df.iloc[116, 1] -df.iloc[100, 1] - df.iloc[102, 1] -
+                            df.iloc[101, 1]
+                    )
+
+                    cf = df.iloc[159, 3] + df.iloc[114, 3]  # D160 + D115
+                    cf_1 = df.iloc[159, 2] + df.iloc[114, 2]
+                    cf_2 = df.iloc[159, 1] + df.iloc[114, 1]
+
+                    oneri = (
+                            df.iloc[35, 8] + df.iloc[38, 8] + df.iloc[41, 8] + df.iloc[44, 8] + df.iloc[59, 8]
+                    )
+                    oneri_1 = (
+                            df.iloc[35, 7] + df.iloc[38, 7] + df.iloc[41, 7] + df.iloc[44, 7] + df.iloc[59, 7]
+                    )
+                    oneri_2 = (
+                            df.iloc[35, 6] + df.iloc[38, 6] + df.iloc[41, 6] + df.iloc[44, 6] + df.iloc[59, 6]
+                    )
+
+                    ricavi = df.iloc[92, 3]  # D93
+                    ricavi_1 = df.iloc[92, 2]
+                    ricavi_2 = df.iloc[92, 1]
+
+                    submitted = True
+                    st.success("Excel File uploaded correctly")
+
+                    submitted = True
+                    st.success(f"✅ Company '{selected_company}' loaded successfully!")
+
+                except Exception as e:
+                    st.error(f"Error loading saved company: {e}")
 
 
 # CALCOLO + OUTPUT
