@@ -891,7 +891,7 @@ if st.session_state.submitted:
         st.image("aida.png", use_container_width=True)
 
     if st.session_state.anno_bil:
-        bilancio_ai_component_eng(st.session_state.anno_bil, bilancio_data, dati_cliente
+        bilancio_ai_component_eng(st.session_state.anno_bil, bilancio_data, dati_cliente)
 
     # bilancio_ai_component_eng(st.session_state.anno_bil, bilancio_data, dati_cliente)
 
