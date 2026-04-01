@@ -1,6 +1,7 @@
 # new_azure_llm.py
 import os
 import openai
+import streamlit as st
 
 # 1. RIMUOVI qualsiasi OPENAI_API_KEY creata da Codespaces/Streamlit
 #    (questa è LA causa del tuo errore)
@@ -12,8 +13,10 @@ model_name = "gpt-4o-mini"
 deployment = "gpt-4o-mini"
 
 # 2. Endpoint e chiave (li hai verificati e sono ok)
-endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
-subscription_key = os.getenv("AZURE_OPENAI_API_KEY")
+# endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
+# subscription_key = os.getenv("AZURE_OPENAI_API_KEY")
+endpoint = st.secrets["AZURE_OPENAI_ENDPOINT"]
+subscription_key = st.secrets["AZURE_OPENAI_API_KEY"]
 
 # 3. Configurazione COMPATIBILE con Cognitive Services (openai==0.28.1)
 openai.api_type = "azure"
