@@ -1,6 +1,7 @@
 # %% app_eng
 # streamlit run D:\users\TA16669\PycharmProjects\PythonProject\dashboard\app_azure_eng.py
 # ".\dashboard\logo.png"
+import json
 import numpy as np
 import sys
 from pathlib import Path
@@ -389,6 +390,53 @@ elif modalita == "Companies DB":
                     st.error(f"Error loading saved company: {e}")
 
 
+# ----- LETTURA JSON ASSOCIATO -----
+json_repo = Path("./payline")
+json_path = json_repo / f"{selected_company}.json"
+json_data = None
+
+if json_path.exists():
+    try:
+        import json
+        with open(json_path, "r", encoding="utf-8") as f:
+            json_data = json.load(f)
+
+        # -----------------------------
+        # ✅ ASSEGNAZIONE VARIABILI 1:1
+        # -----------------------------
+
+        # --- campi principali ---
+        st.session_state.Name = json_data.get("Name")
+        st.session_state.TaxCode = json_data.get("TaxCode")
+        st.session_state.Active_Contracts = json_data.get("Active Contracts")
+
+        # --- Outstanding ---
+        Outstanding = json_data.get("Outstanding", {})
+
+        st.session_state.Overall_Oustanding = Outstanding.get("Overall Oustanding")
+        st.session_state.Rental_Remarketing_Total = Outstanding.get("Rental and Remarketing Total")      # il nome originale ha &amp; → Python non lo vuole
+        st.session_state.Rental = Outstanding.get("Rental")
+        st.session_state.Remarketing = Outstanding.get("Remarketing")
+        st.session_state.Retail_Leasing_Total = Outstanding.get("Retail and Leasing Total")
+        st.session_state.Retail = Outstanding.get("Retail")
+        st.session_state.Leasing = Outstanding.get("Leasing")
+
+        # --- Scaduto ---
+        Scaduto = json_data.get("Scaduto", {})
+
+        st.session_state.Overall_Past_due = Scaduto.get("Overall Past-due")
+        st.session_state.Rental_fees_Past_due = Scaduto.get("Rental fees Past-due")
+        st.session_state.Rental_extra_fees_Past_due = Scaduto.get("Rental extra-fees Past-due")
+
+        # ✅ (opzionale) conferma interna
+        st.success("JSON loaded and variables assigned.")
+
+    except Exception as e:
+        st.error(f"❌ Error reading JSON file: {e}")
+
+else:
+    st.warning(f"⚠️ No JSON found for company '{selected_company}'")
+
 # CALCOLO + OUTPUT
 if st.session_state.submitted:
     ind1 = st.session_state.pn / st.session_state.attivo
@@ -567,6 +615,55 @@ if st.session_state.submitted:
         round((c1_storico[i] + c2_storico[i] + c3_storico[i] + c4_storico[i] + c5_storico[i]) / 5)
         for i in range(3)
     ]}
+
+    st.divider()
+    st.header("👥 Customer Data")
+
+    dati_cliente = {
+        "Name": st.session_state.Name,
+        "TaxCode": st.session_state.TaxCode,
+        "Active Contracts": st.session_state.Active_Contracts,
+        "Overall Outstanding": st.session_state.Overall_Oustanding,
+        "Rental & RMKT Total": st.session_state.Rental_Remarketing_Total,
+        "Rental": st.session_state.Rental,
+        "Remarketing": st.session_state.Remarketing,
+        "Retail & Leasing Total": st.session_state.Retail_Leasing_Total,
+        "Retail": st.session_state.Retail,
+        "Leasing": st.session_state.Leasing,
+        "Overall Past-due": st.session_state.Overall_Past_due,
+        "Rental fees Past-due": st.session_state.Rental_fees_Past_due,
+        "Rental extra-fees Past-due": st.session_state.Rental_extra_fees_Past_due
+    }
+
+    col1, col2 = st.columns(2)
+
+    items = list(dati_cliente.items())
+
+    for i, (nome, valore) in enumerate(items):
+
+        # --- primi 3 elementi → NO EURO ---
+        if i < 3:
+            col = col1 if i < len(items) / 2 else col2
+            with col:
+                st.markdown(f"""
+                <div style="font-size:18px;">
+                    <strong>{nome}</strong><br>
+                    {valore}
+                </div>
+                """, unsafe_allow_html=True)
+            continue
+
+        # --- tutti gli altri → euro + separatore migliaia ---
+        col = col1 if i < len(items) / 2 else col2
+        with col:
+            st.markdown(f"""
+            <div style="font-size:18px;">
+                <strong>{nome}</strong><br>
+                € {valore:,.0f}
+            </div>
+            """, unsafe_allow_html=True)
+
+    st.divider()
 
     st.divider()
     st.header("📋 Financial Statement Indicators")

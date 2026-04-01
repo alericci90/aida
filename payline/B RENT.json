@@ -1,0 +1,21 @@
+{
+  "Name": "B RENT",
+  "TaxCode": "12345678901",
+  "Active Contracts": 10,
+
+  "Outstanding": {
+    "Overall Oustanding": 1899136.12,
+    "Rental and Remarketing Total": 1899136.12,
+    "Rental": 1899136.12,
+    "Remarketing": 0,
+    "Retail and Leasing Total": 0,
+    "Retail": 0,
+    "Leasing": 0
+  },
+
+  "Scaduto": {
+    "Overall Past-due": 1684485.58,
+    "Rental fees Past-due": 1468884.19,
+    "Rental extra-fees Past-due": 82129.59
+  }
+}
