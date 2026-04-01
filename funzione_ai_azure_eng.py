@@ -174,7 +174,7 @@ def bilancio_ai_component_eng(anno_bil, bilancio_data: dict):
             start_analysis = st.form_submit_button("🧠 Start AI Analysis")
             
         if start_analysis:
-            with st.spinner("Financial‑statement analysis in progress...")
+            with st.spinner("Financial‑statement analysis in progress..."):
 
                 # Preparazione payload e indicatori per i follow-up
                 payload_dict = deep_format_numbers(bilancio_data)
