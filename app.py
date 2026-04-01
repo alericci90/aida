@@ -58,7 +58,7 @@ st.markdown(
 )
 
 st.markdown('<div class="center-logo">', unsafe_allow_html=True)
-st.image(".\\dashboard\\logo_nuovo.png", use_container_width=False)
+st.image(".\\logo_nuovo.png", use_container_width=False)
 st.markdown('</div>', unsafe_allow_html=True)
 
 
@@ -646,7 +646,7 @@ if submitted:
 
     col_logo_2, col_title_2 = st.columns([2, 4])
     with col_logo_2:
-        st.image(".\\dashboard\\aida.png", use_container_width=True)
+        st.image(".\\aida.png", use_container_width=True)
 
     bilancio_ai_component_eng(anno_bil, bilancio_data)
 
