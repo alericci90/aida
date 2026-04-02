@@ -391,7 +391,7 @@ elif st.session_state.modalita == "Companies DB":
                     st.error(f"Error loading saved company: {e}")
 
 # ----- LETTURA JSON ASSOCIATO -----
-if modalita == "Companies DB" and "selected_company" in st.session_state:
+if st.session_state.modalita == "Companies DB" and "selected_company" in st.session_state:
     json_repo = Path("./payline")
     json_path = json_repo / f"{selected_company}.json"
     json_data = None
