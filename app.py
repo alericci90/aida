@@ -389,9 +389,8 @@ elif modalita == "Companies DB":
                 except Exception as e:
                     st.error(f"Error loading saved company: {e}")
 
-
 # ----- LETTURA JSON ASSOCIATO -----
-if modalita == "Companies DB":
+# if modalita == "Companies DB":
     json_repo = Path("./payline")
     json_path = json_repo / f"{selected_company}.json"
     json_data = None
