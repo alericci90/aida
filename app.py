@@ -78,14 +78,15 @@ st.divider()
 # MODALITÀ INPUT
 st.header("📥 Entering Financial Statement Data")
 
-modalita = st.radio("Mode:", ["Companies DB", "Upload Excel", "Manual Entry"])
+modalita = st.radio("Mode:", ["Companies DB", "Upload Excel", "Manual Entry"],
+                    key="modalita")
 
 if "submitted" not in st.session_state:
     st.session_state.submitted = False
 
 
 # INPUT MANUALE
-if modalita == "Manual Entry":
+if st.session_state.modalita == "Manual Entry":
     with st.form("manuale"):
         st.session_state.pn = st.number_input("Net worth")
         st.session_state.pn_1 = st.number_input("Net worth from 1 previous financial statement")
@@ -131,7 +132,7 @@ if modalita == "Manual Entry":
 
 
 # INPUT FILE EXCEL
-elif modalita == "Upload Excel":
+elif st.session_state.modalita == "Upload Excel":
     file = st.file_uploader(
         "Upload Excel file (.xlsx) – sheet: 'input CEE'",
         type=["xlsx"]
@@ -247,7 +248,7 @@ elif modalita == "Upload Excel":
 
 
 # INPUT AZIENDE SALVATE
-elif modalita == "Companies DB":
+elif st.session_state.modalita == "Companies DB":
     repo_path = Path("./repository_aziende")
 
     if not repo_path.exists():
