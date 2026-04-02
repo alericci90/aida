@@ -391,9 +391,10 @@ elif modalita == "Companies DB":
 
 
 # ----- LETTURA JSON ASSOCIATO -----
-json_repo = Path("./payline")
-json_path = json_repo / f"{selected_company}.json"
-json_data = None
+if modalita == "Companies DB":
+    json_repo = Path("./payline")
+    json_path = json_repo / f"{selected_company}.json"
+    json_data = None
 
 if json_path.exists():
     try:
