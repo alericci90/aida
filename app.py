@@ -390,13 +390,13 @@ elif modalita == "Companies DB":
                     st.error(f"Error loading saved company: {e}")
 
 # ----- LETTURA JSON ASSOCIATO -----
-# if modalita == "Companies DB":
+if modalita == "Companies DB" and "selected_company" in st.session_state:
     json_repo = Path("./payline")
     json_path = json_repo / f"{selected_company}.json"
     json_data = None
     if json_path.exists():
         try:
-            import json
+            
             with open(json_path, "r", encoding="utf-8") as f:
                 json_data = json.load(f)
 
