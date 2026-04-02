@@ -87,45 +87,45 @@ if "submitted" not in st.session_state:
 # INPUT MANUALE
 if modalita == "Manual Entry":
     with st.form("manuale"):
-        pn = st.number_input("Net worth")
-        pn_1 = st.number_input("Net worth from 1 previous financial statement")
-        pn_2 = st.number_input("Net worth from 2 previous financial statements")
+        st.session_state.pn = st.number_input("Net worth")
+        st.session_state.pn_1 = st.number_input("Net worth from 1 previous financial statement")
+        st.session_state.pn_2 = st.number_input("Net worth from 2 previous financial statements")
 
-        attivo = st.number_input("Total assets")
-        attivo_1 = st.number_input("Total assets from 1 previous financial statement")
-        attivo_2 = st.number_input("Total assets from 2 previous financial statements")
+        st.session_state.attivo = st.number_input("Total assets")
+        st.session_state.attivo_1 = st.number_input("Total assets from 1 previous financial statement")
+        st.session_state.attivo_2 = st.number_input("Total assets from 2 previous financial statements")
 
-        att_breve = st.number_input("Current assets")
-        att_breve_1 = st.number_input("Current assets from 1 previous financial statement")
-        att_breve_2 = st.number_input("Current assets from 2 previous financial statements")
+        st.session_state.att_breve = st.number_input("Current assets")
+        st.session_state.att_breve_1 = st.number_input("Current assets from 1 previous financial statement")
+        st.session_state.att_breve_2 = st.number_input("Current assets from 2 previous financial statements")
 
-        pass_breve = st.number_input("Current liabilities")
-        pass_breve_1 = st.number_input("Current liabilities from 1 previous financial statement")
-        pass_breve_2 = st.number_input("Current liabilities from 2 previous financial statements")
+        st.session_state.pass_breve = st.number_input("Current liabilities")
+        st.session_state.pass_breve_1 = st.number_input("Current liabilities from 1 previous financial statement")
+        st.session_state.pass_breve_2 = st.number_input("Current liabilities from 2 previous financial statements")
 
-        debiti = st.number_input("Total debts")
-        debiti_1 = st.number_input("Total debts from 1 previous financial statement")
-        debiti_2 = st.number_input("Total debts from 2 previous financial statements")
+        st.session_state.r_input("Total debts")
+        st.session_state.ber_input("Total debts from 1 previous financial statement")
+        st.session_state.ber_input("Total debts from 2 previous financial statements")
 
-        liquidita = st.number_input("Liquidity")
-        liquidita_1 = st.number_input("Liquidity from 1 previous financial statement")
-        liquidita_2 = st.number_input("Liquidity from 2 previous financial statements")
+        st.session_state.mber_input("Liquidity")
+        st.session_state.number_input("Liquidity from 1 previous financial statement")
+        st.session_state.number_input("Liquidity from 2 previous financial statements")
 
-        ebitda = st.number_input("EBITDA")
-        ebitda_1 = st.number_input("EBITDA from 1 previous financial statement")
-        ebitda_2 = st.number_input("EBITDA from 2 previous financial statements")
+        st.session_state.r_input("EBITDA")
+        st.session_state.ber_input("EBITDA from 1 previous financial statement")
+        st.session_state.ber_input("EBITDA from 2 previous financial statements")
 
-        cf = st.number_input("Cash flow")
-        cf_1 = st.number_input("Cash flow from 1 previous financial statement")
-        cf_2 = st.number_input("Cash flow from 2 previous financial statements")
+        st.session_state.put("Cash flow")
+        st.session_state.input("Cash flow from 1 previous financial statement")
+        st.session_state.input("Cash flow from 2 previous financial statements")
 
-        oneri = st.number_input("Financial payables")
-        oneri_1 = st.number_input("Financial payables from 1 previous financial statement")
-        oneri_2 = st.number_input("Financial payables from 2 previous financial statements")
+        st.session_state._input("Financial payables")
+        st.session_state.er_input("Financial payables from 1 previous financial statement")
+        st.session_state.er_input("Financial payables from 2 previous financial statements")
 
-        ricavi = st.number_input("Revenue")
-        ricavi_1 = st.number_input("Revenue from 1 previous financial statement")
-        ricavi_2 = st.number_input("Revenue from 2 previous financial statements")
+        st.session_state.r_input("Revenue")
+        st.session_state.ber_input("Revenue from 1 previous financial statement")
+        st.session_state.ber_input("Revenue from 2 previous financial statements")
 
         submitted = st.form_submit_button("Calculate the Score")
 
@@ -149,95 +149,95 @@ elif modalita == "Upload Excel":
 
             # LETTURA CELLE
             # ULTIMO ANNO
-            anno_bil = df.iloc[0, 3]
+            st.session_state.anno_bil = df.iloc[0, 3]
 
-            pn = df.iloc[2, 8]  # I3
-            pn_1 = df.iloc[2, 7]
-            pn_2 = df.iloc[2, 6]
+            st.session_state.pn = df.iloc[2, 8]  # I3
+            st.session_state.pn_1 = df.iloc[2, 7]
+            st.session_state.pn_2 = df.iloc[2, 6]
 
-            attivo = df.iloc[83, 3]  # D84
-            attivo_1 = df.iloc[83, 2]
-            attivo_2 = df.iloc[83, 1]
+            st.session_state.attivo = df.iloc[83, 3]  # D84
+            st.session_state.attivo_1 = df.iloc[83, 2]
+            st.session_state.attivo_2 = df.iloc[83, 1]
 
-            att_breve = (
+            st.session_state.att_breve = (
                     df.iloc[38, 3] + df.iloc[46, 3] + df.iloc[49, 3] + df.iloc[52, 3] + df.iloc[54, 3] +
                     df.iloc[56, 3] + df.iloc[59, 3] + df.iloc[62, 3] + df.iloc[64, 3] + df.iloc[73, 3]
             )
-            att_breve_1 = (
+            st.session_state.att_breve_1 = (
                     df.iloc[38, 2] + df.iloc[46, 2] + df.iloc[49, 2] + df.iloc[52, 2] + df.iloc[54, 2] +
                     df.iloc[56, 2] + df.iloc[59, 2] + df.iloc[62, 2] + df.iloc[64, 2] + df.iloc[73, 2]
             )
-            att_breve_2 = (
+            st.session_state.att_breve_2 = (
                     df.iloc[38, 1] + df.iloc[46, 1] + df.iloc[49, 1] + df.iloc[52, 1] + df.iloc[54, 1] +
                     df.iloc[56, 1] + df.iloc[59, 1] + df.iloc[62, 1] + df.iloc[64, 1] + df.iloc[73, 1]
             )
 
-            pass_breve = (
+            st.session_state.pass_breve = (
                     df.iloc[36, 8] + df.iloc[39, 8] + df.iloc[42, 8] + df.iloc[45, 8] + df.iloc[48, 8] +
                     df.iloc[51, 8] + df.iloc[54, 8] + df.iloc[57, 8] + df.iloc[60, 8] + df.iloc[63, 8] +
                     df.iloc[66, 8] + df.iloc[69, 8]
             )
-            pass_breve_1 = (
+            st.session_state.pass_breve_1 = (
                     df.iloc[36, 7] + df.iloc[39, 7] + df.iloc[42, 7] + df.iloc[45, 7] + df.iloc[48, 7] +
                     df.iloc[51, 7] + df.iloc[54, 7] + df.iloc[57, 7] + df.iloc[60, 7] + df.iloc[63, 7] +
                     df.iloc[66, 7] + df.iloc[69, 7]
             )
-            pass_breve_2 = (
+            st.session_state.pass_breve_2 = (
                     df.iloc[36, 6] + df.iloc[39, 6] + df.iloc[42, 6] + df.iloc[45, 6] + df.iloc[48, 6] +
                     df.iloc[51, 6] + df.iloc[54, 6] + df.iloc[57, 6] + df.iloc[60, 6] + df.iloc[63, 6] +
                     df.iloc[66, 6] + df.iloc[69, 6]
             )
 
-            debiti = df.iloc[34, 8]  # I35
-            debiti_1 = df.iloc[34, 7]
-            debiti_2 = df.iloc[34, 6]
+            st.session_state.debiti = df.iloc[34, 8]  # I35
+            st.session_state.debiti_1 = df.iloc[34, 7]
+            st.session_state.debiti_2 = df.iloc[34, 6]
 
-            liquidita = (
+            st.session_state.liquidita = (
                     df.iloc[73, 3] + df.iloc[46, 3] + df.iloc[49, 3] + df.iloc[52, 3] + df.iloc[54, 3] +
                     df.iloc[56, 3] + df.iloc[59, 3] + df.iloc[62, 3] + df.iloc[64, 3]
             )
-            liquidita_1 = (
+            st.session_state.liquidita_1 = (
                     df.iloc[73, 2] + df.iloc[46, 2] + df.iloc[49, 2] + df.iloc[52, 2] + df.iloc[54, 2] +
                     df.iloc[56, 2] + df.iloc[59, 2] + df.iloc[62, 2] + df.iloc[64, 2]
             )
-            liquidita_2 = (
+            st.session_state.liquidita_2 = (
                     df.iloc[73, 1] + df.iloc[46, 1] + df.iloc[49, 1] + df.iloc[52, 1] + df.iloc[54, 1] +
                     df.iloc[56, 1] + df.iloc[59, 1] + df.iloc[62, 1] + df.iloc[64, 1]
             )
 
-            ebitda = (
+            st.session_state.ebitda = (
                     df.iloc[92, 3] + df.iloc[93, 3] + df.iloc[94, 3] + df.iloc[95, 3] - df.iloc[113, 3] -
                     df.iloc[99, 3] + df.iloc[96, 3] - df.iloc[116, 3] -df.iloc[100, 3] - df.iloc[102, 3] -
                     df.iloc[101, 3]
             )
-            ebitda_1 = (
+            st.session_state.ebitda_1 = (
                     df.iloc[92, 2] + df.iloc[93, 2] + df.iloc[94, 2] + df.iloc[95, 2] - df.iloc[113, 2] -
                     df.iloc[99, 2] + df.iloc[96, 2] - df.iloc[116, 2] -df.iloc[100, 2] - df.iloc[102, 2] -
                     df.iloc[101, 2]
             )
-            ebitda_2 = (
+            st.session_state.ebitda_2 = (
                     df.iloc[92, 1] + df.iloc[93, 1] + df.iloc[94, 1] + df.iloc[95, 1] - df.iloc[113, 1] -
                     df.iloc[99, 1] + df.iloc[96, 1] - df.iloc[116, 1] -df.iloc[100, 1] - df.iloc[102, 1] -
                     df.iloc[101, 1]
             )
 
-            cf = df.iloc[159, 3] + df.iloc[114, 3]  # D160 + D115
-            cf_1 = df.iloc[159, 2] + df.iloc[114, 2]
-            cf_2 = df.iloc[159, 1] + df.iloc[114, 1]
+            st.session_state.cf = df.iloc[159, 3] + df.iloc[114, 3]  # D160 + D115
+            st.session_state.cf_1 = df.iloc[159, 2] + df.iloc[114, 2]
+            st.session_state.cf_2 = df.iloc[159, 1] + df.iloc[114, 1]
 
-            oneri = (
+            st.session_state.oneri = (
                     df.iloc[35, 8] + df.iloc[38, 8] + df.iloc[41, 8] + df.iloc[44, 8] + df.iloc[59, 8]
             )
-            oneri_1 = (
+            st.session_state.oneri_1 = (
                     df.iloc[35, 7] + df.iloc[38, 7] + df.iloc[41, 7] + df.iloc[44, 7] + df.iloc[59, 7]
             )
-            oneri_2 = (
+            st.session_state.oneri_2 = (
                     df.iloc[35, 6] + df.iloc[38, 6] + df.iloc[41, 6] + df.iloc[44, 6] + df.iloc[59, 6]
             )
 
-            ricavi = df.iloc[92, 3]  # D93
-            ricavi_1 = df.iloc[92, 2]
-            ricavi_2 = df.iloc[92, 1]
+            st.session_state.ricavi = df.iloc[92, 3]  # D93
+            st.session_state.ricavi_1 = df.iloc[92, 2]
+            st.session_state.ricavi_2 = df.iloc[92, 1]
 
             st.session_state.submitted = True
             st.success("Excel File uploaded correctly")
