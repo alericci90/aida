@@ -395,48 +395,47 @@ if modalita == "Companies DB":
     json_repo = Path("./payline")
     json_path = json_repo / f"{selected_company}.json"
     json_data = None
+    if json_path.exists():
+        try:
+            import json
+            with open(json_path, "r", encoding="utf-8") as f:
+                json_data = json.load(f)
 
-if json_path.exists():
-    try:
-        import json
-        with open(json_path, "r", encoding="utf-8") as f:
-            json_data = json.load(f)
+            # -----------------------------
+            # ✅ ASSEGNAZIONE VARIABILI 1:1
+            # -----------------------------
 
-        # -----------------------------
-        # ✅ ASSEGNAZIONE VARIABILI 1:1
-        # -----------------------------
+            # --- campi principali ---
+            st.session_state.Name = json_data.get("Name")
+            st.session_state.TaxCode = json_data.get("TaxCode")
+            st.session_state.Active_Contracts = json_data.get("Active Contracts")
 
-        # --- campi principali ---
-        st.session_state.Name = json_data.get("Name")
-        st.session_state.TaxCode = json_data.get("TaxCode")
-        st.session_state.Active_Contracts = json_data.get("Active Contracts")
+            # --- Outstanding ---
+            Outstanding = json_data.get("Outstanding", {})
 
-        # --- Outstanding ---
-        Outstanding = json_data.get("Outstanding", {})
+            st.session_state.Overall_Oustanding = Outstanding.get("Overall Oustanding")
+            st.session_state.Rental_Remarketing_Total = Outstanding.get("Rental and Remarketing Total")      # il nome originale ha &amp; → Python non lo vuole
+            st.session_state.Rental = Outstanding.get("Rental")
+            st.session_state.Remarketing = Outstanding.get("Remarketing")
+            st.session_state.Retail_Leasing_Total = Outstanding.get("Retail and Leasing Total")
+            st.session_state.Retail = Outstanding.get("Retail")
+            st.session_state.Leasing = Outstanding.get("Leasing")
 
-        st.session_state.Overall_Oustanding = Outstanding.get("Overall Oustanding")
-        st.session_state.Rental_Remarketing_Total = Outstanding.get("Rental and Remarketing Total")      # il nome originale ha &amp; → Python non lo vuole
-        st.session_state.Rental = Outstanding.get("Rental")
-        st.session_state.Remarketing = Outstanding.get("Remarketing")
-        st.session_state.Retail_Leasing_Total = Outstanding.get("Retail and Leasing Total")
-        st.session_state.Retail = Outstanding.get("Retail")
-        st.session_state.Leasing = Outstanding.get("Leasing")
+            # --- Scaduto ---
+            Scaduto = json_data.get("Scaduto", {})
 
-        # --- Scaduto ---
-        Scaduto = json_data.get("Scaduto", {})
+            st.session_state.Overall_Past_due = Scaduto.get("Overall Past-due")
+            st.session_state.Rental_fees_Past_due = Scaduto.get("Rental fees Past-due")
+            st.session_state.Rental_extra_fees_Past_due = Scaduto.get("Rental extra-fees Past-due")
 
-        st.session_state.Overall_Past_due = Scaduto.get("Overall Past-due")
-        st.session_state.Rental_fees_Past_due = Scaduto.get("Rental fees Past-due")
-        st.session_state.Rental_extra_fees_Past_due = Scaduto.get("Rental extra-fees Past-due")
+            # ✅ (opzionale) conferma interna
+            # st.success("JSON loaded and variables assigned.")
 
-        # ✅ (opzionale) conferma interna
-        # st.success("JSON loaded and variables assigned.")
+        except Exception as e:
+            st.error(f"❌ Error reading JSON file: {e}")
 
-    except Exception as e:
-        st.error(f"❌ Error reading JSON file: {e}")
-
-else:
-    st.warning(f"⚠️ No JSON found for company '{selected_company}'")
+    else:
+        st.warning(f"⚠️ No JSON found for company '{selected_company}'")
 
 # CALCOLO + OUTPUT
 if st.session_state.submitted:
