@@ -81,6 +81,11 @@ st.header("📥 Entering Financial Statement Data")
 modalita = st.radio("Mode:", ["Companies DB", "Upload Excel", "Manual Entry"],
                     key="modalita")
 
+if st.session_state.modalita != "Companies DB":
+    st.session_state.selected_company = None
+    st.session_state.submitted_company = False
+
+
 if "submitted" not in st.session_state:
     st.session_state.submitted = False
 
@@ -282,6 +287,7 @@ elif st.session_state.modalita == "Companies DB":
                 submit_company = st.form_submit_button("Load Company Data")
 
             if submit_company:
+                st.session_state.submitted_company = True
                 st.session_state.selected_company = selected_company
 
                 file_path = repo_path / f"{selected_company}.xlsx"
@@ -905,16 +911,16 @@ if st.session_state.submitted:
                 output_path=tmp.name,
                 logo_path="./dashboard/logo.png",
                 dati_bilancio={
-                    "Patrimonio netto": pn,
-                    "Attivo": attivo,
-                    "Attivo a breve": att_breve,
-                    "Passivo a breve": pass_breve,
-                    "Debiti totali": debiti,
-                    "Liquidità": liquidita,
-                    "EBITDA": ebitda,
-                    "Cash flow": cf,
-                    "Oneri finanziari": oneri,
-                    "Ricavi": ricavi
+                    "Patrimonio netto": st.session_state.pn,
+                    "Attivo": st.session_state.attivo,
+                    "Attivo a breve": st.session_state.att_breve,
+                    "Passivo a breve": st.session_state.pass_breve,
+                    "Debiti totali": st.session_state.debiti,
+                    "Liquidità": st.session_state.liquidita,
+                    "EBITDA": st.session_state.ebitda,
+                    "Cash flow": st.session_state.cf,
+                    "Oneri finanziari": st.session_state.oneri,
+                    "Ricavi": st.session_state.ricavi
                 },
                 classi=risultati,
                 descrizioni=DESCRIZIONI_eng,
