@@ -909,7 +909,7 @@ if st.session_state.submitted:
         with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
             genera_pdf_leasys(
                 output_path=tmp.name,
-                logo_path="./dashboard/logo.png",
+                logo_path="logo_nuovo.png",
                 dati_bilancio={
                     "Patrimonio netto": st.session_state.pn,
                     "Attivo": st.session_state.attivo,
