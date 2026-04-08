@@ -934,14 +934,14 @@ if st.session_state.submitted:
                     "Profitability": ind5,
                     "CAGR Ricavi": cagr_ricavi
                 },
-                grafici={
-                    "Struttura": sparkline(indicatori_storici["struttura"], st.session_state.anno_bil),
-                    "Liquidità": sparkline(indicatori_storici["liquidita"], st.session_state.anno_bil),
-                    "Leva": sparkline(indicatori_storici["leva"], st.session_state.anno_bil),
-                    "Cash Flow": sparkline(indicatori_storici["cashflow"], st.session_state.anno_bil),
-                    "Profitability": sparkline(indicatori_storici["profitability"], st.session_state.anno_bil),
-                    "Radar": fig
-                }
+                # grafici={
+                #     "Struttura": sparkline(indicatori_storici["struttura"], st.session_state.anno_bil),
+                #     "Liquidità": sparkline(indicatori_storici["liquidita"], st.session_state.anno_bil),
+                #     "Leva": sparkline(indicatori_storici["leva"], st.session_state.anno_bil),
+                #     "Cash Flow": sparkline(indicatori_storici["cashflow"], st.session_state.anno_bil),
+                #     "Profitability": sparkline(indicatori_storici["profitability"], st.session_state.anno_bil),
+                #     "Radar": fig
+                # }
             )
 
             with open(tmp.name, "rb") as f:
