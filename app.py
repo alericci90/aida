@@ -20,6 +20,7 @@ from functions import (
 from funzione_ai_azure_eng import bilancio_ai_component_eng
 from objects import (DESCRIZIONI_eng, DESCRIZIONE_INTEGRATO_eng, radar_labels_eng, colori_classi_radar,
                                descr_cagr_eng)
+from style import inject_theme, section_header, kpi_card, rating_class
 
 # %% dashboard
 # CONFIG
@@ -27,17 +28,8 @@ st.set_page_config(page_title="Financial Index Dashboard", layout="wide")
 LEASYS_BLUE = "#1F3556"
 
 
-# CSS + FONT
-st.markdown(f"""
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
-html, body, [class*="css"] {{
-    font-family: 'Lato', sans-serif;
-    color: {LEASYS_BLUE};
-}}
-h1,h2,h3,h4 {{ color:{LEASYS_BLUE}; font-weight:700; }}
-</style>
-""", unsafe_allow_html=True)
+# CSS + FONT (theme layer, solo estetica)
+inject_theme()
 
 
 # HEADER
@@ -49,8 +41,8 @@ h1,h2,h3,h4 {{ color:{LEASYS_BLUE}; font-weight:700; }}
 st.markdown(
     """
     <style>
-    img {
-        max-width: 850px !important;
+    [data-testid="stImage"] img {
+        max-width: 300px !important;
         height: auto !important;
     }
     </style>
@@ -61,6 +53,22 @@ st.markdown(
 st.markdown('<div class="center-logo">', unsafe_allow_html=True)
 st.image("logo_nuovo.png", use_container_width=False)
 st.markdown('</div>', unsafe_allow_html=True)
+
+st.markdown(
+    """
+    <div class="aida-hero">
+      <div class="brand">
+        <div class="glyph">AI</div>
+        <div class="txt">
+          <div class="t">AIDA · Leasys Financial Index</div>
+          <div class="s">Credit Analytics Dashboard</div>
+        </div>
+      </div>
+      <div class="tag">Enterprise Credit Risk</div>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
 
 # st.markdown(
@@ -76,7 +84,7 @@ st.divider()
 
 
 # MODALITÀ INPUT
-st.header("📥 Entering Financial Statement Data")
+st.markdown(section_header("Data Input", "Entering Financial Statement Data"), unsafe_allow_html=True)
 
 modalita = st.radio("Mode:", ["Companies DB", "Upload Excel", "Manual Entry"],
                     key="modalita")
@@ -623,7 +631,7 @@ if st.session_state.submitted:
     ]}
 
     st.divider()
-    st.header("👥 Customer Data")
+    st.markdown(section_header("Counterparty", "Customer Data"), unsafe_allow_html=True)
 
     dati_cliente = {
         "Name": st.session_state.Name,
@@ -651,27 +659,17 @@ if st.session_state.submitted:
         if i < 3:
             col = col1 if i < len(items) / 2 else col2
             with col:
-                st.markdown(f"""
-                <div style="font-size:18px;">
-                    <strong>{nome}</strong><br>
-                    {valore}
-                </div>
-                """, unsafe_allow_html=True)
+                st.markdown(kpi_card(nome, f"{valore}"), unsafe_allow_html=True)
             continue
 
         # --- tutti gli altri → euro + separatore migliaia ---
         col = col1 if i < len(items) / 2 else col2
         with col:
-            st.markdown(f"""
-            <div style="font-size:18px;">
-                <strong>{nome}</strong><br>
-                € {valore:,.0f}
-            </div>
-            """, unsafe_allow_html=True)
+            st.markdown(kpi_card(nome, f"€ {valore:,.0f}"), unsafe_allow_html=True)
 
 
     st.divider()
-    st.header("📋 Financial Statement Indicators")
+    st.markdown(section_header("Financials", "Financial Statement Indicators"), unsafe_allow_html=True)
 
     dati_bilancio = {
         "Most recent Financial Year": st.session_state.anno_bil,
@@ -697,26 +695,16 @@ if st.session_state.submitted:
         if i == 0:
             col = col1
             with col:
-                st.markdown(f"""
-                <div style="font-size:18px;">
-                    <strong>{nome}</strong><br>
-                    {int(valore)}
-                </div>
-                """, unsafe_allow_html=True)
+                st.markdown(kpi_card(nome, f"{int(valore)}", sub="Reporting year", accent_ink=True), unsafe_allow_html=True)
             continue
 
         # Tutti gli altri → euro + separatore migliaia
         col = col1 if i < len(items) / 2 else col2
         with col:
-            st.markdown(f"""
-            <div style="font-size:18px;">
-                <strong>{nome}</strong><br>
-                € {valore:,.0f}
-            </div>
-            """, unsafe_allow_html=True)
+            st.markdown(kpi_card(nome, f"€ {valore:,.0f}"), unsafe_allow_html=True)
 
     st.divider()
-    st.header("📊 Results")
+    st.markdown(section_header("Assessment", "Indicator Results"), unsafe_allow_html=True)
 
     risultati = [
         ("Capital Structure", ind1, c1, "struttura", "Net Worth / Total Assets"),
@@ -734,17 +722,18 @@ if st.session_state.submitted:
             st.markdown(badge(c), unsafe_allow_html=True)
 
         with colB:
-            st.markdown(f"""
-            **{nome}**  
-            *{formula}*  
-            **Indicator value:** `{valore:.4f}`  
-
-            {DESCRIZIONI_eng[key][c]}
-            """)
+            st.markdown(
+                f'<div class="aida-ind-fam">Indicator</div>'
+                f'<div class="aida-ind-name">{nome}</div>'
+                f'<div class="aida-formula">{formula}</div>'
+                f'<div class="aida-ind-value">Indicator value &nbsp; <b>{valore:.4f}</b></div>'
+                f'<div class="aida-ind-desc">{DESCRIZIONI_eng[key][c]}</div>',
+                unsafe_allow_html=True
+            )
 
         with colC:
             st.markdown(
-                f"<div style='font-size:16px; font-weight:600; margin-bottom:2px;'>{nome}</div>",
+                f"<div class='aida-spark-title'>{nome} · 3Y trend</div>",
                 unsafe_allow_html=True
             )
 
@@ -754,7 +743,7 @@ if st.session_state.submitted:
             )
 
             st.markdown(
-                f"<div style='font-size:16px; color:#555;'>"
+                f"<div class='aida-spark-note'>"
                 f"{commento_trend_intelligente_eng(indicatori_storici[key], key)}"
                 f"</div>",
                 unsafe_allow_html=True
@@ -770,17 +759,18 @@ if st.session_state.submitted:
             st.markdown(badge(c), unsafe_allow_html=True)
 
         with colB:
-            st.markdown(f"""
-            **{nome}**  
-            *{formula}*  
-            **Indicator value:** `{valore:.4f}`  
-
-            {DESCRIZIONI_eng[key][c]}
-            """)
+            st.markdown(
+                f'<div class="aida-ind-fam">Indicator</div>'
+                f'<div class="aida-ind-name">{nome}</div>'
+                f'<div class="aida-formula">{formula}</div>'
+                f'<div class="aida-ind-value">Indicator value &nbsp; <b>{valore:.4f}</b></div>'
+                f'<div class="aida-ind-desc">{DESCRIZIONI_eng[key][c]}</div>',
+                unsafe_allow_html=True
+            )
 
         with colC:
             st.markdown(
-                f"<div style='font-size:16px; font-weight:600; margin-bottom:2px;'>{nome}</div>",
+                f"<div class='aida-spark-title'>{nome} · 3Y trend</div>",
                 unsafe_allow_html=True
             )
 
@@ -791,7 +781,7 @@ if st.session_state.submitted:
             )
 
             st.markdown(
-                f"<div style='font-size:16px; color:#555;'>"
+                f"<div class='aida-spark-note'>"
                 f"{commento_cagr_ricavi_eng(trend_ricavi['cagr_ricavi'], descr_cagr_eng)}"
                 f"</div>",
                 unsafe_allow_html=True
@@ -799,7 +789,7 @@ if st.session_state.submitted:
 
     st.divider()
 
-    st.header("🏁 LEASYS FINANCIAL INDEX – Integrated Score")
+    st.markdown(section_header("Composite", "Leasys Financial Index – Integrated Score"), unsafe_allow_html=True)
     # st.markdown(badge(score_int), unsafe_allow_html=True)
     # st.markdown(f""" <div style="font-size:18px; margin-top:8px;"> {DESCRIZIONE_INTEGRATO_eng[score_int]} </div> """,
     #             unsafe_allow_html=True)
@@ -809,13 +799,13 @@ if st.session_state.submitted:
 
     with colA:
         st.markdown(badge(score_int), unsafe_allow_html=True)
-        st.markdown(f""" <div style="font-size:18px; margin-top:8px;"> {DESCRIZIONE_INTEGRATO_eng[score_int]} </div> """,
+        st.markdown(f'<div class="aida-ind-desc" style="margin-top:10px;">{DESCRIZIONE_INTEGRATO_eng[score_int]}</div>',
                     unsafe_allow_html=True)
 
     nome_intg = "LEASYS FINANCIAL INDEX – Score Integrato"
     with colC:
         st.markdown(
-            f"<div style='font-size:16px; font-weight:600; margin-bottom:2px;'>{nome_intg}</div>",
+            f"<div class='aida-spark-title'>{nome_intg} · 3Y trend</div>",
             unsafe_allow_html=True
         )
 
@@ -825,7 +815,7 @@ if st.session_state.submitted:
         )
 
         st.markdown(
-            f"<div style='font-size:16px; color:#555;'>"
+            f"<div class='aida-spark-note'>"
             f"{commento_score_integrato_eng(score_int_storico['integrato'])}"
             f"</div>",
             unsafe_allow_html=True
@@ -835,7 +825,7 @@ if st.session_state.submitted:
 
 
     # RADAR
-    st.header("🕸️ Risk Profile – Radar")
+    st.markdown(section_header("Risk Profile", "Risk Profile – Radar"), unsafe_allow_html=True)
 
     radar_classes = [c1, c2, c3, c4, c5]
 
@@ -850,8 +840,8 @@ if st.session_state.submitted:
         r=radar_values,
         theta=radar_labels_closed,
         fill='toself',
-        fillcolor='rgba(0,70,122,0.25)',
-        line=dict(color='#00467a', width=3),
+        fillcolor='rgba(10,31,68,0.10)',
+        line=dict(color='#0A1F44', width=2.5),
         name="Risk Profile"
     ))
 
@@ -869,17 +859,21 @@ if st.session_state.submitted:
     ))
 
     fig.update_layout(
+        font=dict(family="Inter, system-ui, sans-serif", color="#3a4860"),
         polar=dict(
+            bgcolor="rgba(255,255,255,0)",
             radialaxis=dict(
                 visible=True,
                 range=[1, 5],
                 tickvals=[1, 2, 3, 4, 5],
-                tickfont=dict(size=12, color="#00467a"),
-                gridcolor="rgba(0,70,122,0.25)"
+                tickfont=dict(size=11, color="#9aa7c0"),
+                gridcolor="rgba(159,178,214,0.30)",
+                linecolor="rgba(159,178,214,0.30)"
             ),
             angularaxis=dict(
-                tickfont=dict(size=13, color="#00467a"),
-                gridcolor="rgba(0,70,122,0.25)"
+                tickfont=dict(size=12, color="#0A1F44"),
+                gridcolor="rgba(159,178,214,0.30)",
+                linecolor="rgba(159,178,214,0.30)"
             )
         ),
         paper_bgcolor="rgba(0,0,0,0)",
@@ -903,7 +897,7 @@ if st.session_state.submitted:
 
     st.divider()
 
-    st.header("📄 Export PDF")
+    st.markdown(section_header("Report", "Export PDF"), unsafe_allow_html=True)
 
     if st.button("⬇️ Download Leasys PDF"):
         with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:

@@ -225,33 +225,40 @@ def sparkline(values, anno_bil, score_intg=False):
         x=[anno_bil - 2, anno_bil - 1, anno_bil],
         y=values,
         mode="lines+markers",
-        line=dict(color="#00467a", width=2),
-        marker=dict(size=6),
-        hovertemplate="Anno %{x}<br>Valore %{y:.4f}<extra></extra>"
+        line=dict(color="#0A1F44", width=2.5, shape="spline", smoothing=0.6),
+        marker=dict(size=8, color="#0A1F44", line=dict(color="white", width=2)),
+        hovertemplate="Year %{x}<br>Value %{y:.4f}<extra></extra>"
     ))
 
     # layout comune
     base_layout = dict(
         height=220,          # più basso = più rettangolare
         width=700,           # aggiunto: lo rende più largo
-        margin=dict(l=30, r=10, t=10, b=25),
+        margin=dict(l=30, r=12, t=12, b=26),
         plot_bgcolor="rgba(0,0,0,0)",
         paper_bgcolor="rgba(0,0,0,0)",
+        font=dict(family="Inter, system-ui, sans-serif", color="#7c8aa6"),
+        hoverlabel=dict(
+            bgcolor="#0A1F44", font=dict(color="white", family="JetBrains Mono")
+        ),
         xaxis=dict(
-            title="Anno",
+            title="",
             tickmode="array",
             tickvals=[anno_bil - 2, anno_bil - 1, anno_bil],
-            tickfont=dict(size=9),
+            tickfont=dict(size=10, color="#9aa7c0"),
+            showgrid=False,
             showline=True,
             linewidth=1,
-            linecolor="#00467a"
+            linecolor="rgba(159,178,214,0.35)",
+            zeroline=False
         ),
         yaxis=dict(
             title="",
-            tickfont=dict(size=9),
-            showline=True,
-            linewidth=1,
-            linecolor="#00467a"
+            tickfont=dict(size=10, color="#9aa7c0"),
+            showgrid=True,
+            gridcolor="rgba(159,178,214,0.18)",
+            showline=False,
+            zeroline=False
         )
     )
 
@@ -342,8 +349,21 @@ def classe_cagr(x):
 
 
 def badge(c):
-    colori = {1: "#2ecc71", 2: "#a9dfbf", 3: "#f1c40f", 4: "#e74c3c", 5: "#922b21"}
-    return f"<span style='background:{colori[c]};color:white;padding:8px 16px;border-radius:12px;font-weight:700;'>Classe {c}</span>"
+    colori = {1: "#16976A", 2: "#67B35A", 3: "#F3B13C", 4: "#EE6B2C", 5: "#9E1B14"}
+    etichette = {1: "EXCELLENT", 2: "GOOD", 3: "ADEQUATE", 4: "WEAK", 5: "CRITICAL"}
+    col = colori.get(c, "#7c8aa6")
+    lab = etichette.get(c, "")
+    return (
+        f"<span style='display:inline-flex;align-items:center;gap:.5rem;"
+        f"background:{col};color:#fff;padding:.5rem .85rem;border-radius:11px;"
+        f"font-family:\"Space Grotesk\",sans-serif;font-weight:700;font-size:.82rem;"
+        f"letter-spacing:.01em;box-shadow:0 12px 24px -14px rgba(0,0,0,.45);'>"
+        f"<span style='width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.85);'></span>"
+        f"Class {c}"
+        f"<span style='font-family:\"JetBrains Mono\",monospace;font-size:.6rem;"
+        f"letter-spacing:.12em;opacity:.85;'>{lab}</span>"
+        f"</span>"
+    )
 
 
 def commento_trend_intelligente(valori, key):

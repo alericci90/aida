@@ -218,11 +218,11 @@ radar_labels_eng = [
 ]
 
 colori_classi_radar = {
-    1: "#2ecc71",
-    2: "#a9dfbf",
-    3: "#f1c40f",
-    4: "#e74c3c",
-    5: "#922b21"
+    1: "#16976A",
+    2: "#67B35A",
+    3: "#F3B13C",
+    4: "#EE6B2C",
+    5: "#9E1B14"
 }
 
 INDICATOR_META = {
