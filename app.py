@@ -20,7 +20,7 @@ from functions import (
 from funzione_ai_azure_eng import bilancio_ai_component_eng
 from objects import (DESCRIZIONI_eng, DESCRIZIONE_INTEGRATO_eng, radar_labels_eng, colori_classi_radar,
                                descr_cagr_eng)
-from style import inject_theme, section_header, kpi_card, rating_class
+from style import inject_theme, section_header, kpi_card, rating_class, chart_colors
 
 # %% dashboard
 # CONFIG
@@ -29,7 +29,8 @@ LEASYS_BLUE = "#1F3556"
 
 
 # CSS + FONT (theme layer, solo estetica)
-inject_theme()
+DARK_MODE = True   # <-- True = dark premium, False = light
+inject_theme(dark=DARK_MODE)
 
 
 # HEADER
@@ -836,12 +837,13 @@ if st.session_state.submitted:
     fig = go.Figure()
 
     # area radar (corporate)
+    _cc = chart_colors(DARK_MODE)
     fig.add_trace(go.Scatterpolar(
         r=radar_values,
         theta=radar_labels_closed,
         fill='toself',
-        fillcolor='rgba(10,31,68,0.10)',
-        line=dict(color='#0A1F44', width=2.5),
+        fillcolor=_cc["radar_fill"],
+        line=dict(color=_cc["radar_line"], width=2.5),
         name="Risk Profile"
     ))
 
@@ -853,27 +855,27 @@ if st.session_state.submitted:
         marker=dict(
             size=14,
             color=radar_colors,
-            line=dict(color="white", width=2)
+            line=dict(color=_cc["hover"] if DARK_MODE else "white", width=2)
         ),
         showlegend=False
     ))
 
     fig.update_layout(
-        font=dict(family="Inter, system-ui, sans-serif", color="#3a4860"),
+        font=dict(family="Inter, system-ui, sans-serif", color=_cc["tick"]),
         polar=dict(
             bgcolor="rgba(255,255,255,0)",
             radialaxis=dict(
                 visible=True,
                 range=[1, 5],
                 tickvals=[1, 2, 3, 4, 5],
-                tickfont=dict(size=11, color="#9aa7c0"),
-                gridcolor="rgba(159,178,214,0.30)",
-                linecolor="rgba(159,178,214,0.30)"
+                tickfont=dict(size=11, color=_cc["tick"]),
+                gridcolor=_cc["grid"],
+                linecolor=_cc["grid"]
             ),
             angularaxis=dict(
-                tickfont=dict(size=12, color="#0A1F44"),
-                gridcolor="rgba(159,178,214,0.30)",
-                linecolor="rgba(159,178,214,0.30)"
+                tickfont=dict(size=12, color=_cc["angular"]),
+                gridcolor=_cc["grid"],
+                linecolor=_cc["grid"]
             )
         ),
         paper_bgcolor="rgba(0,0,0,0)",

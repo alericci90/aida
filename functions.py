@@ -1,6 +1,7 @@
 # %% functions
 import os
 import plotly.graph_objects as go
+from style import chart_colors
 import tempfile
 
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, Image as RLImage
@@ -220,13 +221,14 @@ def genera_pdf_leasys(
 
 
 def sparkline(values, anno_bil, score_intg=False):
+    cc = chart_colors()
     fig = go.Figure()
     fig.add_trace(go.Scatter(
         x=[anno_bil - 2, anno_bil - 1, anno_bil],
         y=values,
         mode="lines+markers",
-        line=dict(color="#0A1F44", width=2.5, shape="spline", smoothing=0.6),
-        marker=dict(size=8, color="#0A1F44", line=dict(color="white", width=2)),
+        line=dict(color=cc["line"], width=2.5, shape="spline", smoothing=0.6),
+        marker=dict(size=8, color=cc["marker"], line=dict(color=cc["hover"], width=2)),
         hovertemplate="Year %{x}<br>Value %{y:.4f}<extra></extra>"
     ))
 
@@ -237,26 +239,26 @@ def sparkline(values, anno_bil, score_intg=False):
         margin=dict(l=30, r=12, t=12, b=26),
         plot_bgcolor="rgba(0,0,0,0)",
         paper_bgcolor="rgba(0,0,0,0)",
-        font=dict(family="Inter, system-ui, sans-serif", color="#7c8aa6"),
+        font=dict(family="Inter, system-ui, sans-serif", color=cc["tick"]),
         hoverlabel=dict(
-            bgcolor="#0A1F44", font=dict(color="white", family="JetBrains Mono")
+            bgcolor=cc["line"], font=dict(color=cc["hover"], family="JetBrains Mono")
         ),
         xaxis=dict(
             title="",
             tickmode="array",
             tickvals=[anno_bil - 2, anno_bil - 1, anno_bil],
-            tickfont=dict(size=10, color="#9aa7c0"),
+            tickfont=dict(size=10, color=cc["tick"]),
             showgrid=False,
             showline=True,
             linewidth=1,
-            linecolor="rgba(159,178,214,0.35)",
+            linecolor=cc["axis"],
             zeroline=False
         ),
         yaxis=dict(
             title="",
-            tickfont=dict(size=10, color="#9aa7c0"),
+            tickfont=dict(size=10, color=cc["tick"]),
             showgrid=True,
-            gridcolor="rgba(159,178,214,0.18)",
+            gridcolor=cc["grid"],
             showline=False,
             zeroline=False
         )
