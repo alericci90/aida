@@ -705,6 +705,40 @@ if st.session_state.submitted:
             st.markdown(kpi_card(nome, f"€ {valore:,.0f}"), unsafe_allow_html=True)
 
     st.divider()
+    st.markdown(section_header("Composite", "Leasys Financial Index – Integrated Score"), unsafe_allow_html=True)
+    # st.markdown(badge(score_int), unsafe_allow_html=True)
+    # st.markdown(f""" <div style="font-size:18px; margin-top:8px;"> {DESCRIZIONE_INTEGRATO_eng[score_int]} </div> """,
+    #             unsafe_allow_html=True)
+
+    # colA, colB = st.columns([3, 2])
+    colA, colB, colC = st.columns([1, 3, 2.5])
+
+    with colA:
+        st.markdown(badge(score_int), unsafe_allow_html=True)
+        st.markdown(f'<div class="aida-ind-desc" style="margin-top:10px;">{DESCRIZIONE_INTEGRATO_eng[score_int]}</div>',
+                    unsafe_allow_html=True)
+
+    nome_intg = "LEASYS FINANCIAL INDEX – Score Integrato"
+    with colC:
+        st.markdown(
+            f"<div class='aida-spark-title'>{nome_intg} · 3Y trend</div>",
+            unsafe_allow_html=True
+        )
+
+        st.plotly_chart(
+            sparkline(score_int_storico['integrato'], st.session_state.anno_bil, score_intg=True),
+            use_container_width=True
+        )
+
+        st.markdown(
+            f"<div class='aida-spark-note'>"
+            f"{commento_score_integrato_eng(score_int_storico['integrato'])}"
+            f"</div>",
+            unsafe_allow_html=True
+        )
+
+    st.divider()
+
     st.markdown(section_header("Assessment", "Indicator Results"), unsafe_allow_html=True)
 
     risultati = [
@@ -787,40 +821,6 @@ if st.session_state.submitted:
                 f"</div>",
                 unsafe_allow_html=True
             )
-
-    st.divider()
-
-    st.markdown(section_header("Composite", "Leasys Financial Index – Integrated Score"), unsafe_allow_html=True)
-    # st.markdown(badge(score_int), unsafe_allow_html=True)
-    # st.markdown(f""" <div style="font-size:18px; margin-top:8px;"> {DESCRIZIONE_INTEGRATO_eng[score_int]} </div> """,
-    #             unsafe_allow_html=True)
-
-    # colA, colB = st.columns([3, 2])
-    colA, colB, colC = st.columns([1, 3, 2.5])
-
-    with colA:
-        st.markdown(badge(score_int), unsafe_allow_html=True)
-        st.markdown(f'<div class="aida-ind-desc" style="margin-top:10px;">{DESCRIZIONE_INTEGRATO_eng[score_int]}</div>',
-                    unsafe_allow_html=True)
-
-    nome_intg = "LEASYS FINANCIAL INDEX – Score Integrato"
-    with colC:
-        st.markdown(
-            f"<div class='aida-spark-title'>{nome_intg} · 3Y trend</div>",
-            unsafe_allow_html=True
-        )
-
-        st.plotly_chart(
-            sparkline(score_int_storico['integrato'], st.session_state.anno_bil, score_intg=True),
-            use_container_width=True
-        )
-
-        st.markdown(
-            f"<div class='aida-spark-note'>"
-            f"{commento_score_integrato_eng(score_int_storico['integrato'])}"
-            f"</div>",
-            unsafe_allow_html=True
-        )
 
     st.divider()
 
