@@ -102,47 +102,174 @@ if "submitted" not in st.session_state:
 # INPUT MANUALE
 if st.session_state.modalita == "Manual Entry":
     with st.form("manuale"):
-        st.session_state.pn = st.number_input("Net worth")
-        st.session_state.pn_1 = st.number_input("Net worth from 1 previous financial statement")
-        st.session_state.pn_2 = st.number_input("Net worth from 2 previous financial statements")
+        st.markdown(
+            '<div class="aida-eyebrow">Manual Input</div>'
+            '<div class="aida-sec-title">Primary financial data</div>',
+            unsafe_allow_html=True
+        )
+        st.caption(
+            "Enter the primary indicators for the last three financial statements. "
+            "Derived indicators (ratios, score, CAGR) are computed automatically."
+        )
 
-        st.session_state.attivo = st.number_input("Total assets")
-        st.session_state.attivo_1 = st.number_input("Total assets from 1 previous financial statement")
-        st.session_state.attivo_2 = st.number_input("Total assets from 2 previous financial statements")
+        st.session_state.anno_bil = st.number_input(
+            "Most recent financial year", min_value=1900, max_value=2100,
+            value=2024, step=1, format="%d"
+        )
 
-        st.session_state.att_breve = st.number_input("Current assets")
-        st.session_state.att_breve_1 = st.number_input("Current assets from 1 previous financial statement")
-        st.session_state.att_breve_2 = st.number_input("Current assets from 2 previous financial statements")
+        st.markdown("**Net worth**")
+        c0, c1, c2 = st.columns(3)
+        with c0:
+            st.session_state.pn = st.number_input("Net worth", key="in_pn")
+        with c1:
+            st.session_state.pn_1 = st.number_input("Net worth (t-1)", key="in_pn_1")
+        with c2:
+            st.session_state.pn_2 = st.number_input("Net worth (t-2)", key="in_pn_2")
 
-        st.session_state.pass_breve = st.number_input("Current liabilities")
-        st.session_state.pass_breve_1 = st.number_input("Current liabilities from 1 previous financial statement")
-        st.session_state.pass_breve_2 = st.number_input("Current liabilities from 2 previous financial statements")
+        st.markdown("**Total assets**")
+        c0, c1, c2 = st.columns(3)
+        with c0:
+            st.session_state.attivo = st.number_input("Total assets", key="in_attivo")
+        with c1:
+            st.session_state.attivo_1 = st.number_input("Total assets (t-1)", key="in_attivo_1")
+        with c2:
+            st.session_state.attivo_2 = st.number_input("Total assets (t-2)", key="in_attivo_2")
 
-        st.session_state.r_input("Total debts")
-        st.session_state.ber_input("Total debts from 1 previous financial statement")
-        st.session_state.ber_input("Total debts from 2 previous financial statements")
+        st.markdown("**Current assets**")
+        c0, c1, c2 = st.columns(3)
+        with c0:
+            st.session_state.att_breve = st.number_input("Current assets", key="in_att_breve")
+        with c1:
+            st.session_state.att_breve_1 = st.number_input("Current assets (t-1)", key="in_att_breve_1")
+        with c2:
+            st.session_state.att_breve_2 = st.number_input("Current assets (t-2)", key="in_att_breve_2")
 
-        st.session_state.mber_input("Liquidity")
-        st.session_state.number_input("Liquidity from 1 previous financial statement")
-        st.session_state.number_input("Liquidity from 2 previous financial statements")
+        st.markdown("**Current liabilities**")
+        c0, c1, c2 = st.columns(3)
+        with c0:
+            st.session_state.pass_breve = st.number_input("Current liabilities", key="in_pass_breve")
+        with c1:
+            st.session_state.pass_breve_1 = st.number_input("Current liabilities (t-1)", key="in_pass_breve_1")
+        with c2:
+            st.session_state.pass_breve_2 = st.number_input("Current liabilities (t-2)", key="in_pass_breve_2")
 
-        st.session_state.r_input("EBITDA")
-        st.session_state.ber_input("EBITDA from 1 previous financial statement")
-        st.session_state.ber_input("EBITDA from 2 previous financial statements")
+        st.markdown("**Total debts**")
+        c0, c1, c2 = st.columns(3)
+        with c0:
+            st.session_state.debiti = st.number_input("Total debts", key="in_debiti")
+        with c1:
+            st.session_state.debiti_1 = st.number_input("Total debts (t-1)", key="in_debiti_1")
+        with c2:
+            st.session_state.debiti_2 = st.number_input("Total debts (t-2)", key="in_debiti_2")
 
-        st.session_state.put("Cash flow")
-        st.session_state.input("Cash flow from 1 previous financial statement")
-        st.session_state.input("Cash flow from 2 previous financial statements")
+        st.markdown("**Liquidity**")
+        c0, c1, c2 = st.columns(3)
+        with c0:
+            st.session_state.liquidita = st.number_input("Liquidity", key="in_liquidita")
+        with c1:
+            st.session_state.liquidita_1 = st.number_input("Liquidity (t-1)", key="in_liquidita_1")
+        with c2:
+            st.session_state.liquidita_2 = st.number_input("Liquidity (t-2)", key="in_liquidita_2")
 
-        st.session_state._input("Financial payables")
-        st.session_state.er_input("Financial payables from 1 previous financial statement")
-        st.session_state.er_input("Financial payables from 2 previous financial statements")
+        st.markdown("**EBITDA**")
+        c0, c1, c2 = st.columns(3)
+        with c0:
+            st.session_state.ebitda = st.number_input("EBITDA", key="in_ebitda")
+        with c1:
+            st.session_state.ebitda_1 = st.number_input("EBITDA (t-1)", key="in_ebitda_1")
+        with c2:
+            st.session_state.ebitda_2 = st.number_input("EBITDA (t-2)", key="in_ebitda_2")
 
-        st.session_state.r_input("Revenue")
-        st.session_state.ber_input("Revenue from 1 previous financial statement")
-        st.session_state.ber_input("Revenue from 2 previous financial statements")
+        st.markdown("**Cash flow**")
+        c0, c1, c2 = st.columns(3)
+        with c0:
+            st.session_state.cf = st.number_input("Cash flow", key="in_cf")
+        with c1:
+            st.session_state.cf_1 = st.number_input("Cash flow (t-1)", key="in_cf_1")
+        with c2:
+            st.session_state.cf_2 = st.number_input("Cash flow (t-2)", key="in_cf_2")
+
+        st.markdown("**Financial payables**")
+        c0, c1, c2 = st.columns(3)
+        with c0:
+            st.session_state.oneri = st.number_input("Financial payables", key="in_oneri")
+        with c1:
+            st.session_state.oneri_1 = st.number_input("Financial payables (t-1)", key="in_oneri_1")
+        with c2:
+            st.session_state.oneri_2 = st.number_input("Financial payables (t-2)", key="in_oneri_2")
+
+        st.markdown("**Revenue**")
+        c0, c1, c2 = st.columns(3)
+        with c0:
+            st.session_state.ricavi = st.number_input("Revenue", key="in_ricavi")
+        with c1:
+            st.session_state.ricavi_1 = st.number_input("Revenue (t-1)", key="in_ricavi_1")
+        with c2:
+            st.session_state.ricavi_2 = st.number_input("Revenue (t-2)", key="in_ricavi_2")
+
+        st.divider()
+        st.markdown(
+            '<div class="aida-eyebrow">Counterparty</div>'
+            '<div class="aida-sec-title">Customer data (optional)</div>',
+            unsafe_allow_html=True
+        )
+
+        c0, c1, c2 = st.columns(3)
+        with c0:
+            st.session_state.Name = st.text_input("Name", key="in_name")
+        with c1:
+            st.session_state.TaxCode = st.text_input("Tax Code", key="in_taxcode")
+        with c2:
+            st.session_state.Active_Contracts = st.number_input(
+                "Active Contracts", min_value=0, step=1, format="%d", key="in_active"
+            )
+
+        c0, c1, c2 = st.columns(3)
+        with c0:
+            st.session_state.Overall_Oustanding = st.number_input("Overall Outstanding", key="in_out_all")
+            st.session_state.Rental_Remarketing_Total = st.number_input("Rental & RMKT Total", key="in_out_rr")
+        with c1:
+            st.session_state.Rental = st.number_input("Rental", key="in_out_rental")
+            st.session_state.Remarketing = st.number_input("Remarketing", key="in_out_rmkt")
+        with c2:
+            st.session_state.Retail_Leasing_Total = st.number_input("Retail & Leasing Total", key="in_out_rl")
+            st.session_state.Retail = st.number_input("Retail", key="in_out_retail")
+
+        c0, c1, c2 = st.columns(3)
+        with c0:
+            st.session_state.Leasing = st.number_input("Leasing", key="in_out_leasing")
+        with c1:
+            st.session_state.Overall_Past_due = st.number_input("Overall Past-due", key="in_pd_all")
+            st.session_state.Rental_fees_Past_due = st.number_input("Rental fees Past-due", key="in_pd_fees")
+        with c2:
+            st.session_state.Rental_extra_fees_Past_due = st.number_input(
+                "Rental extra-fees Past-due", key="in_pd_extra"
+            )
 
         submitted = st.form_submit_button("Calculate the Score")
+
+    if submitted:
+        # controllo divisori: evita divisioni per zero negli indicatori derivati
+        _mancanti = []
+        if st.session_state.attivo == 0:
+            _mancanti.append("Total assets")
+        if st.session_state.pass_breve == 0:
+            _mancanti.append("Current liabilities")
+        if st.session_state.ebitda == 0:
+            _mancanti.append("EBITDA")
+        if st.session_state.ricavi == 0:
+            _mancanti.append("Revenue")
+        if st.session_state.ricavi_2 == 0:
+            _mancanti.append("Revenue (t-2)")
+
+        if _mancanti:
+            st.session_state.submitted = False
+            st.error(
+                "These fields must be different from zero to compute the indicators: "
+                + ", ".join(_mancanti)
+            )
+        else:
+            st.session_state.submitted = True
 
 
 # INPUT FILE EXCEL
@@ -635,19 +762,19 @@ if st.session_state.submitted:
     st.markdown(section_header("Counterparty", "Customer Data"), unsafe_allow_html=True)
 
     dati_cliente = {
-        "Name": st.session_state.Name,
-        "TaxCode": st.session_state.TaxCode,
-        "Active Contracts": st.session_state.Active_Contracts,
-        "Overall Outstanding": st.session_state.Overall_Oustanding,
-        "Rental & RMKT Total": st.session_state.Rental_Remarketing_Total,
-        "Rental": st.session_state.Rental,
-        "Remarketing": st.session_state.Remarketing,
-        "Retail & Leasing Total": st.session_state.Retail_Leasing_Total,
-        "Retail": st.session_state.Retail,
-        "Leasing": st.session_state.Leasing,
-        "Overall Past-due": st.session_state.Overall_Past_due,
-        "Rental fees Past-due": st.session_state.Rental_fees_Past_due,
-        "Rental extra-fees Past-due": st.session_state.Rental_extra_fees_Past_due
+        "Name": st.session_state.get("Name") or "n/a",
+        "TaxCode": st.session_state.get("TaxCode") or "n/a",
+        "Active Contracts": st.session_state.get("Active_Contracts") or 0,
+        "Overall Outstanding": st.session_state.get("Overall_Oustanding") or 0,
+        "Rental & RMKT Total": st.session_state.get("Rental_Remarketing_Total") or 0,
+        "Rental": st.session_state.get("Rental") or 0,
+        "Remarketing": st.session_state.get("Remarketing") or 0,
+        "Retail & Leasing Total": st.session_state.get("Retail_Leasing_Total") or 0,
+        "Retail": st.session_state.get("Retail") or 0,
+        "Leasing": st.session_state.get("Leasing") or 0,
+        "Overall Past-due": st.session_state.get("Overall_Past_due") or 0,
+        "Rental fees Past-due": st.session_state.get("Rental_fees_Past_due") or 0,
+        "Rental extra-fees Past-due": st.session_state.get("Rental_extra_fees_Past_due") or 0
     }
 
     col1, col2 = st.columns(2)
