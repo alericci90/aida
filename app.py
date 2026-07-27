@@ -854,7 +854,8 @@ if st.session_state.submitted:
 
         st.plotly_chart(
             sparkline(score_int_storico['integrato'], st.session_state.anno_bil, score_intg=True),
-            use_container_width=True
+            use_container_width=True,
+            key="spark_integrated_score"
         )
 
         st.markdown(
@@ -901,7 +902,8 @@ if st.session_state.submitted:
 
             st.plotly_chart(
                 sparkline(indicatori_storici[key], st.session_state.anno_bil),
-                use_container_width=True
+                use_container_width=True,
+                key=f"spark_{key}"
             )
 
             st.markdown(
@@ -939,7 +941,8 @@ if st.session_state.submitted:
 
             st.plotly_chart(
                 sparkline(trend_ricavi['cagr_ricavi'], st.session_state.anno_bil),
-                use_container_width=True
+                use_container_width=True,
+                key="spark_cagr_ricavi"
             )
 
             st.markdown(
@@ -1011,7 +1014,7 @@ if st.session_state.submitted:
         margin=dict(t=40, b=40)
     )
 
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, use_container_width=True, key="radar_risk_profile")
 
     st.divider()
 
