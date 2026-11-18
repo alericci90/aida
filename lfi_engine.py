@@ -55,23 +55,15 @@ def load_portfolio() -> dict:
 
 
 def load_customer(case_id: str) -> dict:
-    """Dati cliente (anagrafica, outstanding, scaduto) da payline/<case_id>.json, nello stesso formato del
-    template originale. Nel mock-up i file sono simulati da tools/build_cases.py; se il file non c'e': {}."""
+    """Dati cliente da payline/<case_id>.json: chiavi di objects.CUSTOMER_FIELDS (valori grezzi) piu'
+    monthly_current / monthly_new (euro) per il riquadro dell'impegno mensile. Nel mock-up i file sono simulati da
+    tools/build_cases.py; se il file non c'e': {}."""
     path = REPO.parent / "payline" / f"{case_id}.json"
     if not path.exists():
         return {}
     with open(path, "r", encoding="utf-8") as f:
         j = json.load(f)
-    out, sc = j.get("Outstanding", {}), j.get("Scaduto", {})
-    return {
-        "Name": j.get("Name"), "TaxCode": j.get("TaxCode"), "Active Contracts": j.get("Active Contracts"),
-        "Overall Outstanding": out.get("Overall Oustanding"), "Rental & RMKT Total": out.get("Rental and Remarketing Total"),
-        "Rental": out.get("Rental"), "Remarketing": out.get("Remarketing"),
-        "Retail & Leasing Total": out.get("Retail and Leasing Total"), "Retail": out.get("Retail"),
-        "Leasing": out.get("Leasing"), "Overall Past-due": sc.get("Overall Past-due"),
-        "Rental fees Past-due": sc.get("Rental fees Past-due"),
-        "Rental extra-fees Past-due": sc.get("Rental extra-fees Past-due"),
-    }
+    return {k: v for group in ("company", "relationship", "fleet") for k, v in j.get(group, {}).items()}
 
 
 def case_label(case: dict) -> str:

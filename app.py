@@ -21,7 +21,8 @@ from pathlib import Path
 
 import streamlit as st
 
-from functions import (area_drivers_chart, class_badge, class_radar, class_scale, driver_effect, fmt_eur, fmt_pct,
+from functions import (area_drivers_chart, class_badge, class_radar, class_scale, driver_effect, fmt_customer, fmt_eur,
+                       fmt_pct,
                        fmt_value, genera_pdf_lfi, score_trend_comment, sparkline, subindex_description,
                        trend_comment)
 from funzione_ai_azure_eng import lfi_ai_component
@@ -125,20 +126,19 @@ if st.session_state.submitted and st.session_state.selected_company in cases:
     st.divider()
     st.markdown(section_header("Counterparty", "Customer Data"), unsafe_allow_html=True)
 
-    dati_cliente = {k: customer.get(k) for k in CUSTOMER_FIELDS}
-    col1, col2 = st.columns(2)
-    items = list(dati_cliente.items())
-    for i, (nome, valore) in enumerate(items):
-        col = col1 if i < len(items) / 2 else col2
-        if valore is None:
-            testo = "n/a"
-        elif i < 3:                             # primi 3 elementi: nessun formato euro
-            testo = f"{valore}"
-        else:
-            testo = f"€ {valore:,.0f}"
-        sub = f"{case['sector']} · {case['size_class']} · {case['customer_type']}" if nome == "Name" else ""
-        with col:
-            st.markdown(kpi_card(nome, testo, sub=sub), unsafe_allow_html=True)
+    groups = {}
+    for group, key, label, kind in CUSTOMER_FIELDS:
+        groups.setdefault(group, []).append((key, label, kind))
+    for group, fields in groups.items():
+        st.markdown(f'<div class="aida-ind-fam" style="margin-top:.9rem;">{group}</div>', unsafe_allow_html=True)
+        col1, col2 = st.columns(2)
+        for i, (key, label, kind) in enumerate(fields):
+            testo = fmt_customer(customer.get(key), kind)
+            if kind == "text" and len(testo) > 34:          # testi lunghi: carattere piu' piccolo
+                testo = f"<span style='font-size:.98rem;line-height:1.3;display:block;'>{testo}</span>"
+            sub = f"{case['sector']} · {case['size_class']} · {case['customer_type']}" if key == "name" else ""
+            with (col1 if i < len(fields) / 2 else col2):
+                st.markdown(kpi_card(label, testo, sub=sub), unsafe_allow_html=True)
 
     # ----- FINANCIAL STATEMENT INDICATORS (stesse card del template, voci usate dal modello) -----
     st.divider()
@@ -286,7 +286,8 @@ if st.session_state.submitted and st.session_state.selected_company in cases:
     with col_logo_2:
         st.image(str(APP_DIR / "aida.png"), width="stretch")
 
-    lfi_ai_component(case, cls, None, customer)
+    proposal = ({"monthly_fee": customer["monthly_new"], "months": 0} if customer.get("monthly_new") else None)
+    lfi_ai_component(case, cls, proposal, customer)
 
     st.divider()
 

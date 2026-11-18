@@ -1,20 +1,34 @@
 {
   "_simulated": true,
-  "Name": "Edilizia Rovanto S.r.l.",
-  "TaxCode": "64144829993",
-  "Active Contracts": 60,
-  "Outstanding": {
-    "Overall Oustanding": 1572524.89,
-    "Rental and Remarketing Total": 1572524.89,
-    "Rental": 1572524.89,
-    "Remarketing": 0.0,
-    "Retail and Leasing Total": 0.0,
-    "Retail": 0,
-    "Leasing": 0.0
+  "company": {
+    "name": "Edilizia Rovanto S.r.l.",
+    "tax_code": "64144829993",
+    "id_bp": "SIM3843837"
   },
-  "Scaduto": {
-    "Overall Past-due": 13471.03,
-    "Rental fees Past-due": 12142.92,
-    "Rental extra-fees Past-due": 1328.11
+  "relationship": {
+    "customer_since": "2018-08-24",
+    "plafond_status": "Active",
+    "plafond_expiry": "2026-10-23",
+    "outstanding": 1417213.0,
+    "plafond_granted": 1850000.0,
+    "plafond_under_review": 750000.0,
+    "past_due_band": "1-30 days",
+    "past_due_fees": 9826.0,
+    "past_due_extra_fees": 533.0,
+    "tax_loss": 0.0,
+    "security_deposit": 0.0,
+    "previous_rejections": "No",
+    "guarantees": "None",
+    "repayment_plans": "None"
+  },
+  "fleet": {
+    "active_contracts": 60,
+    "pipeline_vehicles": 2,
+    "monthly_commitment": "\u20ac 40,300 current + \u20ac 13,440 new request (21 vehicles) = \u20ac 53,740",
+    "monthly_current": 40300.0,
+    "monthly_new": 13440.0,
+    "claims": "4 claims in the last 24 months",
+    "services": "31 with fire & theft / road tax \u00b7 16 with maintenance & tyres",
+    "buyback": "24 vehicles (Stellantis brands)"
   }
 }

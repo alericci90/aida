@@ -177,33 +177,94 @@ NAMES = {"industria_higher": ["Officine Valdorba S.p.A."], "finance": ["Sistemi 
          "commercio_lower": ["Commerciale Brusata S.r.l.", "Emporio Orcellia S.r.l."],
          "rac": ["Autoservizi Castrivo S.r.l."]}
 PAST_DUE_SHARE = {1: (0.0, 0.0), 2: (0.0, 0.0), 3: (0.0, 0.01), 4: (0.02, 0.05), 5: (0.06, 0.12), 6: (0.15, 0.30)}
+PAST_DUE_BAND = {1: "No past due", 2: "No past due", 3: "1-30 days", 4: "1-30 days", 5: "31-60 days", 6: "61-90 days"}
 Path(OUT).parent.joinpath("payline").mkdir(exist_ok=True)
+
+
+def add_months(ym: str, k: int, day: int = 1) -> str:
+    """'AAAA-MM' + k mesi -> 'AAAA-MM-GG'."""
+    y, m = (int(x) for x in ym.split("-"))
+    t_ = y * 12 + (m - 1) + k
+    return f"{t_ // 12}-{t_ % 12 + 1:02d}-{day:02d}"
+
+
 used = {}
 for n, c in enumerate(cases, 1):
     rng = np.random.default_rng(2026 + n)
     k = used.get(c["cluster"], 0); used[c["cluster"]] = k + 1
     name = NAMES[c["cluster"]][k]
-    # partita IVA finta: codice ufficio 999 (inesistente), cosi' non puo' coincidere con una vera
+    # partita IVA e id_bp finti: codice ufficio 999 (inesistente) e prefisso SIM, non coincidono con dati veri
     tax = f"{int(rng.integers(1000000, 9999999)):07d}999{int(rng.integers(0, 10))}"
-    cl = bisect_right(LFI_CLASS_CUTS, c["lfi"]["pd"]) + 1
+    id_bp = f"SIM{int(rng.integers(1000000, 9999999))}"
+    cl = 6 if c["lfi"]["negative_equity"] else bisect_right(LFI_CLASS_CUTS, c["lfi"]["pd"]) + 1   # classe finale
     rev = c["financials_eur"]["revenue"][-1]
-    if c["customer_type"] != "Active customer":      # nuovo o di ritorno: nessun contratto in essere
-        n_contr, rental, rmkt, leasing = 0, 0.0, 0.0, 0.0
-    else:
-        n_contr = int(np.clip(round(rev / 450_000 * rng.uniform(0.7, 1.4)), 1, 60))
-        rental = round(n_contr * rng.uniform(16_000, 27_000), 2)
-        rmkt = round(rental * rng.uniform(0.0, 0.06), 2) if rng.random() < 0.4 else 0.0
-        leasing = round(rental * rng.uniform(0.10, 0.30), 2) if rng.random() < 0.3 else 0.0
+    sm = c["scoring_month"]
+    kind = c["customer_type"]
+    day = lambda: int(rng.integers(1, 28))
+    age_m = int((c["indicators"]["eta_azienda"]["value"] or 30) * 12)          # mesi di attivita' dell'azienda
+    back = lambda lo_, hi_: int(rng.integers(min(lo_, max(age_m - 2, 1)), max(min(hi_, age_m - 1), 2)))   # cliente da: dopo l'avvio
+    # --- nuova richiesta in valutazione (ogni caso e' una pratica) ---
+    n_contr = 0 if kind != "Active customer" else int(np.clip(round(rev / 450_000 * rng.uniform(0.7, 1.4)), 1, 60))
+    req = int(np.clip(round((n_contr or rev / 900_000) * rng.uniform(0.15, 0.45)), 1, 25))
+    fee_new = round(req * rng.uniform(520, 760), -1)
+    under_review = round(req * rng.uniform(28_000, 38_000), -3)
+    # --- rapporto e flotta ---
+    if kind == "Active customer":
+        since = add_months(sm, -back(24, 144), day())
+        outstanding = round(n_contr * rng.uniform(16_000, 27_000), 0)
+        granted = round(outstanding * rng.uniform(1.15, 1.6), -4)
+        status = ("Active" if cl <= 4 else "Active · under monitoring" if cl == 5 else "Suspended")
+        expiry = add_months(sm, int(rng.integers(2, 14)), day())
+        monthly_cur = round(n_contr * rng.uniform(480, 720), -1)
+        pipeline = int(rng.integers(0, max(2, round(n_contr * 0.15)) + 1)) if cl <= 4 else 0
+    elif kind == "Returning customer":
+        since = add_months(sm, -back(60, 140), day())
+        outstanding, monthly_cur, pipeline = 0.0, 0.0, 0
+        granted = round(under_review * rng.uniform(0.6, 1.2), -4)
+        status = "Expired"
+        expiry = add_months(sm, -int(rng.integers(14, 40)), day())
+    else:                                                       # nuovo cliente
+        since, expiry, status = None, None, "Not yet granted (first application)"
+        outstanding, granted, monthly_cur, pipeline = 0.0, 0.0, 0.0, 0
     lo, hi = PAST_DUE_SHARE[cl]
-    fees_pd = round(rental * rng.uniform(lo, hi), 2)
+    fees_pd = round(outstanding * rng.uniform(lo, hi), 0)
     fees_pd = fees_pd if fees_pd >= 250 else 0.0
-    extra_pd = round(fees_pd * rng.uniform(0.04, 0.12), 2)
-    pay = {"_simulated": True, "Name": name, "TaxCode": tax, "Active Contracts": n_contr,
-           "Outstanding": {"Overall Oustanding": round(rental + rmkt + leasing, 2),
-                           "Rental and Remarketing Total": round(rental + rmkt, 2), "Rental": rental,
-                           "Remarketing": rmkt, "Retail and Leasing Total": leasing, "Retail": 0, "Leasing": leasing},
-           "Scaduto": {"Overall Past-due": round(fees_pd + extra_pd, 2), "Rental fees Past-due": fees_pd,
-                       "Rental extra-fees Past-due": extra_pd}}
+    extra_pd = round(fees_pd * rng.uniform(0.04, 0.12), 0) if fees_pd else 0.0
+    band = PAST_DUE_BAND[cl] if fees_pd else "No past due"
+    tax_loss = round(rng.uniform(2_000, 15_000), -2) if (n_contr and cl == 6) else 0.0
+    deposit = round(monthly_cur * rng.uniform(1, 3), -2) if (n_contr and cl >= 4) else 0.0
+    rej_year = int(sm[:4]) - int(rng.integers(1, 3))
+    rejections = (f"Yes · 1 application rejected ({rej_year})" if cl >= 5 or (kind != "Active customer" and cl >= 3)
+                  else "No")
+    guarantees = ("Personal guarantee of the managing director (application of " + str(rej_year) + ")"
+                  if cl >= 4 and kind != "New customer" else "None")
+    if band in ("31-60 days", "61-90 days"):
+        inst = int(rng.integers(4, 10))
+        repay = f"Active · {inst} monthly instalments of € {round(fees_pd / inst, -1):,.0f} remaining"
+    else:
+        repay = "None"
+    claims_n = int(rng.poisson(n_contr * 0.12)) if n_contr else 0
+    total_loss = int(claims_n >= 3 and rng.random() < 0.5)
+    claims = ("None" if not claims_n else f"{claims_n} claim{'s' if claims_n > 1 else ''} in the last 24 months"
+              + (f" · {total_loss} total loss" if total_loss else ""))
+    ft = int(round(n_contr * rng.uniform(0.3, 0.9))) if n_contr else 0
+    maint = int(round(n_contr * rng.uniform(0.2, 0.7))) if n_contr else 0
+    services = ("None" if not (ft or maint) else f"{ft} with fire & theft / road tax · {maint} with maintenance & tyres")
+    bb = int(round(n_contr * rng.uniform(0.1, 0.4))) if (n_contr and rng.random() < 0.6) else 0
+    buyback = f"{bb} vehicle{'s' if bb > 1 else ''} (Stellantis brands)" if bb else "None"
+    pay = {"_simulated": True,
+           "company": {"name": name, "tax_code": tax, "id_bp": id_bp},
+           "relationship": {"customer_since": since, "plafond_status": status, "plafond_expiry": expiry,
+                            "outstanding": outstanding, "plafond_granted": granted,
+                            "plafond_under_review": under_review, "past_due_band": band,
+                            "past_due_fees": fees_pd, "past_due_extra_fees": extra_pd, "tax_loss": tax_loss,
+                            "security_deposit": deposit, "previous_rejections": rejections,
+                            "guarantees": guarantees, "repayment_plans": repay},
+           "fleet": {"active_contracts": n_contr, "pipeline_vehicles": pipeline,
+                     "monthly_commitment": (f"€ {monthly_cur:,.0f} current + € {fee_new:,.0f} new request "
+                                            f"({req} vehicle{'s' if req > 1 else ''}) = € {monthly_cur + fee_new:,.0f}"),
+                     "monthly_current": monthly_cur, "monthly_new": fee_new,
+                     "claims": claims, "services": services, "buyback": buyback}}
     json.dump(pay, open(Path(OUT).parent / "payline" / f"{c['case_id']}.json", "w"), indent=2)
     c["name"] = name
     # PD sui bilanci precedenti: REALE (pratica precedente della stessa azienda) se c'e', altrimenti SIMULATA come

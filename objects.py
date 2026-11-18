@@ -202,7 +202,30 @@ FINANCIAL_CARDS = [
     ("revenue", "Revenues"), ("ebitda", "EBITDA"), ("pre_tax_result", "Pre-tax Result"), ("taxes", "Taxes"),
 ]
 
-# Card "Customer Data": stesse voci e stesso ordine del template (valori dal file payline/<case_id>.json, se c'e')
-CUSTOMER_FIELDS = ["Name", "TaxCode", "Active Contracts", "Overall Outstanding", "Rental & RMKT Total", "Rental",
-                   "Remarketing", "Retail & Leasing Total", "Retail", "Leasing", "Overall Past-due",
-                   "Rental fees Past-due", "Rental extra-fees Past-due"]
+# Card "Customer Data": tre gruppi, in quest'ordine. (gruppo, chiave nel file payline/<case_id>.json, etichetta, formato)
+# formato: eur | int | date | text. Nel mock-up i valori sono simulati da tools/build_cases.py.
+CUSTOMER_FIELDS = [
+    ("Company details", "name", "Company name", "text"),
+    ("Company details", "tax_code", "Tax code", "text"),
+    ("Company details", "id_bp", "Business partner ID (id_bp)", "text"),
+    ("Relationship with Leasys", "customer_since", "Customer since", "date"),
+    ("Relationship with Leasys", "plafond_status", "Credit line (plafond) status", "text"),
+    ("Relationship with Leasys", "plafond_expiry", "Last plafond expiry", "date"),
+    ("Relationship with Leasys", "outstanding", "Outstanding", "eur"),
+    ("Relationship with Leasys", "plafond_granted", "Last plafond granted", "eur"),
+    ("Relationship with Leasys", "plafond_under_review", "Plafond under review", "eur"),
+    ("Relationship with Leasys", "past_due_band", "Past-due band", "text"),
+    ("Relationship with Leasys", "past_due_fees", "Past-due rental fees", "eur"),
+    ("Relationship with Leasys", "past_due_extra_fees", "Past-due extra fees", "eur"),
+    ("Relationship with Leasys", "tax_loss", "Written-off amount (tax loss)", "eur"),
+    ("Relationship with Leasys", "security_deposit", "Security deposit held by Leasys", "eur"),
+    ("Relationship with Leasys", "previous_rejections", "Previous rejections", "text"),
+    ("Relationship with Leasys", "guarantees", "Sureties and guarantors on previous applications", "text"),
+    ("Relationship with Leasys", "repayment_plans", "Repayment plans", "text"),
+    ("Leasys fleet", "active_contracts", "Active contracts (vehicles in fleet)", "int"),
+    ("Leasys fleet", "pipeline_vehicles", "Pipeline: vehicles approved, not yet delivered", "int"),
+    ("Leasys fleet", "monthly_commitment", "Monthly commitment: current + new request", "text"),
+    ("Leasys fleet", "claims", "Previous claims or total losses", "text"),
+    ("Leasys fleet", "services", "Vehicles with fire & theft / road tax or other services", "text"),
+    ("Leasys fleet", "buyback", "Vehicles with Stellantis buy-back", "text"),
+]

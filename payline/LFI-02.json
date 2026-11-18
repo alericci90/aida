@@ -1,20 +1,34 @@
 {
   "_simulated": true,
-  "Name": "Sistemi Arquenta S.r.l.",
-  "TaxCode": "60887599993",
-  "Active Contracts": 8,
-  "Outstanding": {
-    "Overall Oustanding": 192885.06,
-    "Rental and Remarketing Total": 192885.06,
-    "Rental": 192885.06,
-    "Remarketing": 0.0,
-    "Retail and Leasing Total": 0.0,
-    "Retail": 0,
-    "Leasing": 0.0
+  "company": {
+    "name": "Sistemi Arquenta S.r.l.",
+    "tax_code": "60887599993",
+    "id_bp": "SIM4212493"
   },
-  "Scaduto": {
-    "Overall Past-due": 0.0,
-    "Rental fees Past-due": 0.0,
-    "Rental extra-fees Past-due": 0.0
+  "relationship": {
+    "customer_since": "2016-08-12",
+    "plafond_status": "Active",
+    "plafond_expiry": "2025-06-07",
+    "outstanding": 191365.0,
+    "plafond_granted": 250000.0,
+    "plafond_under_review": 128000.0,
+    "past_due_band": "No past due",
+    "past_due_fees": 0.0,
+    "past_due_extra_fees": 0.0,
+    "tax_loss": 0.0,
+    "security_deposit": 0.0,
+    "previous_rejections": "No",
+    "guarantees": "None",
+    "repayment_plans": "None"
+  },
+  "fleet": {
+    "active_contracts": 9,
+    "pipeline_vehicles": 0,
+    "monthly_commitment": "\u20ac 4,350 current + \u20ac 2,890 new request (4 vehicles) = \u20ac 7,240",
+    "monthly_current": 4350.0,
+    "monthly_new": 2890.0,
+    "claims": "2 claims in the last 24 months",
+    "services": "4 with fire & theft / road tax \u00b7 3 with maintenance & tyres",
+    "buyback": "3 vehicles (Stellantis brands)"
   }
 }

@@ -69,6 +69,23 @@ def fmt_driver(d) -> str:
     return f"{d:+.2f} (odds ×{math.exp(d):.2f})"
 
 
+MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+
+
+def fmt_customer(v, kind: str) -> str:
+    """Valore di un campo cliente (objects.CUSTOMER_FIELDS): eur | int | date (AAAA-MM-GG) | text. None = '—'."""
+    if v is None or v == "":
+        return "—"
+    if kind == "eur":
+        return f"€ {v:,.0f}"
+    if kind == "int":
+        return f"{int(v):,}"
+    if kind == "date":
+        y, m, d = (int(x) for x in str(v).split("-"))
+        return f"{d:02d} {MONTHS[m - 1]} {y}"
+    return str(v)
+
+
 def driver_effect(d) -> str:
     """Lettura qualitativa del driver rispetto alla pratica media del segmento."""
     if _missing(d) or abs(d) < DRIVER_NEUTRAL:
@@ -209,6 +226,12 @@ def sparkline(values, years, kind: str = "ratio", reference=None, reference_labe
     )
     if y_range is not None:
         layout["yaxis"].update(range=y_range, dtick=1)
+    elif reference is not None and not _missing(reference):
+        # la scala comprende sempre la linea del segmento, anche quando e' fuori dall'intervallo dei valori
+        pts = [v for v in values if not _missing(v)] + [reference]
+        lo, hi = min(pts), max(pts)
+        pad = (hi - lo) * 0.15 if hi > lo else max(abs(hi) * 0.1, 1e-3)
+        layout["yaxis"].update(range=[lo - pad, hi + pad])
     fig.update_layout(**layout)
     if reference is not None and not _missing(reference):
         fig.add_hline(y=reference, line=dict(color=cc["tick"], width=1.2, dash="dash"),

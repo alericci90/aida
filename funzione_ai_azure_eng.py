@@ -26,15 +26,15 @@ from pathlib import Path
 
 import streamlit as st
 
-from functions import (NA, driver_effect, fmt_driver, fmt_eur, fmt_pct, fmt_ratio, fmt_value, ordinal)
+from functions import (NA, driver_effect, fmt_customer, fmt_driver, fmt_eur, fmt_pct, fmt_ratio, fmt_value, ordinal)
 from lfi_engine import indicator_class, lfi_class, load_portfolio, statement_age_months
-from objects import (AREAS, BAND_LABELS, CLUSTER_LABELS, DISPLAY_INDICATORS, FINANCIAL_ITEMS, INDICATORS, LFI_CLASS_CUTS,
+from objects import (AREAS, BAND_LABELS, CLUSTER_LABELS, CUSTOMER_FIELDS, DISPLAY_INDICATORS, FINANCIAL_ITEMS, INDICATORS, LFI_CLASS_CUTS,
                      LFI_CLASSES_PROVISIONAL, MODEL_INFO, OVERRIDE_NEGATIVE_EQUITY)
 
 MAX_TURNS = 12                  # turni domanda / risposta inviati all'LLM (i dati del caso restano sempre)
 MAX_QUESTION_CHARS = 1500
 LOG_PATH = Path(__file__).resolve().parent / "logs" / "ai_analyst.jsonl"
-PROMPT_VERSION = "lfi-2026-11-18e"
+PROMPT_VERSION = "lfi-2026-11-18f"
 
 
 # =====================================================
@@ -91,23 +91,25 @@ def build_case_block(case: dict, cls: dict, proposal: dict | None = None, custom
     months = statement_age_months(case)
     L = []
     L.append("COUNTERPARTY")
-    L.append(f"Company: {case.get('name', case['case_id'])} (case {case['case_id']})")
+    L.append(f"Company: {case.get('name', case['case_id'])} (case {case['case_id']}"
+             + (f"; tax code {customer['tax_code']}; id_bp {customer['id_bp']}" if customer else "") + ")")
     L.append(f"Sector: {case['sector']} (ATECO division {case['ateco_2dgt']})")
     L.append(f"Size: {case['size_class']}")
     L.append(f"Model segment: {CLUSTER_LABELS.get(case['cluster'], case['cluster'])}")
     L.append(f"Company age: {NA if age is None else f'{age:.1f} years'}")
-    L.append(f"Relationship with Leasys: {case['customer_type']}")
+    L.append(f"Customer type: {case['customer_type']}")
     L.append(f"Fiscal years available: {years[0]}, {years[1]}, {years[2]} (years ending 31 December)")
     L.append(f"Application scored in: {case['scoring_month']} "
              f"(latest statement {months} months old at that date)")
-    cust = {k: v for k, v in (customer or {}).items() if v is not None}
-    if cust:
-        L.append("Position towards Leasys: " + "; ".join(
-            f"{k} {v if k in ('Name', 'TaxCode', 'Active Contracts') else fmt_eur(v)}" for k, v in cust.items()
-            if k not in ("Name", "TaxCode")))
+    if customer:
+        groups = {}
+        for group, key, label, kind in CUSTOMER_FIELDS:
+            if key not in ("name", "tax_code", "id_bp"):
+                groups.setdefault(group, []).append(f"{label}: {fmt_customer(customer.get(key), kind)}")
+        for group, items in groups.items():
+            L.append(f"{group}: " + "; ".join(items))
     else:
-        L.append("Exposure and payment history towards Leasys: not available")
-
+        L.append("Relationship and fleet with Leasys: not available")
     L.append("")
     L.append("LFI RESULT")
     L.append(f"Probability of default at 12 months (PD): {fmt_pct(lfi['pd'])}")
@@ -176,7 +178,7 @@ def build_case_block(case: dict, cls: dict, proposal: dict | None = None, custom
     if proposal and proposal.get("monthly_fee"):
         fee, dur = proposal["monthly_fee"], proposal.get("months") or 0
         annual = fee * 12
-        L.append(f"Total monthly rental fee: {fmt_eur(fee)}" + (f"; contract duration: {dur} months" if dur else ""))
+        L.append(f"Monthly rental fees of the new request: {fmt_eur(fee)}" + (f"; contract duration: {dur} months" if dur else ""))
         L.append(f"Annual fees: {fmt_eur(annual)}")
         rev, ebitda, cf = fin["revenue"][-1], fin["ebitda"][-1], fin["cash_flow"][-1]
         L.append(f"Annual fees on {years[-1]} revenue: {fmt_pct(annual / rev, 1) if rev else NA}")
