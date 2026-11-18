@@ -9,8 +9,8 @@
 #    -> Risk Profile – Radar -> AI Analyst -> Export PDF
 #  Cambia il contenuto: lo score integrato e' l'LFI (Run O, nucleo fisso) e
 #  gli indicatori sono i 10 indicatori di bilancio del nucleo (l'eta'
-#  dell'azienda resta nel modello e nello SHAP, non tra gli indicatori).
-#  Unica sezione in piu': lo SHAP ("What drives the score"), dopo il radar.
+#  dell'azienda resta nel modello, non tra gli indicatori). Accanto al radar, la tabella sintetica dei
+#  sottoindici di famiglia.
 #
 #  I risultati sono letti da lfi_engine (repository_lfi/cases.json): in questo
 #  mock-up non c'e' il motore di scoring, quindi "Upload Excel" e "Manual
@@ -21,7 +21,7 @@ from pathlib import Path
 
 import streamlit as st
 
-from functions import (area_drivers_chart, class_badge, class_radar, class_scale, driver_effect, fmt_customer, fmt_eur,
+from functions import (class_badge, class_radar, class_scale, fmt_customer, fmt_eur, indicator_summary_table,
                        fmt_pct,
                        fmt_value, genera_pdf_lfi, score_trend_comment, sparkline, subindex_description,
                        trend_comment)
@@ -35,6 +35,7 @@ from style import inject_lfi_css, inject_theme, kpi_card, section_header
 # %% dashboard
 APP_DIR = Path(__file__).resolve().parent     # immagini lette dalla cartella dell'app, da qualunque cartella si lanci
 # CONFIG
+PLOT_CONFIG = {"displayModeBar": False}          # grafici senza la barra degli strumenti di plotly
 st.set_page_config(page_title="Financial Index Dashboard", layout="wide")
 
 # CSS + FONT (theme layer, solo estetica)
@@ -198,8 +199,10 @@ if st.session_state.submitted and st.session_state.selected_company in cases:
         hist = case["lfi_history"]
         classi_storico = [lfi_class(p, ne)["final"] for p, ne in zip(hist["pd"], hist["negative_equity"])]
         st.markdown(f"<div class='aida-spark-title'>{nome_intg} · 3Y trend</div>", unsafe_allow_html=True)
-        st.plotly_chart(sparkline(classi_storico, years, "class", y_range=[0.7, cls["n"] + 0.3]), width="stretch",
-                        key="spark_integrated_score")
+        seg_med_class = lfi_class(portfolio["cluster_pd_median"][case["cluster"]], False)["final"]
+        st.plotly_chart(sparkline(classi_storico, years, "class", y_range=[0.7, cls["n"] + 0.3], reference=seg_med_class,
+                                  reference_label=f"Segment median (class {seg_med_class})"),
+                        width="stretch", key="spark_integrated_score", config=PLOT_CONFIG)
         st.markdown(f"<div class='aida-spark-note'>{score_trend_comment(classi_storico)}</div>",
                     unsafe_allow_html=True)
 
@@ -250,7 +253,8 @@ if st.session_state.submitted and st.session_state.selected_company in cases:
             series_label = series_label or meta["label"]
             st.markdown(f"<div class='aida-spark-title'>{series_label} · 3Y trend</div>", unsafe_allow_html=True)
             ref = ind["cluster_median"]                             # mediana del segmento dell'indicatore
-            st.plotly_chart(sparkline(series, years, series_fmt, reference=ref), width="stretch", key=f"spark_{key}")
+            st.plotly_chart(sparkline(series, years, series_fmt, reference=ref), width="stretch", key=f"spark_{key}",
+                            config=PLOT_CONFIG)
             st.markdown(f"<div class='aida-spark-note'>{trend_comment(series, series_label, meta['trend_good'])}</div>",
                         unsafe_allow_html=True)
 
@@ -258,39 +262,14 @@ if st.session_state.submitted and st.session_state.selected_company in cases:
 
     # ----- RADAR -----
     st.markdown(section_header("Risk Profile", "Risk Profile – Radar"), unsafe_allow_html=True)
-    st.plotly_chart(class_radar(case, DARK_MODE), width="stretch", key="radar_risk_profile")
-
-    st.divider()
-
-    # ----- SHAP: contributo di ogni area allo score (qui c'e' anche l'eta' dell'azienda) -----
-    st.markdown(section_header("Explanation", "What drives the score"), unsafe_allow_html=True)
-    st.caption("Each bar shows how far an area moves this company's score from the average applicant of its reference "
-               "segment (log-odds points). The bars add up to the distance between the company and its segment "
-               "average. Company age is part of the model and appears here.")
-
-    colL, colR = st.columns([3, 2])
-    with colL:
-        st.plotly_chart(area_drivers_chart(case), width="stretch", key="lfi_area_drivers")
-
-    with colR:
-        ranked = sorted(case["indicators"].items(), key=lambda t: -t[1]["driver"])
-        up = [(k, v) for k, v in ranked if driver_effect(v["driver"]) == "raises risk"][:3]
-        down = [(k, v) for k, v in reversed(ranked) if driver_effect(v["driver"]) == "lowers risk"][:3]
-
-        def _factors(items, color):
-            if not items:
-                return "<div class='lfi-note'>None.</div>"
-            return "<div class='lfi-factors'>" + "".join(
-                f"<div class='lfi-factor' style='--dc:{color};'><span>{INDICATORS[k]['label']}</span>"
-                f"<span class='v'>{fmt_value(v['value'], INDICATORS[k]['fmt'])} (segment "
-                f"{fmt_value(v['cluster_median'], INDICATORS[k]['fmt'])}) · {v['driver']:+.2f}</span></div>"
-                for k, v in items) + "</div>"
-
-        st.markdown("<div class='aida-spark-title'>Main factors raising risk</div>" + _factors(up, "#E5544A"),
-                    unsafe_allow_html=True)
-        st.write("")
-        st.markdown("<div class='aida-spark-title'>Main mitigating factors</div>" + _factors(down, "#1FBE86"),
-                    unsafe_allow_html=True)
+    colR1, colR2 = st.columns([2.2, 3])
+    with colR1:
+        st.plotly_chart(class_radar(case, DARK_MODE), width="stretch", key="radar_risk_profile", config=PLOT_CONFIG)
+    with colR2:
+        st.markdown(indicator_summary_table(case), unsafe_allow_html=True)
+        st.caption("Family sub-index = 12-month PD on that indicator alone. Risk percentile = share of the portfolio "
+                   "with a lower sub-index (0 = lowest risk, 100 = highest risk); the ticks mark the class cut-offs "
+                   "at 20, 50, 75 and 90.")
 
     st.divider()
 

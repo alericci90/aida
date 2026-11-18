@@ -165,14 +165,25 @@ def class_scale(cls: dict) -> str:
     )
 
 
-def driver_chip(d) -> str:
-    eff = driver_effect(d)
-    col = {"raises risk": RISK_UP, "lowers risk": RISK_DOWN}.get(eff, NEUTRAL)
-    arrow = {"raises risk": "▲", "lowers risk": "▼"}.get(eff, "●")
-    return (
-        f"<div class='lfi-drv' style='--dc:{col};'><span class='arrow'>{arrow}</span>"
-        f"<span class='eff'>{eff}</span><span class='pts'>{fmt_driver(d)}</span></div>"
-    )
+def indicator_summary_table(case: dict) -> str:
+    """Tabella sintetica accanto al radar: per indicatore il sottoindice di famiglia, la media del segmento, il
+    percentile di rischio nel portafoglio (con i tagli delle classi) e la classe 1-5. Dal piu' al meno rischioso."""
+    cuts = "".join(f"<span class='cut' style='left:{p}%;'></span>" for p in (20, 50, 75, 90))
+    rows = []
+    for k in sorted(DISPLAY_INDICATORS, key=lambda k: -case["indicators"][k]["sub_pct"]):
+        m, ind = INDICATORS[k], case["indicators"][k]
+        c = indicator_class(ind["sub_pct"])
+        pct = ind["sub_pct"]
+        rows.append(
+            f"<tr><td>{m['label']}<div class='ind'>{m['family_label']} · value {fmt_value(ind['value'], m['fmt'])}"
+            f"</div></td>"
+            f"<td class='num'>{fmt_pct(ind['sub_pd'])}</td><td class='num dim'>{fmt_pct(ind['sub_pd_cluster_mean'])}</td>"
+            f"<td class='bar'><div class='track'>{cuts}<div class='mark' style='left:{pct:.0f}%;"
+            f"background:{c['color']};'></div></div><span>{pct:.0f}</span></td>"
+            f"<td class='num'><span class='lfi-pill' style='background:{c['color']};'>{c['final']}</span></td></tr>")
+    return ("<table class='lfi-table lfi-subtable'><thead><tr><th>Indicator · family</th><th>Sub-index PD</th>"
+            "<th>Segment avg</th><th>Risk percentile</th><th>Class</th></tr></thead><tbody>" + "".join(rows)
+            + "</tbody></table>")
 
 
 def financial_table(case: dict) -> str:
@@ -240,45 +251,22 @@ def sparkline(values, years, kind: str = "ratio", reference=None, reference_labe
     return fig
 
 
-def area_drivers_chart(case: dict):
-    """Barre orizzontali: di quanto ogni area sposta lo score dalla pratica media del segmento
-    (punti di log-odds; destra = aumenta il rischio, sinistra = lo riduce)."""
-    cc = chart_colors()
-    items = sorted(((AREAS[a], case["areas"][a]["driver"]) for a in AREAS), key=lambda t: t[1])
-    labels, vals = [t[0] for t in items], [t[1] for t in items]
-    lim = max(0.3, max(abs(v) for v in vals) * 1.35)
-    fig = go.Figure(go.Bar(
-        x=vals, y=labels, orientation="h",
-        marker=dict(color=[RISK_UP if v > 0 else RISK_DOWN for v in vals], line=dict(width=0)),
-        text=[f"  {v:+.2f}  " for v in vals], textposition="outside", cliponaxis=False,
-        textfont=dict(family="JetBrains Mono", size=11, color=cc["angular"]),
-        hovertemplate="%{y}<br>%{x:+.2f} log-odds points<extra></extra>",
-    ))
-    layout = _base_layout(cc, 380)
-    layout.update(
-        margin=dict(l=10, r=30, t=10, b=40), bargap=0.35,
-        xaxis=dict(range=[-lim, lim], zeroline=True, zerolinecolor=cc["axis"], zerolinewidth=1.5, showgrid=True,
-                   gridcolor=cc["grid"], tickfont=dict(size=10, color=cc["tick"]),
-                   title=dict(text="◀ lowers risk    ·    log-odds points vs. segment average    ·    raises risk ▶",
-                              font=dict(size=10, color=cc["tick"]))),
-        yaxis=dict(tickfont=dict(size=12, color=cc["angular"]), showgrid=False),
-    )
-    fig.update_layout(**layout)
-    return fig
-
-
 def class_radar(case: dict, dark: bool = True):
     """Radar del profilo di rischio (stesso grafico del template): classe 1-5 di ogni indicatore."""
     cc = chart_colors()
     classes = [indicator_class(case["indicators"][k]["sub_pct"]) for k in DISPLAY_INDICATORS]
     n = classes[0]["n"]
     closed = lambda x: x + [x[0]]
-    labels = closed([INDICATORS[k]["label"].replace(" on ", "<br>on ").replace(" change", "<br>change")
-                     for k in DISPLAY_INDICATORS])
+    short = {"liquidita_su_attivo": "Cash buffer", "quick_ratio_aumento_estremo": "Quick ratio<br>jump",
+             "tfr_su_attivo": "TFR /<br>assets", "asset_turnover": "Asset<br>turnover",
+             "d_asset_turnover_2y": "Asset turnover<br>change 2Y", "vol_ricavi_3y": "Revenue<br>volatility",
+             "imposte_su_utile_ante": "Tax<br>rate", "clca": "Short-term<br>debt", "cagr_attivo_1y": "Asset<br>growth",
+             "d_ebitda_su_attivo_2y": "EBITDA/assets<br>change 2Y"}          # etichette brevi: il radar sta in mezza pagina
+    labels = closed([short.get(k, INDICATORS[k]["label"]) for k in DISPLAY_INDICATORS])
     values = closed([c["final"] for c in classes])
     fig = go.Figure()
     fig.add_trace(go.Scatterpolar(r=values, theta=labels, fill="toself", fillcolor=cc["radar_fill"],
-                                  line=dict(color=cc["radar_line"], width=2.5), name="Risk Profile"))
+                                  line=dict(color=cc["radar_line"], width=2.5), name="Risk Profile", showlegend=False))
     fig.add_trace(go.Scatterpolar(r=values, theta=labels, mode="markers", showlegend=False,
                                   marker=dict(size=14, color=closed([c["color"] for c in classes]),
                                               line=dict(color=cc["hover"] if dark else "white", width=2))))
@@ -287,9 +275,10 @@ def class_radar(case: dict, dark: bool = True):
         polar=dict(bgcolor="rgba(255,255,255,0)",
                    radialaxis=dict(visible=True, range=[1, n], tickvals=list(range(1, n + 1)),
                                    tickfont=dict(size=11, color=cc["tick"]), gridcolor=cc["grid"], linecolor=cc["grid"]),
-                   angularaxis=dict(tickfont=dict(size=12, color=cc["angular"]), gridcolor=cc["grid"],
+                   angularaxis=dict(tickfont=dict(size=11, color=cc["angular"]), gridcolor=cc["grid"],
                                     linecolor=cc["grid"])),
-        paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", height=520, margin=dict(t=40, b=40))
+        showlegend=False, paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", height=560,
+        margin=dict(t=60, b=60, l=95, r=95))
     return fig
 
 
@@ -336,19 +325,12 @@ def genera_pdf_lfi(output_path: str, logo_path: str, case: dict, cls: dict) -> N
         res.append(["Override", f"Negative equity: class {cls['model']} from the PD moved to class {cls['final']}"])
     story.append(_table(res, [7 * cm, 9 * cm], header=False))
 
-    story.append(Paragraph("Risk drivers by area (log-odds points vs. segment average)", styles["Sezione"]))
-    rows = [["Area", "Driver", "Effect"]]
-    for a, lab in AREAS.items():
-        d = case["areas"][a]["driver"]
-        rows.append([lab, f"{d:+.2f}", driver_effect(d)])
-    story.append(_table(rows, [7 * cm, 4 * cm, 5 * cm]))
-
     story.append(Paragraph("Indicator results", styles["Sezione"]))
-    rows = [["Family", "Indicator", "Value", "Sub-index PD", "Class", "Driver"]]
+    rows = [["Family", "Indicator", "Value", "Sub-index PD", "Segment avg", "Class"]]
     for k in DISPLAY_INDICATORS:
         meta, ind = INDICATORS[k], case["indicators"][k]
         rows.append([meta["family_label"], meta["label"], fmt_value(ind["value"], meta["fmt"]),
-                     fmt_pct(ind["sub_pd"]), str(indicator_class(ind["sub_pct"])["final"]), f"{ind['driver']:+.2f}"])
+                     fmt_pct(ind["sub_pd"]), fmt_pct(ind["sub_pd_cluster_mean"]), str(indicator_class(ind["sub_pct"])["final"])])
     story.append(_table(rows, [3.4 * cm, 5 * cm, 2.3 * cm, 2.2 * cm, 1.3 * cm, 1.8 * cm]))
 
     story.append(Paragraph("Financial statements (EUR)", styles["Sezione"]))

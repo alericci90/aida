@@ -1,6 +1,16 @@
 {
  "n_applications": 57014,
  "source": "df_out_v1_runO_solocore.parquet",
+ "cluster_pd_median": {
+  "commercio_higher": 0.006357,
+  "commercio_lower": 0.036043,
+  "costruzioni": 0.029177,
+  "finance": 0.015755,
+  "industria_higher": 0.003713,
+  "industria_lower": 0.02021,
+  "rac": 0.059472,
+  "socioculturali": 0.021973
+ },
  "clusters": {
   "commercio_higher": {
    "n": 3712,

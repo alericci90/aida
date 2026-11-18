@@ -7,7 +7,7 @@ from pathlib import Path
 import numpy as np, pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from objects import LFI_CLASS_CUTS          # scala ufficiale delle classi (stessa della dashboard)
+from objects import CLUSTER_LABELS, LFI_CLASS_CUTS          # scala ufficiale delle classi (stessa della dashboard)
 
 SRC, OUT = sys.argv[1], sys.argv[2]
 CORE = ["quick_ratio_aumento_estremo_lastbil", "eta_azienda", "asset_turnover_lastbil", "tfr_su_attivo_lastbil",
@@ -40,7 +40,7 @@ FAMILY = {"quick_ratio_aumento_estremo_lastbil": "dyn_liquidity", "liquidita_su_
 RATIO_HIST = ["asset_turnover", "liquidita_su_attivo", "tfr_su_attivo", "clca", "imposte_su_utile_ante", "quick_ratio",
               "ebitda_su_attivo", "equity_ratio"]
 LAGS = ["lastbil-2", "lastbil-1", "lastbil"]
-meta = ["nuovo_sent_at_annomese", "atecoCerved_2dgt", "cl_atecoCerved_2dgt", "cl_dime", "cluster", "Tipo_Cliente",
+meta = ["fiscalCodeOrPIva", "id_bp", "atecoCerved_6dgt", "nuovo_sent_at_annomese", "atecoCerved_2dgt", "cl_atecoCerved_2dgt", "cl_dime", "cluster", "Tipo_Cliente",
         "xb", "pd_hat", "pd_cal", "pd_cal_q_lo", "pd_cal_q_hi", "classe_rischio_oss", "gamma_core",
         "intercetta_cluster", "logit_core", "n_mancanti_core", "annobil_lastbil", "annobil_lastbil-1",
         "annobil_lastbil-2", "calib_pd_cal_tutte", "cluster_n"]
@@ -62,7 +62,11 @@ df["pd_pct_cluster"] = df.groupby("cluster")["pd_cal"].rank(pct=True) * 100
 for c in CORE:      # posizione del valore grezzo nel portafoglio
     df[f"rawpct_{c}"] = df[c].rank(pct=True) * 100
 for fam in FAMILY.values():      # sottoindice di famiglia: PD del sottoscore (logit univariata sulle osservate, Cella F)
-    df[f"subpct_{fam}"] = df[f"subscore_fam_{fam}_pd"].rank(pct=True) * 100
+    # percentile di rischio = quota del portafoglio con sottoindice STRETTAMENTE piu' basso (0-100). Pratiche con lo
+    # stesso sottoindice (stesso tratto piatto dell'encoding isotonico: per il modello hanno lo stesso rischio) hanno
+    # lo stesso percentile, quindi la stessa classe.
+    s_ = df[f"subscore_fam_{fam}_pd"].round(9)
+    df[f"subpct_{fam}"] = (s_.rank(method="min") - 1) / len(s_) * 100
 for c in CORE:      # posizione del valore grezzo dentro il segmento (cluster)
     df[f"cluspct_{c}"] = df.groupby("cluster")[c].rank(pct=True) * 100
 sub_clus_mean = df.groupby("cluster")[[f"subscore_fam_{f}_pd" for f in FAMILY.values()]].mean()
@@ -83,15 +87,82 @@ PLAN = [  # (cluster, classe LFI dalla PD, filtro extra, nota): le 6 classi sono
     ("costruzioni", 3, complete & ~pn_neg, ""), ("socioculturali", 3, complete & ~pn_neg, ""),
     ("commercio_lower", 4, complete & ~pn_neg, ""), ("commercio_lower", 5, tax_missing & ~pn_neg, "missing_tax_rate"),
     ("rac", 5, complete & ~pn_neg, ""), ("costruzioni", 6, complete & ~pn_neg, "")]
+# STORICO REALE DELL'LFI. Nel campione molte aziende hanno pratiche su bilanci di anni diversi: la PD calibrata del
+# modello sui bilanci precedenti e' quella delle loro pratiche precedenti (stesso codice fiscale, ultimo bilancio =
+# quell'anno; se piu' pratiche sullo stesso bilancio, la piu' recente). Si simula solo l'anno che manca.
+H = (df.sort_values("nuovo_sent_at_annomese").groupby(["fiscalCodeOrPIva", "annobil_lastbil"])
+     .agg(pd_cal=("pd_cal", "last"), pn=(f"{ITEMS['equity']}_lastbil", "last"), **{c: (c, "last") for c in CORE}))
+H_PD, H_PN = H["pd_cal"].to_dict(), H["pn"].to_dict()
+H_IND = {c: H[c].to_dict() for c in CORE}
+IQR = (df[CORE].quantile(0.75) - df[CORE].quantile(0.25)).to_dict()
+LEVEL_LAGS = ["liquidita_su_attivo_lastbil", "tfr_su_attivo_lastbil", "asset_turnover_lastbil",
+              "imposte_su_utile_ante_lastbil", "clca_lastbil"]          # indici di livello: t-1 e t-2 sono nel parquet
+
+
+def indicator_history(r, case_rng) -> dict:
+    """Ogni indicatore del nucleo (tranne l'eta') sui tre bilanci [t-2, t-1, t], con l'origine di ogni valore:
+       model      = colonna del parquet (t; t-1 e t-2 per gli indici di livello)
+       earlier    = pratica precedente della stessa azienda su quel bilancio (valore calcolato dal modello)
+       computed   = ricalcolato dalle voci dei bilanci disponibili (quick ratio, attivo)
+       simulated  = simulato: valore di t piu' un'oscillazione proporzionale alla dispersione del portafoglio"""
+    cf, yrs = r["fiscalCodeOrPIva"], [int(r["annobil_lastbil-2"]), int(r["annobil_lastbil-1"])]
+    qr = [r["quick_ratio_lastbil-2"], r["quick_ratio_lastbil-1"]]
+    at = [r[f"{ITEMS['total_assets']}_lastbil-2"], r[f"{ITEMS['total_assets']}_lastbil-1"]]
+    out = {}
+    for c in CORE:
+        if c == "eta_azienda":
+            continue
+        k = c.replace("_lastbil", "")
+        vals, src = [], []
+        for j, lag in enumerate(("lastbil-2", "lastbil-1")):
+            v, s = None, None
+            if c in LEVEL_LAGS and pd.notna(r.get(f"{k}_{lag}")):
+                v, s = r[f"{k}_{lag}"], "model"
+            elif (cf, yrs[j]) in H_IND[c] and pd.notna(H_IND[c][(cf, yrs[j])]):
+                v, s = H_IND[c][(cf, yrs[j])], "earlier"
+            elif c == "quick_ratio_aumento_estremo_lastbil" and j == 1 and pd.notna(qr[0]) and pd.notna(qr[1]):
+                v, s = max(qr[1] - qr[0], 0.0), "computed"
+            elif c == "cagr_attivo_1y_lastbil" and j == 1 and at[0] and at[0] > 0 and pd.notna(at[1]):
+                v, s = at[1] / at[0] - 1, "computed"
+            elif pd.notna(r[c]):
+                v = r[c] + case_rng.normal(0, 0.35 * IQR[c])
+                if c in ("quick_ratio_aumento_estremo_lastbil", "vol_ricavi_3y_lastbil"):
+                    v = max(v, 0.0)
+                s = "simulated"
+            vals.append(f(v)); src.append(s)
+        out[k] = dict(values=vals + [f(r[c])], source=src + ["model"])
+    return out
+
+
+def real_history(r) -> list:
+    """[(pd, pn) o None] per t-2 e t-1 dalle pratiche precedenti della stessa azienda."""
+    out = []
+    for lag in ("annobil_lastbil-2", "annobil_lastbil-1"):
+        key = (r["fiscalCodeOrPIva"], int(r[lag]))
+        out.append((H_PD[key], H_PN[key]) if key in H_PD else None)
+    return out
+
+
+def history_classes(r) -> list:
+    h = real_history(r)
+    return [bisect_right(LFI_CLASS_CUTS, x[0]) + 1 if x else None for x in h] + [int(r["classe_lfi"])]
+
+
 picked, n_new = [], 0
 for cl, k, extra, note in PLAN:
     q = df[base & extra & (df["cluster"] == cl) & (df["classe_lfi"] == k)]
     assert len(q), (cl, k)
     if n_new >= 2 and (q["Tipo_Cliente"] == "ATTIVO").any():      # mock-up: al piu' 2 clienti nuovi (esposizione a zero)
         q = q[q["Tipo_Cliente"] == "ATTIVO"]
-    target = q["pd_cal"].median()      # pratica piu' vicina alla PD mediana del gruppo (scelta deterministica)
-    picked.append((q["pd_cal"].sub(target).abs().idxmin(), note))
-    n_new += int(df.loc[picked[-1][0], "Tipo_Cliente"] != "ATTIVO")
+    target = q["pd_cal"].median()
+    # priorita': 1) piu' anni di storico reale, 2) classi non tutte uguali sui tre anni, 3) PD vicina alla mediana
+    hc = q.apply(history_classes, axis=1)
+    rank_ = pd.DataFrame({"n_real": hc.map(lambda v: sum(x is not None for x in v[:2])),
+                          "varied": hc.map(lambda v: len({x for x in v if x is not None}) > 1),
+                          "dist": q["pd_cal"].sub(target).abs()}, index=q.index)
+    best = rank_.sort_values(["n_real", "varied", "dist"], ascending=[False, False, True]).index[0]
+    picked.append((best, note))
+    n_new += int(df.loc[best, "Tipo_Cliente"] != "ATTIVO")
 
 SECTOR = {"1": "Agriculture, Industry & Manufacturing", "2": "Construction & Real Estate",
           "3": "Trade, Tourism & Consumer Services", "4": "ICT, Finance, Insurance & Professional Services",
@@ -115,6 +186,7 @@ for n, (i, note) in enumerate(picked, 1):
                                             "RITORNO": "Returning customer"}[r["Tipo_Cliente"]],
         years=years, financials_eur=fin,
         ratio_history={k: [f(r[f"{k}_{l}"]) for l in LAGS] for k in RATIO_HIST},
+        indicator_history=indicator_history(r, np.random.default_rng(7000 + n)),
         lfi=dict(xb=f(r["xb"]), pd_model=f(r["pd_hat"]), pd=f(r["pd_cal"]), pd_low=f(r["pd_cal_q_lo"]),
                  pd_high=f(r["pd_cal_q_hi"]), model_decile=int(r["classe_rischio_oss"]),
                  cluster_pd_mean=f(r["calib_pd_cal_tutte"]), xb_cluster_mean=f(r["xb_cluster_mean"]),
@@ -138,54 +210,127 @@ for n, (i, note) in enumerate(picked, 1):
 #   2. PD dell'LFI sui due bilanci precedenti (serve il motore di scoring: qui e' ricostruita dall'andamento di
 #      liquidita', redditivita', debito a breve e patrimonio netto degli stessi bilanci)
 # ---------------------------------------------------------------------------------------------------------------
-NAMES = {"industria_higher": ["Officine Valdorba S.p.A."], "finance": ["Sistemi Arquenta S.r.l."],
-         "commercio_higher": ["Distribuzione Montelisio S.p.A."], "industria_lower": ["Lavorazioni Ferrandia S.r.l."],
+NAMES = {"industria_higher": ["Officine Valdorba S.p.A."], "finance": ["Servizi Integrati Arquenta S.r.l."],
+         "commercio_higher": ["Montelisio Express S.p.A."], "industria_lower": ["Chimica Ferrandia S.r.l."],
          "costruzioni": ["Edilizia Rovanto S.r.l.", "Costruzioni Pradalto S.p.A."],
-         "socioculturali": ["Polisportiva Tivenna S.r.l."],
+         "socioculturali": ["Centro Benessere Tivenna S.r.l."],
          "commercio_lower": ["Commerciale Brusata S.r.l.", "Emporio Orcellia S.r.l."],
          "rac": ["Autoservizi Castrivo S.r.l."]}
 PAST_DUE_SHARE = {1: (0.0, 0.0), 2: (0.0, 0.0), 3: (0.0, 0.01), 4: (0.02, 0.05), 5: (0.06, 0.12), 6: (0.15, 0.30)}
+PAST_DUE_BAND = {1: "No past due", 2: "No past due", 3: "1-30 days", 4: "1-30 days", 5: "31-60 days", 6: "61-90 days"}
 Path(OUT).parent.joinpath("payline").mkdir(exist_ok=True)
+
+
+def add_months(ym: str, k: int, day: int = 1) -> str:
+    """'AAAA-MM' + k mesi -> 'AAAA-MM-GG'."""
+    y, m = (int(x) for x in ym.split("-"))
+    t_ = y * 12 + (m - 1) + k
+    return f"{t_ // 12}-{t_ % 12 + 1:02d}-{day:02d}"
+
+
 used = {}
 for n, c in enumerate(cases, 1):
     rng = np.random.default_rng(2026 + n)
     k = used.get(c["cluster"], 0); used[c["cluster"]] = k + 1
     name = NAMES[c["cluster"]][k]
-    # partita IVA finta: codice ufficio 999 (inesistente), cosi' non puo' coincidere con una vera
+    # partita IVA finta (codice ufficio 999, inesistente); id_bp e codice ATECO sono quelli reali del parquet
     tax = f"{int(rng.integers(1000000, 9999999)):07d}999{int(rng.integers(0, 10))}"
-    cl = bisect_right(LFI_CLASS_CUTS, c["lfi"]["pd"]) + 1
+    row_ = df.loc[picked[n - 1][0]]
+    id_bp = str(int(row_["id_bp"])) if pd.notna(row_["id_bp"]) else None          # id_bp REALE (dal parquet)
+    a6 = str(row_["atecoCerved_6dgt"]).replace(".0", "").zfill(6)
+    ateco = f"{a6[:2]}.{a6[2:4]}.{a6[4:]}"                                         # ATECO REALE (Cerved, 6 cifre)
+    cl = 6 if c["lfi"]["negative_equity"] else bisect_right(LFI_CLASS_CUTS, c["lfi"]["pd"]) + 1   # classe finale
     rev = c["financials_eur"]["revenue"][-1]
-    if c["customer_type"] != "Active customer":      # nuovo o di ritorno: nessun contratto in essere
-        n_contr, rental, rmkt, leasing = 0, 0.0, 0.0, 0.0
-    else:
-        n_contr = int(np.clip(round(rev / 450_000 * rng.uniform(0.7, 1.4)), 1, 60))
-        rental = round(n_contr * rng.uniform(16_000, 27_000), 2)
-        rmkt = round(rental * rng.uniform(0.0, 0.06), 2) if rng.random() < 0.4 else 0.0
-        leasing = round(rental * rng.uniform(0.10, 0.30), 2) if rng.random() < 0.3 else 0.0
+    sm = c["scoring_month"]
+    kind = c["customer_type"]
+    day = lambda: int(rng.integers(1, 28))
+    age_m = int((c["indicators"]["eta_azienda"]["value"] or 30) * 12)          # mesi di attivita' dell'azienda
+    back = lambda lo_, hi_: int(rng.integers(min(lo_, max(age_m - 2, 1)), max(min(hi_, age_m - 1), 2)))   # cliente da: dopo l'avvio
+    # --- nuova richiesta in valutazione (ogni caso e' una pratica) ---
+    n_contr = 0 if kind != "Active customer" else int(np.clip(round(rev / 450_000 * rng.uniform(0.7, 1.4)), 1, 60))
+    req = int(np.clip(round((n_contr or rev / 900_000) * rng.uniform(0.15, 0.45)), 1, 25))
+    fee_new = round(req * rng.uniform(520, 760), -1)
+    under_review = round(req * rng.uniform(28_000, 38_000), -3)
+    # --- rapporto e flotta ---
+    if kind == "Active customer":
+        since = add_months(sm, -back(24, 144), day())
+        outstanding = round(n_contr * rng.uniform(16_000, 27_000), 0)
+        granted = round(outstanding * rng.uniform(1.15, 1.6), -4)
+        status = ("Active" if cl <= 4 else "Active · under monitoring" if cl == 5 else "Suspended")
+        expiry = add_months(sm, int(rng.integers(2, 14)), day())
+        monthly_cur = round(n_contr * rng.uniform(480, 720), -1)
+        pipeline = int(rng.integers(0, max(2, round(n_contr * 0.15)) + 1)) if cl <= 4 else 0
+    elif kind == "Returning customer":
+        since = add_months(sm, -back(60, 140), day())
+        outstanding, monthly_cur, pipeline = 0.0, 0.0, 0
+        granted = round(under_review * rng.uniform(0.6, 1.2), -4)
+        status = "Expired"
+        expiry = add_months(sm, -int(rng.integers(14, 40)), day())
+    else:                                                       # nuovo cliente
+        since, expiry, status = None, None, "Not yet granted (first application)"
+        outstanding, granted, monthly_cur, pipeline = 0.0, 0.0, 0.0, 0
     lo, hi = PAST_DUE_SHARE[cl]
-    fees_pd = round(rental * rng.uniform(lo, hi), 2)
+    fees_pd = round(outstanding * rng.uniform(lo, hi), 0)
     fees_pd = fees_pd if fees_pd >= 250 else 0.0
-    extra_pd = round(fees_pd * rng.uniform(0.04, 0.12), 2)
-    pay = {"_simulated": True, "Name": name, "TaxCode": tax, "Active Contracts": n_contr,
-           "Outstanding": {"Overall Oustanding": round(rental + rmkt + leasing, 2),
-                           "Rental and Remarketing Total": round(rental + rmkt, 2), "Rental": rental,
-                           "Remarketing": rmkt, "Retail and Leasing Total": leasing, "Retail": 0, "Leasing": leasing},
-           "Scaduto": {"Overall Past-due": round(fees_pd + extra_pd, 2), "Rental fees Past-due": fees_pd,
-                       "Rental extra-fees Past-due": extra_pd}}
+    extra_pd = round(fees_pd * rng.uniform(0.04, 0.12), 0) if fees_pd else 0.0
+    band = PAST_DUE_BAND[cl] if fees_pd else "No past due"
+    tax_loss = round(rng.uniform(2_000, 15_000), -2) if (n_contr and cl == 6) else 0.0
+    deposit = round(monthly_cur * rng.uniform(1, 3), -2) if (n_contr and cl >= 4) else 0.0
+    rej_year = int(sm[:4]) - int(rng.integers(1, 3))
+    rejections = (f"Yes · 1 application rejected ({rej_year})" if cl >= 5 or (kind != "Active customer" and cl >= 3)
+                  else "No")
+    guarantees = ("Personal guarantee of the managing director (application of " + str(rej_year) + ")"
+                  if cl >= 4 and kind != "New customer" else "None")
+    if band in ("31-60 days", "61-90 days"):
+        inst = int(rng.integers(4, 10))
+        repay = f"Active · {inst} monthly instalments of € {round(fees_pd / inst, -1):,.0f} remaining"
+    else:
+        repay = "None"
+    claims_n = int(rng.poisson(n_contr * 0.12)) if n_contr else 0
+    total_loss = int(claims_n >= 3 and rng.random() < 0.5)
+    claims = ("None" if not claims_n else f"{claims_n} claim{'s' if claims_n > 1 else ''} in the last 24 months"
+              + (f" · {total_loss} total loss" if total_loss else ""))
+    ft = int(round(n_contr * rng.uniform(0.3, 0.9))) if n_contr else 0
+    maint = int(round(n_contr * rng.uniform(0.2, 0.7))) if n_contr else 0
+    services = ("None" if not (ft or maint) else f"{ft} with fire & theft / road tax · {maint} with maintenance & tyres")
+    bb = int(round(n_contr * rng.uniform(0.1, 0.4))) if (n_contr and rng.random() < 0.6) else 0
+    buyback = f"{bb} vehicle{'s' if bb > 1 else ''} (Stellantis brands)" if bb else "None"
+    pay = {"_simulated": True,
+           "company": {"name": name, "tax_code": tax, "id_bp": id_bp, "ateco": ateco,
+                       "cluster": CLUSTER_LABELS.get(c["cluster"], c["cluster"])},
+           "relationship": {"customer_since": since, "plafond_status": status, "plafond_expiry": expiry,
+                            "outstanding": outstanding, "plafond_granted": granted,
+                            "plafond_under_review": under_review, "past_due_band": band,
+                            "past_due_fees": fees_pd, "past_due_extra_fees": extra_pd, "tax_loss": tax_loss,
+                            "security_deposit": deposit, "previous_rejections": rejections,
+                            "guarantees": guarantees, "repayment_plans": repay},
+           "fleet": {"active_contracts": n_contr, "pipeline_vehicles": pipeline,
+                     "monthly_commitment": (f"€ {monthly_cur:,.0f} current + € {fee_new:,.0f} new request "
+                                            f"({req} vehicle{'s' if req > 1 else ''}) = € {monthly_cur + fee_new:,.0f}"),
+                     "monthly_current": monthly_cur, "monthly_new": fee_new,
+                     "claims": claims, "services": services, "buyback": buyback}}
     json.dump(pay, open(Path(OUT).parent / "payline" / f"{c['case_id']}.json", "w"), indent=2)
+    c["customer"] = pay          # stessi dati anche dentro cases.json: per il mock-up basta un solo file di dati
     c["name"] = name
-    # PD sui bilanci precedenti: PD_t * exp(-delta), delta = peggioramento (+) o miglioramento (-) da allora
-    rh, hist = c["ratio_history"], []
-    for j in (0, 1):
+    # PD sui bilanci precedenti: REALE (pratica precedente della stessa azienda) se c'e', altrimenti SIMULATA come
+    # PD_t * exp(-delta), delta = peggioramento (+) o miglioramento (-) di liquidita', redditivita', debito a breve e
+    # patrimonio netto da quell'anno
+    rh, hist, src, neg = c["ratio_history"], [], [], []
+    for j, real in enumerate(real_history(df.loc[picked[n - 1][0]])):
+        if real is not None:
+            hist.append(f(real[0])); src.append("model"); neg.append(bool(real[1] < 0))
+            continue
         d = lambda key: (rh[key][2] or 0.0) - (rh[key][j] if rh[key][j] is not None else (rh[key][2] or 0.0))
         delta = float(np.clip(-3.0 * d("liquidita_su_attivo") - 2.0 * d("ebitda_su_attivo") + 1.0 * d("clca")
                               - 1.5 * d("equity_ratio"), -0.7, 0.7))
-        hist.append(f(c["lfi"]["pd"] * np.exp(-delta)))
-    c["lfi_history"] = dict(simulated=True, years=c["years"], pd=hist + [c["lfi"]["pd"]],
-                            negative_equity=[bool(v < 0) for v in c["financials_eur"]["equity"]])
+        hist.append(f(c["lfi"]["pd"] * np.exp(-delta))); src.append("simulated")
+        neg.append(bool(c["financials_eur"]["equity"][j] < 0))
+    c["lfi_history"] = dict(years=c["years"], pd=hist + [c["lfi"]["pd"]], source=src + ["model"],
+                            negative_equity=neg + [c["lfi"]["negative_equity"]])
 
 portfolio = dict(
     n_applications=int(len(df)), source="df_out_v1_runO_solocore.parquet",
+    cluster_pd_median={k: f(v) for k, v in df.groupby("cluster")["pd_cal"].median().items()},   # retta del trend LFI
     clusters={k: dict(n=int(v["cluster_n"]), pd_mean=f(v["calib_pd_cal_tutte"]), gamma=f(v["gamma_core"]),
                       intercept=f(v["intercetta_cluster"]))
               for k, v in df.groupby("cluster")[["cluster_n", "calib_pd_cal_tutte", "gamma_core", "intercetta_cluster"]].first().iterrows()},

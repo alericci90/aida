@@ -207,6 +207,8 @@ CUSTOMER_FIELDS = [
     ("Company details", "name", "Company name", "text"),
     ("Company details", "tax_code", "Tax code", "text"),
     ("Company details", "id_bp", "Business partner ID (id_bp)", "text"),
+    ("Company details", "ateco", "ATECO code", "text"),
+    ("Company details", "cluster", "Assigned cluster", "text"),
     ("Relationship with Leasys", "customer_since", "Customer since", "date"),
     ("Relationship with Leasys", "plafond_status", "Credit line (plafond) status", "text"),
     ("Relationship with Leasys", "plafond_expiry", "Last plafond expiry", "date"),

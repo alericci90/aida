@@ -476,15 +476,17 @@
    "company": {
     "name": "Officine Valdorba S.p.A.",
     "tax_code": "66897399990",
-    "id_bp": "SIM2336456"
+    "id_bp": "4203335",
+    "ateco": "29.32.09",
+    "cluster": "Agriculture, Industry & Manufacturing \u00b7 revenue above EUR 5M"
    },
    "relationship": {
-    "customer_since": "2020-01-18",
+    "customer_since": "2017-07-20",
     "plafond_status": "Active",
-    "plafond_expiry": "2025-09-03",
-    "outstanding": 274007.0,
-    "plafond_granted": 380000.0,
-    "plafond_under_review": 140000.0,
+    "plafond_expiry": "2025-12-16",
+    "outstanding": 289135.0,
+    "plafond_granted": 410000.0,
+    "plafond_under_review": 97000.0,
     "past_due_band": "No past due",
     "past_due_fees": 0.0,
     "past_due_extra_fees": 0.0,
@@ -495,13 +497,13 @@
     "repayment_plans": "None"
    },
    "fleet": {
-    "active_contracts": 12,
-    "pipeline_vehicles": 0,
-    "monthly_commitment": "\u20ac 5,790 current + \u20ac 2,510 new request (4 vehicles) = \u20ac 8,300",
-    "monthly_current": 5790.0,
-    "monthly_new": 2510.0,
-    "claims": "None",
-    "services": "11 with fire & theft / road tax \u00b7 7 with maintenance & tyres",
+    "active_contracts": 15,
+    "pipeline_vehicles": 2,
+    "monthly_commitment": "\u20ac 7,520 current + \u20ac 1,920 new request (3 vehicles) = \u20ac 9,440",
+    "monthly_current": 7520.0,
+    "monthly_new": 1920.0,
+    "claims": "1 claim in the last 24 months",
+    "services": "13 with fire & theft / road tax \u00b7 9 with maintenance & tyres",
     "buyback": "None"
    }
   },
@@ -1004,17 +1006,19 @@
   "customer": {
    "_simulated": true,
    "company": {
-    "name": "Sistemi Arquenta S.r.l.",
+    "name": "Servizi Integrati Arquenta S.r.l.",
     "tax_code": "60887599993",
-    "id_bp": "SIM4212493"
+    "id_bp": "4399617",
+    "ateco": "81.20.00",
+    "cluster": "ICT, Finance, Insurance & Professional Services"
    },
    "relationship": {
-    "customer_since": "2016-08-12",
+    "customer_since": "2019-06-11",
     "plafond_status": "Active",
-    "plafond_expiry": "2025-06-07",
-    "outstanding": 191365.0,
-    "plafond_granted": 250000.0,
-    "plafond_under_review": 128000.0,
+    "plafond_expiry": "2025-08-11",
+    "outstanding": 200978.0,
+    "plafond_granted": 270000.0,
+    "plafond_under_review": 109000.0,
     "past_due_band": "No past due",
     "past_due_fees": 0.0,
     "past_due_extra_fees": 0.0,
@@ -1025,17 +1029,17 @@
     "repayment_plans": "None"
    },
    "fleet": {
-    "active_contracts": 9,
-    "pipeline_vehicles": 0,
-    "monthly_commitment": "\u20ac 4,350 current + \u20ac 2,890 new request (4 vehicles) = \u20ac 7,240",
-    "monthly_current": 4350.0,
-    "monthly_new": 2890.0,
+    "active_contracts": 8,
+    "pipeline_vehicles": 1,
+    "monthly_commitment": "\u20ac 3,980 current + \u20ac 2,270 new request (3 vehicles) = \u20ac 6,250",
+    "monthly_current": 3980.0,
+    "monthly_new": 2270.0,
     "claims": "2 claims in the last 24 months",
-    "services": "4 with fire & theft / road tax \u00b7 3 with maintenance & tyres",
-    "buyback": "3 vehicles (Stellantis brands)"
+    "services": "3 with fire & theft / road tax \u00b7 3 with maintenance & tyres",
+    "buyback": "1 vehicle (Stellantis brands)"
    }
   },
-  "name": "Sistemi Arquenta S.r.l.",
+  "name": "Servizi Integrati Arquenta S.r.l.",
   "lfi_history": {
    "years": [
     2021,
@@ -1534,17 +1538,19 @@
   "customer": {
    "_simulated": true,
    "company": {
-    "name": "Distribuzione Montelisio S.p.A.",
+    "name": "Montelisio Express S.p.A.",
     "tax_code": "35261899997",
-    "id_bp": "SIM3495616"
+    "id_bp": "5716192",
+    "ateco": "53.20.00",
+    "cluster": "Trade, Tourism & Consumer Services \u00b7 revenue above EUR 5M"
    },
    "relationship": {
-    "customer_since": "2022-12-16",
+    "customer_since": "2019-09-08",
     "plafond_status": "Active",
-    "plafond_expiry": "2025-10-23",
-    "outstanding": 485363.0,
-    "plafond_granted": 680000.0,
-    "plafond_under_review": 308000.0,
+    "plafond_expiry": "2025-09-15",
+    "outstanding": 391185.0,
+    "plafond_granted": 490000.0,
+    "plafond_under_review": 166000.0,
     "past_due_band": "No past due",
     "past_due_fees": 0.0,
     "past_due_extra_fees": 0.0,
@@ -1555,17 +1561,17 @@
     "repayment_plans": "None"
    },
    "fleet": {
-    "active_contracts": 26,
-    "pipeline_vehicles": 2,
-    "monthly_commitment": "\u20ac 12,970 current + \u20ac 6,440 new request (10 vehicles) = \u20ac 19,410",
-    "monthly_current": 12970.0,
-    "monthly_new": 6440.0,
+    "active_contracts": 19,
+    "pipeline_vehicles": 0,
+    "monthly_commitment": "\u20ac 11,140 current + \u20ac 3,500 new request (5 vehicles) = \u20ac 14,640",
+    "monthly_current": 11140.0,
+    "monthly_new": 3500.0,
     "claims": "1 claim in the last 24 months",
-    "services": "10 with fire & theft / road tax \u00b7 14 with maintenance & tyres",
+    "services": "6 with fire & theft / road tax \u00b7 5 with maintenance & tyres",
     "buyback": "None"
    }
   },
-  "name": "Distribuzione Montelisio S.p.A.",
+  "name": "Montelisio Express S.p.A.",
   "lfi_history": {
    "years": [
     2021,
@@ -2064,17 +2070,19 @@
   "customer": {
    "_simulated": true,
    "company": {
-    "name": "Lavorazioni Ferrandia S.r.l.",
+    "name": "Chimica Ferrandia S.r.l.",
     "tax_code": "15471829993",
-    "id_bp": "SIM1546329"
+    "id_bp": "4942573",
+    "ateco": "20.51.02",
+    "cluster": "Agriculture, Industry & Manufacturing \u00b7 revenue below EUR 5M"
    },
    "relationship": {
-    "customer_since": "2015-04-21",
+    "customer_since": "2017-10-05",
     "plafond_status": "Expired",
-    "plafond_expiry": "2023-08-02",
+    "plafond_expiry": "2024-01-07",
     "outstanding": 0.0,
-    "plafond_granted": 20000.0,
-    "plafond_under_review": 30000.0,
+    "plafond_granted": 30000.0,
+    "plafond_under_review": 32000.0,
     "past_due_band": "No past due",
     "past_due_fees": 0.0,
     "past_due_extra_fees": 0.0,
@@ -2087,15 +2095,15 @@
    "fleet": {
     "active_contracts": 0,
     "pipeline_vehicles": 0,
-    "monthly_commitment": "\u20ac 0 current + \u20ac 610 new request (1 vehicle) = \u20ac 610",
+    "monthly_commitment": "\u20ac 0 current + \u20ac 720 new request (1 vehicle) = \u20ac 720",
     "monthly_current": 0.0,
-    "monthly_new": 610.0,
+    "monthly_new": 720.0,
     "claims": "None",
     "services": "None",
     "buyback": "None"
    }
   },
-  "name": "Lavorazioni Ferrandia S.r.l.",
+  "name": "Chimica Ferrandia S.r.l.",
   "lfi_history": {
    "years": [
     2021,
@@ -2596,18 +2604,20 @@
    "company": {
     "name": "Edilizia Rovanto S.r.l.",
     "tax_code": "64144829993",
-    "id_bp": "SIM3843837"
+    "id_bp": "4752283",
+    "ateco": "41.20.00",
+    "cluster": "Construction & Real Estate"
    },
    "relationship": {
-    "customer_since": "2018-08-24",
+    "customer_since": "2017-10-21",
     "plafond_status": "Active",
-    "plafond_expiry": "2026-10-23",
-    "outstanding": 1417213.0,
-    "plafond_granted": 1850000.0,
-    "plafond_under_review": 750000.0,
+    "plafond_expiry": "2026-11-10",
+    "outstanding": 1532327.0,
+    "plafond_granted": 2240000.0,
+    "plafond_under_review": 825000.0,
     "past_due_band": "1-30 days",
-    "past_due_fees": 9826.0,
-    "past_due_extra_fees": 533.0,
+    "past_due_fees": 10624.0,
+    "past_due_extra_fees": 577.0,
     "tax_loss": 0.0,
     "security_deposit": 0.0,
     "previous_rejections": "No",
@@ -2616,11 +2626,11 @@
    },
    "fleet": {
     "active_contracts": 60,
-    "pipeline_vehicles": 2,
-    "monthly_commitment": "\u20ac 40,300 current + \u20ac 13,440 new request (21 vehicles) = \u20ac 53,740",
-    "monthly_current": 40300.0,
-    "monthly_new": 13440.0,
-    "claims": "4 claims in the last 24 months",
+    "pipeline_vehicles": 7,
+    "monthly_commitment": "\u20ac 32,390 current + \u20ac 16,890 new request (25 vehicles) = \u20ac 49,280",
+    "monthly_current": 32390.0,
+    "monthly_new": 16890.0,
+    "claims": "5 claims in the last 24 months",
     "services": "31 with fire & theft / road tax \u00b7 16 with maintenance & tyres",
     "buyback": "24 vehicles (Stellantis brands)"
    }
@@ -3124,20 +3134,22 @@
   "customer": {
    "_simulated": true,
    "company": {
-    "name": "Polisportiva Tivenna S.r.l.",
+    "name": "Centro Benessere Tivenna S.r.l.",
     "tax_code": "44253439995",
-    "id_bp": "SIM9788777"
+    "id_bp": "4715690",
+    "ateco": "96.02.02",
+    "cluster": "Social, Cultural & Recreational Services"
    },
    "relationship": {
-    "customer_since": "2019-04-19",
+    "customer_since": "2019-09-07",
     "plafond_status": "Active",
-    "plafond_expiry": "2025-07-09",
-    "outstanding": 328546.0,
-    "plafond_granted": 390000.0,
-    "plafond_under_review": 182000.0,
+    "plafond_expiry": "2026-03-03",
+    "outstanding": 279111.0,
+    "plafond_granted": 410000.0,
+    "plafond_under_review": 117000.0,
     "past_due_band": "1-30 days",
-    "past_due_fees": 2018.0,
-    "past_due_extra_fees": 94.0,
+    "past_due_fees": 1714.0,
+    "past_due_extra_fees": 80.0,
     "tax_loss": 0.0,
     "security_deposit": 0.0,
     "previous_rejections": "No",
@@ -3145,17 +3157,17 @@
     "repayment_plans": "None"
    },
    "fleet": {
-    "active_contracts": 14,
-    "pipeline_vehicles": 2,
-    "monthly_commitment": "\u20ac 9,400 current + \u20ac 3,300 new request (6 vehicles) = \u20ac 12,700",
-    "monthly_current": 9400.0,
-    "monthly_new": 3300.0,
-    "claims": "1 claim in the last 24 months",
-    "services": "5 with fire & theft / road tax \u00b7 10 with maintenance & tyres",
+    "active_contracts": 16,
+    "pipeline_vehicles": 0,
+    "monthly_commitment": "\u20ac 10,690 current + \u20ac 3,030 new request (4 vehicles) = \u20ac 13,720",
+    "monthly_current": 10690.0,
+    "monthly_new": 3030.0,
+    "claims": "2 claims in the last 24 months",
+    "services": "6 with fire & theft / road tax \u00b7 11 with maintenance & tyres",
     "buyback": "3 vehicles (Stellantis brands)"
    }
   },
-  "name": "Polisportiva Tivenna S.r.l.",
+  "name": "Centro Benessere Tivenna S.r.l.",
   "lfi_history": {
    "years": [
     2021,
@@ -3656,7 +3668,9 @@
    "company": {
     "name": "Commerciale Brusata S.r.l.",
     "tax_code": "91358759990",
-    "id_bp": "SIM2239500"
+    "id_bp": "4605322",
+    "ateco": "45.11.01",
+    "cluster": "Trade, Tourism & Consumer Services \u00b7 revenue below EUR 5M"
    },
    "relationship": {
     "customer_since": null,
@@ -3664,13 +3678,13 @@
     "plafond_expiry": null,
     "outstanding": 0.0,
     "plafond_granted": 0.0,
-    "plafond_under_review": 37000.0,
+    "plafond_under_review": 34000.0,
     "past_due_band": "No past due",
     "past_due_fees": 0.0,
     "past_due_extra_fees": 0.0,
     "tax_loss": 0.0,
     "security_deposit": 0.0,
-    "previous_rejections": "Yes \u00b7 1 application rejected (2023)",
+    "previous_rejections": "Yes \u00b7 1 application rejected (2024)",
     "guarantees": "None",
     "repayment_plans": "None"
    },
@@ -4186,32 +4200,34 @@
    "company": {
     "name": "Emporio Orcellia S.r.l.",
     "tax_code": "51460169990",
-    "id_bp": "SIM3914210"
+    "id_bp": "5034219",
+    "ateco": "46.44.30",
+    "cluster": "Trade, Tourism & Consumer Services \u00b7 revenue below EUR 5M"
    },
    "relationship": {
-    "customer_since": "2018-06-14",
+    "customer_since": "2017-05-21",
     "plafond_status": "Active \u00b7 under monitoring",
-    "plafond_expiry": "2026-01-05",
-    "outstanding": 40152.0,
-    "plafond_granted": 50000.0,
-    "plafond_under_review": 35000.0,
+    "plafond_expiry": "2025-02-12",
+    "outstanding": 53783.0,
+    "plafond_granted": 70000.0,
+    "plafond_under_review": 29000.0,
     "past_due_band": "31-60 days",
-    "past_due_fees": 3455.0,
-    "past_due_extra_fees": 288.0,
+    "past_due_fees": 5252.0,
+    "past_due_extra_fees": 392.0,
     "tax_loss": 0.0,
-    "security_deposit": 2100.0,
-    "previous_rejections": "Yes \u00b7 1 application rejected (2022)",
-    "guarantees": "Personal guarantee of the managing director (application of 2022)",
-    "repayment_plans": "Active \u00b7 8 monthly instalments of \u20ac 430 remaining"
+    "security_deposit": 2600.0,
+    "previous_rejections": "Yes \u00b7 1 application rejected (2023)",
+    "guarantees": "Personal guarantee of the managing director (application of 2023)",
+    "repayment_plans": "Active \u00b7 6 monthly instalments of \u20ac 880 remaining"
    },
    "fleet": {
     "active_contracts": 2,
     "pipeline_vehicles": 0,
-    "monthly_commitment": "\u20ac 1,260 current + \u20ac 530 new request (1 vehicle) = \u20ac 1,790",
-    "monthly_current": 1260.0,
-    "monthly_new": 530.0,
+    "monthly_commitment": "\u20ac 1,240 current + \u20ac 520 new request (1 vehicle) = \u20ac 1,760",
+    "monthly_current": 1240.0,
+    "monthly_new": 520.0,
     "claims": "None",
-    "services": "2 with fire & theft / road tax \u00b7 1 with maintenance & tyres",
+    "services": "1 with fire & theft / road tax \u00b7 1 with maintenance & tyres",
     "buyback": "None"
    }
   },
@@ -4716,31 +4732,33 @@
    "company": {
     "name": "Autoservizi Castrivo S.r.l.",
     "tax_code": "37266469991",
-    "id_bp": "SIM3818504"
+    "id_bp": "4210035",
+    "ateco": "49.40.00",
+    "cluster": "Rental & Transport"
    },
    "relationship": {
-    "customer_since": "2015-09-02",
+    "customer_since": "2016-08-13",
     "plafond_status": "Active \u00b7 under monitoring",
-    "plafond_expiry": "2026-06-12",
-    "outstanding": 132078.0,
-    "plafond_granted": 160000.0,
-    "plafond_under_review": 33000.0,
+    "plafond_expiry": "2026-03-05",
+    "outstanding": 131673.0,
+    "plafond_granted": 180000.0,
+    "plafond_under_review": 70000.0,
     "past_due_band": "31-60 days",
-    "past_due_fees": 14261.0,
-    "past_due_extra_fees": 1487.0,
+    "past_due_fees": 11933.0,
+    "past_due_extra_fees": 1241.0,
     "tax_loss": 0.0,
-    "security_deposit": 9200.0,
-    "previous_rejections": "Yes \u00b7 1 application rejected (2023)",
-    "guarantees": "Personal guarantee of the managing director (application of 2023)",
-    "repayment_plans": "Active \u00b7 8 monthly instalments of \u20ac 1,780 remaining"
+    "security_deposit": 10700.0,
+    "previous_rejections": "Yes \u00b7 1 application rejected (2024)",
+    "guarantees": "Personal guarantee of the managing director (application of 2024)",
+    "repayment_plans": "Active \u00b7 8 monthly instalments of \u20ac 1,490 remaining"
    },
    "fleet": {
     "active_contracts": 6,
     "pipeline_vehicles": 0,
-    "monthly_commitment": "\u20ac 3,620 current + \u20ac 680 new request (1 vehicle) = \u20ac 4,300",
-    "monthly_current": 3620.0,
-    "monthly_new": 680.0,
-    "claims": "1 claim in the last 24 months",
+    "monthly_commitment": "\u20ac 4,120 current + \u20ac 1,070 new request (2 vehicles) = \u20ac 5,190",
+    "monthly_current": 4120.0,
+    "monthly_new": 1070.0,
+    "claims": "2 claims in the last 24 months",
     "services": "5 with fire & theft / road tax \u00b7 3 with maintenance & tyres",
     "buyback": "None"
    }
@@ -5246,15 +5264,17 @@
    "company": {
     "name": "Costruzioni Pradalto S.p.A.",
     "tax_code": "26213759999",
-    "id_bp": "SIM4979859"
+    "id_bp": "5489539",
+    "ateco": "43.99.09",
+    "cluster": "Construction & Real Estate"
    },
    "relationship": {
-    "customer_since": "2023-12-11",
+    "customer_since": "2023-12-13",
     "plafond_status": "Suspended",
-    "plafond_expiry": "2026-03-10",
+    "plafond_expiry": "2026-05-20",
     "outstanding": 17650.0,
     "plafond_granted": 30000.0,
-    "plafond_under_review": 37000.0,
+    "plafond_under_review": 33000.0,
     "past_due_band": "61-90 days",
     "past_due_fees": 3605.0,
     "past_due_extra_fees": 327.0,
@@ -5262,14 +5282,14 @@
     "security_deposit": 1400.0,
     "previous_rejections": "Yes \u00b7 1 application rejected (2024)",
     "guarantees": "Personal guarantee of the managing director (application of 2024)",
-    "repayment_plans": "Active \u00b7 8 monthly instalments of \u20ac 450 remaining"
+    "repayment_plans": "Active \u00b7 5 monthly instalments of \u20ac 720 remaining"
    },
    "fleet": {
     "active_contracts": 1,
     "pipeline_vehicles": 0,
-    "monthly_commitment": "\u20ac 580 current + \u20ac 630 new request (1 vehicle) = \u20ac 1,210",
+    "monthly_commitment": "\u20ac 580 current + \u20ac 590 new request (1 vehicle) = \u20ac 1,170",
     "monthly_current": 580.0,
-    "monthly_new": 630.0,
+    "monthly_new": 590.0,
     "claims": "None",
     "services": "1 with fire & theft / road tax \u00b7 0 with maintenance & tyres",
     "buyback": "None"

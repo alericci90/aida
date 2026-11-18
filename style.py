@@ -516,6 +516,18 @@ _LFI_CSS = r"""
   background:var(--line2,rgba(159,178,214,.25)); overflow:hidden; margin-right:.5rem; }
 .lfi-subtable td.bar .fill{ height:100%; border-radius:5px; }
 .lfi-subtable td.bar span{ font-family:'JetBrains Mono',monospace; font-size:.74rem; color:var(--mute,#52617e); }
+.lfi-pill{ display:inline-block; color:#fff; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:.78rem;
+  padding:.18rem .6rem; border-radius:7px; min-width:1.6rem; text-align:center; }
+.lfi-subtable td{ padding:.45rem .7rem; }
+.lfi-subtable td .ind{ font-family:'JetBrains Mono',monospace; font-size:.64rem; color:var(--mute,#52617e); margin-top:.15rem; }
+.lfi-subtable td.dim{ color:var(--mute,#52617e); }
+.lfi-subtable td.bar{ width:30%; white-space:nowrap; }
+.lfi-subtable td.bar .track{ position:relative; display:inline-block; vertical-align:middle; width:74%; height:8px;
+  border-radius:5px; background:rgba(159,178,214,.22); margin-right:.5rem; }
+.lfi-subtable td.bar .cut{ position:absolute; top:-3px; width:1px; height:14px; background:var(--mute,#52617e); opacity:.7; }
+.lfi-subtable td.bar .mark{ position:absolute; top:-4px; width:12px; height:16px; margin-left:-6px; border-radius:4px;
+  box-shadow:0 0 0 2px var(--panel,#0F1729); }
+.lfi-subtable td.bar span{ font-family:'JetBrains Mono',monospace; font-size:.74rem; color:var(--mute,#52617e); }
 """
 
 
