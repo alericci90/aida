@@ -5,7 +5,7 @@ Dashboard Streamlit di presentazione: risultato del modello LFI (Run O, nucleo f
     pip install -r requirements.txt
     streamlit run app.py
 
-Per l'AI Analyst servono `AZURE_OPENAI_ENDPOINT`, `AZURE_OPENAI_API_KEY`, `AZURE_OPENAI_API_VERSION` (variabili d'ambiente o secrets di Streamlit). Senza credenziali la dashboard funziona e l'AI Analyst mostra un avviso.
+Per l'AI Analyst servono `AZURE_OPENAI_ENDPOINT`, `AZURE_OPENAI_API_KEY`, `AZURE_OPENAI_API_VERSION`. `new_azure_llm.py` li cerca, nell'ordine, in: variabili d'ambiente, `st.secrets`, `.streamlit/secrets.toml` nella cartella dell'app, nelle cartelle superiori, nella cartella di lancio e nella home. Basta quindi il `secrets.toml` che usi gia' per la versione precedente, anche se sta in un'altra cartella del progetto. Senza credenziali la dashboard funziona e l'AI Analyst mostra quale chiave manca.
 
 | File | Contenuto |
 |---|---|

@@ -17,6 +17,7 @@
 #  Entry" restano nel menu ma non calcolano.
 # ============================================================================
 import tempfile
+from pathlib import Path
 
 import streamlit as st
 
@@ -31,6 +32,7 @@ from objects import (BAND_DESCRIPTIONS, CLUSTER_LABELS, CUSTOMER_FIELDS, DISPLAY
 from style import inject_lfi_css, inject_theme, kpi_card, section_header
 
 # %% dashboard
+APP_DIR = Path(__file__).resolve().parent     # immagini lette dalla cartella dell'app, da qualunque cartella si lanci
 # CONFIG
 st.set_page_config(page_title="Financial Index Dashboard", layout="wide")
 
@@ -61,7 +63,7 @@ def _portfolio() -> dict:
 
 # HEADER
 st.markdown('<div class="center-logo">', unsafe_allow_html=True)
-st.image("logo_nuovo.png", width="content")
+st.image(str(APP_DIR / "logo_nuovo.png"), width="content")
 st.markdown('</div>', unsafe_allow_html=True)
 
 st.markdown(
@@ -283,7 +285,7 @@ if st.session_state.submitted and st.session_state.selected_company in cases:
     # ----- AI ANALYST -----
     col_logo_2, col_title_2 = st.columns([2, 4])
     with col_logo_2:
-        st.image("aida.png", width="stretch")
+        st.image(str(APP_DIR / "aida.png"), width="stretch")
 
     lfi_ai_component(case, cls, None, customer)
 
@@ -294,7 +296,7 @@ if st.session_state.submitted and st.session_state.selected_company in cases:
 
     if st.button("⬇️ Download Leasys PDF"):
         with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
-            genera_pdf_lfi(output_path=tmp.name, logo_path="logo_nuovo.png", case=case, cls=cls)
+            genera_pdf_lfi(output_path=tmp.name, logo_path=str(APP_DIR / "logo_nuovo.png"), case=case, cls=cls)
             with open(tmp.name, "rb") as f:
                 st.download_button("📥 Download PDF", f.read(), file_name="Scoring_Integrato_Leasys.pdf",
                                    mime="application/pdf")

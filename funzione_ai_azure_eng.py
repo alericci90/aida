@@ -274,7 +274,7 @@ def lfi_ai_component(case: dict, cls: dict, proposal: dict | None = None, custom
                     st.rerun()
                 except Exception as e:          # credenziali mancanti, rete, filtro contenuti, ...
                     _log_call(case["case_id"], "initial", system_prompt, base_messages, None, repr(e))
-                    st.error(f"The AI Analyst is not available at the moment ({type(e).__name__}). "
+                    st.error(f"The AI Analyst is not available at the moment ({type(e).__name__}: {e}). "
                              "The LFI results above are not affected.")
     else:
         st.markdown('<div class="aida-eyebrow">AI Analyst</div>'
@@ -337,7 +337,7 @@ def lfi_ai_component(case: dict, cls: dict, proposal: dict | None = None, custom
             _log_call(case["case_id"], "followup", system_prompt, messages, answer, None)
         except Exception as e:
             _log_call(case["case_id"], "followup", system_prompt, messages, None, repr(e))
-            st.error(f"The AI Analyst could not answer ({type(e).__name__}). Please try again.")
+            st.error(f"The AI Analyst could not answer ({type(e).__name__}: {e}). Please try again.")
             return
 
     ss.lfi_ai_history.append({"question": q, "answer": answer})
