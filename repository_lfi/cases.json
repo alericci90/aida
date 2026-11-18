@@ -2,9 +2,9 @@
  {
   "case_id": "LFI-01",
   "note": "",
-  "scoring_month": "2025-02",
+  "scoring_month": "2025-04",
   "sector": "Agriculture, Industry & Manufacturing",
-  "ateco_2dgt": "25",
+  "ateco_2dgt": "29",
   "size_class": "Revenue above EUR 5M",
   "cluster": "industria_higher",
   "customer_type": "Active customer",
@@ -15,334 +15,456 @@
   ],
   "financials_eur": {
    "revenue": [
-    5542000.0,
-    6725000.0,
-    5915000.0
+    5200000.0,
+    4954000.0,
+    6911000.0
    ],
    "ebit": [
-    315000.0,
-    1044000.0,
-    521000.0
+    -1737000.0,
+    -33000.0,
+    1131000.0
    ],
    "financial_expenses": [
-    24000.0,
-    58000.0,
-    136000.0
+    135000.0,
+    115000.0,
+    200000.0
    ],
    "pre_tax_result": [
-    293000.0,
-    989000.0,
-    389000.0
+    394000.0,
+    -139000.0,
+    938000.0
    ],
    "taxes": [
-    95000.0,
-    281000.0,
-    117000.0
+    191000.0,
+    28000.0,
+    354000.0
    ],
    "net_income": [
-    198000.0,
-    708000.0,
-    272000.0
+    203000.0,
+    -167000.0,
+    584000.0
    ],
    "cash_flow": [
-    692000.0,
-    1386000.0,
-    1058000.0
+    766000.0,
+    44000.0,
+    1447000.0
    ],
    "inventories": [
-    314000.0,
-    321000.0,
-    332000.0
+    145000.0,
+    254000.0,
+    155000.0
    ],
    "liquidity": [
-    645000.0,
-    504000.0,
-    944000.0
+    1327000.0,
+    51000.0,
+    1444000.0
    ],
    "current_assets": [
-    2868000.0,
-    4758000.0,
-    5216000.0
+    4730000.0,
+    3156000.0,
+    3732000.0
    ],
    "total_assets": [
-    6265000.0,
-    11207000.0,
-    13021000.0
+    6968000.0,
+    6490000.0,
+    6872000.0
    ],
    "equity": [
-    2766000.0,
-    3474000.0,
-    3746000.0
+    1026000.0,
+    859000.0,
+    1442000.0
    ],
    "severance_provision": [
-    454000.0,
-    563000.0,
-    664000.0
+    642000.0,
+    665000.0,
+    621000.0
    ],
    "long_term_debt": [
-    447000.0,
-    1516000.0,
-    3201000.0
+    1693000.0,
+    1569000.0,
+    983000.0
    ],
    "bank_debt_long": [
-    447000.0,
-    1516000.0,
-    3201000.0
+    1693000.0,
+    1569000.0,
+    983000.0
    ],
    "short_term_debt": [
-    1986000.0,
-    2626000.0,
-    2652000.0
+    2364000.0,
+    2258000.0,
+    2890000.0
    ],
    "bank_debt_short": [
-    329000.0,
-    631000.0,
-    615000.0
+    1239000.0,
+    549000.0,
+    819000.0
    ],
    "current_liabilities": [
-    2558000.0,
-    5591000.0,
-    5397000.0
+    3507000.0,
+    3178000.0,
+    3627000.0
    ],
    "ebitda": [
-    690000.0,
-    1555000.0,
-    1189000.0
+    -1317000.0,
+    -33000.0,
+    1625000.0
    ]
   },
   "ratio_history": {
    "asset_turnover": [
-    0.884597,
-    0.600071,
-    0.454266
+    0.746269,
+    0.763328,
+    1.005675
    ],
    "liquidita_su_attivo": [
-    0.102953,
-    0.044972,
-    0.072498
+    0.190442,
+    0.007858,
+    0.210128
    ],
    "tfr_su_attivo": [
-    0.072466,
-    0.050236,
-    0.050995
+    0.092135,
+    0.102465,
+    0.090367
    ],
    "clca": [
-    0.316999,
-    0.234318,
-    0.203671
+    0.339265,
+    0.34792,
+    0.420547
    ],
    "imposte_su_utile_ante": [
-    0.324232,
-    0.284125,
-    0.300771
+    0.484772,
+    null,
+    0.377399
    ],
    "quick_ratio": [
-    0.998436,
-    0.793597,
-    0.904947
+    1.307385,
+    0.913153,
+    0.986215
    ],
    "ebitda_su_attivo": [
-    0.110136,
-    0.138753,
-    0.091314
+    -0.189007,
+    -0.005085,
+    0.236467
    ],
    "equity_ratio": [
-    0.4415,
-    0.309985,
-    0.287689
+    0.147245,
+    0.132357,
+    0.209837
    ]
   },
+  "indicator_history": {
+   "quick_ratio_aumento_estremo": {
+    "values": [
+     0.002731,
+     0.0,
+     0.073062
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "asset_turnover": {
+    "values": [
+     0.746269,
+     0.763328,
+     1.005675
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "tfr_su_attivo": {
+    "values": [
+     0.092135,
+     0.102465,
+     0.090367
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "liquidita_su_attivo": {
+    "values": [
+     0.190442,
+     0.007858,
+     0.210128
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "imposte_su_utile_ante": {
+    "values": [
+     0.484772,
+     0.403398,
+     0.377399
+    ],
+    "source": [
+     "model",
+     "simulated",
+     "model"
+    ]
+   },
+   "d_asset_turnover_2y": {
+    "values": [
+     -0.15295,
+     0.188491,
+     0.259407
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "vol_ricavi_3y": {
+    "values": [
+     0.080337,
+     0.061218,
+     0.187398
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "clca": {
+    "values": [
+     0.339265,
+     0.34792,
+     0.420547
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "cagr_attivo_1y": {
+    "values": [
+     -0.129435,
+     -0.068599,
+     0.05886
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "d_ebitda_su_attivo_2y": {
+    "values": [
+     -0.097843,
+     0.055385,
+     0.425474
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   }
+  },
   "lfi": {
-   "xb": -5.349392,
-   "pd_model": 0.004729,
-   "pd": 0.00258,
-   "pd_low": 0.001584,
-   "pd_high": 0.003724,
+   "xb": -5.360917,
+   "pd_model": 0.004675,
+   "pd": 0.002558,
+   "pd_low": 0.001567,
+   "pd_high": 0.003695,
    "model_decile": 1,
    "cluster_pd_mean": 0.01,
    "xb_cluster_mean": -4.795676,
-   "pd_pct_portfolio": 4.5,
-   "pd_pct_cluster": 32.8,
+   "pd_pct_portfolio": 4.4,
+   "pd_pct_cluster": 32.3,
    "n_missing_core": 0,
    "negative_equity": false
   },
   "indicators": {
    "quick_ratio_aumento_estremo": {
-    "value": 0.11135,
+    "value": 0.073062,
     "driver": -0.07614,
-    "portfolio_pct": 65.5,
+    "portfolio_pct": 60.4,
     "portfolio_median": 0.00947,
     "cluster_median": 0.0,
-    "cluster_pct": 71.1,
+    "cluster_pct": 65.6,
     "sub_pd_cluster_mean": 0.025885,
     "area": "liquidity",
     "family": "dyn_liquidity",
     "sub_pd": 0.023611,
-    "sub_pct": 36.4
+    "sub_pct": 0.0
    },
    "eta_azienda": {
-    "value": 32.925258,
-    "driver": -0.440441,
-    "portfolio_pct": 91.7,
+    "value": 10.655244,
+    "driver": 0.728286,
+    "portfolio_pct": 54.6,
     "portfolio_median": 9.606108,
     "cluster_median": 22.944952,
-    "cluster_pct": 70.9,
+    "cluster_pct": 17.8,
     "sub_pd_cluster_mean": 0.017121,
     "area": "anagrafica",
     "family": "anagrafica",
-    "sub_pd": 0.008806,
-    "sub_pct": 8.4
+    "sub_pd": 0.029211,
+    "sub_pct": 45.1
    },
    "asset_turnover": {
-    "value": 0.454266,
-    "driver": 0.192464,
-    "portfolio_pct": 7.3,
+    "value": 1.005675,
+    "driver": -0.048916,
+    "portfolio_pct": 34.3,
     "portfolio_median": 1.27147,
     "cluster_median": 1.083072,
-    "cluster_pct": 5.2,
+    "cluster_pct": 43.6,
     "sub_pd_cluster_mean": 0.027071,
     "area": "efficiency",
     "family": "efficiency",
-    "sub_pd": 0.033224,
-    "sub_pct": 92.4
+    "sub_pd": 0.025501,
+    "sub_pct": 0.0
    },
    "tfr_su_attivo": {
-    "value": 0.050995,
-    "driver": -0.129202,
-    "portfolio_pct": 72.2,
+    "value": 0.090367,
+    "driver": -0.272206,
+    "portfolio_pct": 86.7,
     "portfolio_median": 0.022989,
     "cluster_median": 0.025298,
-    "cluster_pct": 75.9,
+    "cluster_pct": 92.1,
     "sub_pd_cluster_mean": 0.025671,
     "area": "structure",
     "family": "structure",
-    "sub_pd": 0.018643,
-    "sub_pct": 27.6
+    "sub_pd": 0.014407,
+    "sub_pct": 11.8
    },
    "liquidita_su_attivo": {
-    "value": 0.072498,
-    "driver": 0.183215,
-    "portfolio_pct": 41.2,
+    "value": 0.210128,
+    "driver": -0.537974,
+    "portfolio_pct": 72.0,
     "portfolio_median": 0.100242,
     "cluster_median": 0.08396,
-    "cluster_pct": 46.1,
+    "cluster_pct": 78.9,
     "sub_pd_cluster_mean": 0.028837,
     "area": "liquidity",
     "family": "liquidity",
-    "sub_pd": 0.030855,
-    "sub_pct": 60.8
+    "sub_pd": 0.01739,
+    "sub_pct": 28.0
    },
    "imposte_su_utile_ante": {
-    "value": 0.300771,
-    "driver": -0.162637,
-    "portfolio_pct": 45.2,
+    "value": 0.377399,
+    "driver": -0.197495,
+    "portfolio_pct": 65.5,
     "portfolio_median": 0.314286,
     "cluster_median": 0.288079,
-    "cluster_pct": 56.6,
+    "cluster_pct": 76.5,
     "sub_pd_cluster_mean": 0.027936,
     "area": "earnings_quality",
     "family": "earnings_quality",
-    "sub_pd": 0.023184,
-    "sub_pct": 49.3
+    "sub_pd": 0.022365,
+    "sub_pct": 17.9
    },
    "d_asset_turnover_2y": {
-    "value": -0.430331,
-    "driver": 0.109909,
-    "portfolio_pct": 18.0,
+    "value": 0.259407,
+    "driver": -0.025087,
+    "portfolio_pct": 69.3,
     "portfolio_median": 0.037418,
     "cluster_median": 0.052259,
-    "cluster_pct": 8.1,
+    "cluster_pct": 77.5,
     "sub_pd_cluster_mean": 0.02419,
     "area": "efficiency",
     "family": "dyn_efficiency",
-    "sub_pd": 0.030584,
-    "sub_pct": 82.1
+    "sub_pd": 0.022234,
+    "sub_pct": 0.0
    },
    "vol_ricavi_3y": {
-    "value": 0.099791,
-    "driver": -0.133835,
-    "portfolio_pct": 17.3,
+    "value": 0.187398,
+    "driver": -0.032964,
+    "portfolio_pct": 39.1,
     "portfolio_median": 0.24189,
     "cluster_median": 0.171885,
-    "cluster_pct": 23.8,
+    "cluster_pct": 54.8,
     "sub_pd_cluster_mean": 0.022498,
     "area": "dynamics",
     "family": "dynamics",
-    "sub_pd": 0.015087,
-    "sub_pct": 13.7
+    "sub_pd": 0.019104,
+    "sub_pct": 30.8
    },
    "clca": {
-    "value": 0.203671,
+    "value": 0.420547,
     "driver": -0.041647,
-    "portfolio_pct": 9.7,
+    "portfolio_pct": 35.2,
     "portfolio_median": 0.52192,
     "cluster_median": 0.43975,
-    "cluster_pct": 9.5,
+    "cluster_pct": 46.0,
     "sub_pd_cluster_mean": 0.024963,
     "area": "leverage",
     "family": "leverage",
     "sub_pd": 0.022688,
-    "sub_pct": 23.2
+    "sub_pct": 0.0
    },
    "cagr_attivo_1y": {
-    "value": 0.161863,
-    "driver": -0.038599,
-    "portfolio_pct": 53.6,
+    "value": 0.05886,
+    "driver": -0.044296,
+    "portfolio_pct": 36.5,
     "portfolio_median": 0.13652,
     "cluster_median": 0.0817,
-    "cluster_pct": 66.8,
+    "cluster_pct": 43.5,
     "sub_pd_cluster_mean": 0.023386,
     "area": "growth",
     "family": "dyn_growth",
-    "sub_pd": 0.018823,
-    "sub_pct": 53.7
+    "sub_pd": 0.018406,
+    "sub_pct": 0.0
    },
    "d_ebitda_su_attivo_2y": {
-    "value": -0.018822,
+    "value": 0.425474,
     "driver": -0.016802,
-    "portfolio_pct": 34.8,
+    "portfolio_pct": 96.5,
     "portfolio_median": 0.007736,
     "cluster_median": 0.010204,
-    "cluster_pct": 29.0,
+    "cluster_pct": 99.5,
     "sub_pd_cluster_mean": 0.025352,
     "area": "profitability",
     "family": "dyn_profitability",
     "sub_pd": 0.024195,
-    "sub_pct": 41.4
+    "sub_pct": 0.0
    }
   },
   "areas": {
    "liquidity": {
-    "driver": 0.107074,
-    "risk_pct": 55.7
+    "driver": -0.614114,
+    "risk_pct": 20.8
    },
    "anagrafica": {
-    "driver": -0.440441,
-    "risk_pct": 8.4
+    "driver": 0.728286,
+    "risk_pct": 45.1
    },
    "efficiency": {
-    "driver": 0.302373,
-    "risk_pct": 86.9
+    "driver": -0.074003,
+    "risk_pct": 27.1
    },
    "structure": {
-    "driver": -0.129202,
-    "risk_pct": 27.6
+    "driver": -0.272206,
+    "risk_pct": 18.4
    },
    "earnings_quality": {
-    "driver": -0.162637,
-    "risk_pct": 49.3
+    "driver": -0.197495,
+    "risk_pct": 33.4
    },
    "dynamics": {
-    "driver": -0.133835,
-    "risk_pct": 13.7
+    "driver": -0.032964,
+    "risk_pct": 38.2
    },
    "leverage": {
     "driver": -0.041647,
     "risk_pct": 23.2
    },
    "growth": {
-    "driver": -0.038599,
-    "risk_pct": 53.7
+    "driver": -0.044296,
+    "risk_pct": 26.6
    },
    "profitability": {
     "driver": -0.016802,
@@ -351,16 +473,20 @@
   },
   "name": "Officine Valdorba S.p.A.",
   "lfi_history": {
-   "simulated": true,
    "years": [
     2021,
     2022,
     2023
    ],
    "pd": [
-    0.002017,
-    0.002541,
-    0.00258
+    0.003471,
+    0.019743,
+    0.002558
+   ],
+   "source": [
+    "model",
+    "model",
+    "model"
    ],
    "negative_equity": [
     false,
@@ -374,8 +500,8 @@
   "note": "",
   "scoring_month": "2024-07",
   "sector": "ICT, Finance, Insurance & Professional Services",
-  "ateco_2dgt": "82",
-  "size_class": "Revenue above EUR 5M",
+  "ateco_2dgt": "81",
+  "size_class": "Revenue below EUR 5M",
   "cluster": "finance",
   "customer_type": "Active customer",
   "years": [
@@ -385,352 +511,478 @@
   ],
   "financials_eur": {
    "revenue": [
-    8960000.0,
-    9341000.0,
-    9933000.0
+    2638000.0,
+    2922000.0,
+    3154000.0
    ],
    "ebit": [
-    49000.0,
-    70000.0,
-    132000.0
+    462000.0,
+    307000.0,
+    333000.0
    ],
    "financial_expenses": [
-    18000.0,
-    33000.0,
-    84000.0
+    3000.0,
+    20000.0,
+    38000.0
    ],
    "pre_tax_result": [
-    32000.0,
-    38000.0,
-    48000.0
+    459000.0,
+    287000.0,
+    295000.0
    ],
    "taxes": [
-    28000.0,
-    27000.0,
-    29000.0
+    135000.0,
+    86000.0,
+    97000.0
    ],
    "net_income": [
-    4000.0,
-    11000.0,
-    19000.0
+    324000.0,
+    201000.0,
+    198000.0
    ],
    "cash_flow": [
-    170000.0,
-    217000.0,
-    237000.0
+    389000.0,
+    288000.0,
+    291000.0
    ],
    "inventories": [
-    439000.0,
-    510000.0,
-    601000.0
+    0.0,
+    0.0,
+    0.0
    ],
    "liquidity": [
-    319000.0,
-    443000.0,
-    293000.0
+    423000.0,
+    343000.0,
+    434000.0
    ],
    "current_assets": [
-    3347000.0,
-    4036000.0,
-    5239000.0
+    1218000.0,
+    1145000.0,
+    1366000.0
    ],
    "total_assets": [
-    4429000.0,
-    5407000.0,
-    6048000.0
+    1367000.0,
+    1650000.0,
+    2007000.0
    ],
    "equity": [
-    1234000.0,
-    1254000.0,
-    1275000.0
+    599000.0,
+    800000.0,
+    998000.0
    ],
    "severance_provision": [
-    61000.0,
-    64000.0,
-    58000.0
+    129000.0,
+    167000.0,
+    160000.0
    ],
    "long_term_debt": [
-    480000.0,
-    591000.0,
-    459000.0
+    39000.0,
+    164000.0,
+    250000.0
    ],
    "bank_debt_long": [
-    480000.0,
-    591000.0,
-    459000.0
+    0.0,
+    160000.0,
+    207000.0
    ],
    "short_term_debt": [
-    2421000.0,
-    2910000.0,
-    3061000.0
+    596000.0,
+    511000.0,
+    595000.0
    ],
    "bank_debt_short": [
-    422000.0,
-    343000.0,
-    342000.0
+    null,
+    8000.0,
+    9000.0
    ],
    "current_liabilities": [
-    2650000.0,
-    3494000.0,
-    4253000.0
+    600000.0,
+    516000.0,
+    596000.0
    ],
    "ebitda": [
-    215000.0,
-    276000.0,
-    350000.0
+    484000.0,
+    341000.0,
+    379000.0
    ]
   },
   "ratio_history": {
    "asset_turnover": [
-    2.02303,
-    1.727575,
-    1.642361
+    1.929773,
+    1.770909,
+    1.5715
    ],
    "liquidita_su_attivo": [
-    0.072025,
-    0.081931,
-    0.048446
+    0.309437,
+    0.207879,
+    0.216243
    ],
    "tfr_su_attivo": [
-    0.013773,
-    0.011837,
-    0.00959
+    0.094367,
+    0.101212,
+    0.079721
    ],
    "clca": [
-    0.546625,
-    0.538191,
-    0.506118
+    0.435991,
+    0.309697,
+    0.296462
    ],
    "imposte_su_utile_ante": [
-    0.875,
-    0.710526,
-    0.604167
+    0.294118,
+    0.299652,
+    0.328814
    ],
    "quick_ratio": [
-    1.097358,
-    1.009159,
-    1.090524
+    2.03,
+    2.218992,
+    2.291946
    ],
    "ebitda_su_attivo": [
-    0.048544,
-    0.051045,
-    0.05787
+    0.35406,
+    0.206667,
+    0.188839
    ],
    "equity_ratio": [
-    0.278618,
-    0.231922,
-    0.210813
+    0.438186,
+    0.484848,
+    0.49726
    ]
   },
+  "indicator_history": {
+   "quick_ratio_aumento_estremo": {
+    "values": [
+     0.382332,
+     0.188992,
+     0.072954
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "asset_turnover": {
+    "values": [
+     1.929773,
+     1.770909,
+     1.5715
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "tfr_su_attivo": {
+    "values": [
+     0.094367,
+     0.101212,
+     0.079721
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "liquidita_su_attivo": {
+    "values": [
+     0.309437,
+     0.207879,
+     0.216243
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "imposte_su_utile_ante": {
+    "values": [
+     0.294118,
+     0.299652,
+     0.328814
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "d_asset_turnover_2y": {
+    "values": [
+     -0.92661,
+     -0.501546,
+     -0.358273
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "vol_ricavi_3y": {
+    "values": [
+     0.239501,
+     0.123746,
+     0.088973
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "clca": {
+    "values": [
+     0.435991,
+     0.309697,
+     0.296462
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "cagr_attivo_1y": {
+    "values": [
+     0.364271,
+     0.207023,
+     0.216364
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "d_ebitda_su_attivo_2y": {
+    "values": [
+     0.300868,
+     -0.123673,
+     -0.165221
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   }
+  },
   "lfi": {
-   "xb": -4.608637,
-   "pd_model": 0.009867,
-   "pd": 0.004403,
-   "pd_low": 0.003111,
-   "pd_high": 0.00585,
+   "xb": -4.63541,
+   "pd_model": 0.009609,
+   "pd": 0.004304,
+   "pd_low": 0.003008,
+   "pd_high": 0.005704,
    "model_decile": 2,
    "cluster_pd_mean": 0.025424,
    "xb_cluster_mean": -3.51333,
-   "pd_pct_portfolio": 12.1,
-   "pd_pct_cluster": 11.5,
+   "pd_pct_portfolio": 11.6,
+   "pd_pct_cluster": 10.6,
    "n_missing_core": 0,
    "negative_equity": false
   },
   "indicators": {
    "quick_ratio_aumento_estremo": {
-    "value": 0.081366,
+    "value": 0.072954,
     "driver": -0.091562,
-    "portfolio_pct": 61.6,
+    "portfolio_pct": 60.3,
     "portfolio_median": 0.00947,
     "cluster_median": 0.012738,
-    "cluster_pct": 59.7,
+    "cluster_pct": 58.6,
     "sub_pd_cluster_mean": 0.028167,
     "area": "liquidity",
     "family": "dyn_liquidity",
     "sub_pd": 0.023611,
-    "sub_pct": 36.4
+    "sub_pct": 0.0
    },
    "eta_azienda": {
-    "value": 43.216165,
-    "driver": -0.930357,
-    "portfolio_pct": 97.3,
+    "value": 16.242816,
+    "driver": -0.355972,
+    "portfolio_pct": 71.1,
     "portfolio_median": 9.606108,
     "cluster_median": 9.329647,
-    "cluster_pct": 99.1,
+    "cluster_pct": 73.3,
     "sub_pd_cluster_mean": 0.030226,
     "area": "anagrafica",
     "family": "anagrafica",
-    "sub_pd": 0.00594,
-    "sub_pct": 1.5
+    "sub_pd": 0.014765,
+    "sub_pct": 26.6
    },
    "asset_turnover": {
-    "value": 1.642361,
+    "value": 1.5715,
     "driver": -0.040516,
-    "portfolio_pct": 67.9,
+    "portfolio_pct": 65.0,
     "portfolio_median": 1.27147,
     "cluster_median": 1.207692,
-    "cluster_pct": 70.9,
+    "cluster_pct": 68.1,
     "sub_pd_cluster_mean": 0.027586,
     "area": "efficiency",
     "family": "efficiency",
     "sub_pd": 0.025501,
-    "sub_pct": 35.1
+    "sub_pct": 0.0
    },
    "tfr_su_attivo": {
-    "value": 0.00959,
-    "driver": 0.141643,
-    "portfolio_pct": 32.7,
+    "value": 0.079721,
+    "driver": -0.174217,
+    "portfolio_pct": 83.9,
     "portfolio_median": 0.022989,
     "cluster_median": 0.028414,
-    "cluster_pct": 33.5,
+    "cluster_pct": 76.1,
     "sub_pd_cluster_mean": 0.028442,
     "area": "structure",
     "family": "structure",
-    "sub_pd": 0.034297,
-    "sub_pct": 66.1
+    "sub_pd": 0.014407,
+    "sub_pct": 11.8
    },
    "liquidita_su_attivo": {
-    "value": 0.048446,
-    "driver": 0.224705,
-    "portfolio_pct": 31.5,
+    "value": 0.216243,
+    "driver": -0.258052,
+    "portfolio_pct": 72.9,
     "portfolio_median": 0.100242,
     "cluster_median": 0.12473,
-    "cluster_pct": 27.2,
+    "cluster_pct": 66.0,
     "sub_pd_cluster_mean": 0.025784,
     "area": "liquidity",
     "family": "liquidity",
-    "sub_pd": 0.030855,
-    "sub_pct": 60.8
+    "sub_pd": 0.017125,
+    "sub_pct": 23.9
    },
    "imposte_su_utile_ante": {
-    "value": 0.604167,
-    "driver": -0.121514,
-    "portfolio_pct": 85.5,
+    "value": 0.328814,
+    "driver": -0.092036,
+    "portfolio_pct": 54.3,
     "portfolio_median": 0.314286,
     "cluster_median": 0.333333,
-    "cluster_pct": 80.8,
+    "cluster_pct": 47.2,
     "sub_pd_cluster_mean": 0.026483,
     "area": "earnings_quality",
     "family": "earnings_quality",
-    "sub_pd": 0.021345,
-    "sub_pct": 11.8
+    "sub_pd": 0.022365,
+    "sub_pct": 17.9
    },
    "d_asset_turnover_2y": {
-    "value": -0.380669,
-    "driver": 0.010321,
-    "portfolio_pct": 19.8,
+    "value": -0.358273,
+    "driver": 0.003633,
+    "portfolio_pct": 20.7,
     "portfolio_median": 0.037418,
     "cluster_median": 0.008449,
-    "cluster_pct": 19.4,
+    "cluster_pct": 20.2,
     "sub_pd_cluster_mean": 0.027183,
     "area": "efficiency",
     "family": "dyn_efficiency",
-    "sub_pd": 0.026569,
-    "sub_pct": 80.5
+    "sub_pd": 0.025934,
+    "sub_pct": 79.3
    },
    "vol_ricavi_3y": {
-    "value": 0.052097,
-    "driver": -0.15048,
-    "portfolio_pct": 6.2,
+    "value": 0.088973,
+    "driver": -0.142696,
+    "portfolio_pct": 14.4,
     "portfolio_median": 0.24189,
     "cluster_median": 0.236468,
-    "cluster_pct": 8.2,
+    "cluster_pct": 16.5,
     "sub_pd_cluster_mean": 0.028771,
     "area": "dynamics",
     "family": "dynamics",
-    "sub_pd": 0.01467,
-    "sub_pct": 6.3
+    "sub_pd": 0.015087,
+    "sub_pct": 9.2
    },
    "clca": {
-    "value": 0.506118,
-    "driver": -0.045235,
-    "portfolio_pct": 47.7,
+    "value": 0.296462,
+    "driver": -0.050516,
+    "portfolio_pct": 19.1,
     "portfolio_median": 0.52192,
     "cluster_median": 0.484746,
-    "cluster_pct": 52.7,
+    "cluster_pct": 24.1,
     "sub_pd_cluster_mean": 0.027193,
     "area": "leverage",
     "family": "leverage",
-    "sub_pd": 0.023037,
-    "sub_pct": 52.6
+    "sub_pd": 0.022688,
+    "sub_pct": 0.0
    },
    "cagr_attivo_1y": {
-    "value": 0.11855,
-    "driver": -0.056019,
-    "portfolio_pct": 47.0,
+    "value": 0.216364,
+    "driver": -0.020241,
+    "portfolio_pct": 60.5,
     "portfolio_median": 0.13652,
     "cluster_median": 0.149847,
-    "cluster_pct": 44.9,
+    "cluster_pct": 58.6,
     "sub_pd_cluster_mean": 0.028814,
     "area": "growth",
     "family": "dyn_growth",
-    "sub_pd": 0.018406,
-    "sub_pct": 26.6
+    "sub_pd": 0.022828,
+    "sub_pct": 58.5
    },
    "d_ebitda_su_attivo_2y": {
-    "value": 0.009327,
-    "driver": -0.036293,
-    "portfolio_pct": 50.9,
+    "value": -0.165221,
+    "driver": 0.100094,
+    "portfolio_pct": 9.2,
     "portfolio_median": 0.007736,
     "cluster_median": 0.002177,
-    "cluster_pct": 53.9,
+    "cluster_pct": 12.3,
     "sub_pd_cluster_mean": 0.02843,
     "area": "profitability",
     "family": "dyn_profitability",
-    "sub_pd": 0.024195,
-    "sub_pct": 41.4
+    "sub_pd": 0.03813,
+    "sub_pct": 90.8
    }
   },
   "areas": {
    "liquidity": {
-    "driver": 0.133143,
-    "risk_pct": 55.7
+    "driver": -0.349614,
+    "risk_pct": 19.2
    },
    "anagrafica": {
-    "driver": -0.930357,
-    "risk_pct": 1.5
+    "driver": -0.355972,
+    "risk_pct": 27.7
    },
    "efficiency": {
-    "driver": -0.030195,
-    "risk_pct": 63.9
+    "driver": -0.036882,
+    "risk_pct": 63.2
    },
    "structure": {
-    "driver": 0.141643,
-    "risk_pct": 66.1
+    "driver": -0.174217,
+    "risk_pct": 18.4
    },
    "earnings_quality": {
-    "driver": -0.121514,
-    "risk_pct": 11.8
+    "driver": -0.092036,
+    "risk_pct": 33.4
    },
    "dynamics": {
-    "driver": -0.15048,
-    "risk_pct": 6.3
+    "driver": -0.142696,
+    "risk_pct": 13.7
    },
    "leverage": {
-    "driver": -0.045235,
-    "risk_pct": 52.6
+    "driver": -0.050516,
+    "risk_pct": 23.2
    },
    "growth": {
-    "driver": -0.056019,
-    "risk_pct": 26.6
+    "driver": -0.020241,
+    "risk_pct": 62.5
    },
    "profitability": {
-    "driver": -0.036293,
-    "risk_pct": 41.4
+    "driver": 0.100094,
+    "risk_pct": 90.8
    }
   },
   "name": "Sistemi Arquenta S.r.l.",
   "lfi_history": {
-   "simulated": true,
    "years": [
     2021,
     2022,
     2023
    ],
    "pd": [
-    0.003931,
-    0.004039,
-    0.004403
+    0.007034,
+    0.00522,
+    0.004304
+   ],
+   "source": [
+    "model",
+    "model",
+    "model"
    ],
    "negative_equity": [
     false,
@@ -742,12 +994,12 @@
  {
   "case_id": "LFI-03",
   "note": "",
-  "scoring_month": "2025-09",
+  "scoring_month": "2025-03",
   "sector": "Trade, Tourism & Consumer Services",
-  "ateco_2dgt": "46",
+  "ateco_2dgt": "53",
   "size_class": "Revenue above EUR 5M",
   "cluster": "commercio_higher",
-  "customer_type": "Returning customer",
+  "customer_type": "Active customer",
   "years": [
    2021,
    2022,
@@ -755,334 +1007,456 @@
   ],
   "financials_eur": {
    "revenue": [
-    11572000.0,
-    15751000.0,
-    16450000.0
+    5459000.0,
+    9493000.0,
+    11971000.0
    ],
    "ebit": [
-    133000.0,
-    170000.0,
-    191000.0
+    125000.0,
+    91000.0,
+    769000.0
    ],
    "financial_expenses": [
-    92000.0,
-    98000.0,
-    100000.0
+    14000.0,
+    21000.0,
+    31000.0
    ],
    "pre_tax_result": [
-    89000.0,
-    123000.0,
-    144000.0
+    111000.0,
+    75000.0,
+    741000.0
    ],
    "taxes": [
-    21000.0,
-    21000.0,
-    27000.0
+    60000.0,
+    69000.0,
+    281000.0
    ],
    "net_income": [
-    68000.0,
-    102000.0,
-    117000.0
+    51000.0,
+    6000.0,
+    460000.0
    ],
    "cash_flow": [
-    304000.0,
-    384000.0,
-    368000.0
+    156000.0,
+    124000.0,
+    684000.0
    ],
    "inventories": [
-    1629000.0,
-    1677000.0,
-    1640000.0
+    25000.0,
+    90000.0,
+    18000.0
    ],
    "liquidity": [
-    519000.0,
-    286000.0,
-    386000.0
+    145000.0,
+    558000.0,
+    994000.0
    ],
    "current_assets": [
-    7774000.0,
-    8374000.0,
-    8794000.0
+    1952000.0,
+    3109000.0,
+    4035000.0
    ],
    "total_assets": [
-    8084000.0,
-    9458000.0,
-    9876000.0
+    2213000.0,
+    3603000.0,
+    4590000.0
    ],
    "equity": [
-    2029000.0,
-    2132000.0,
-    2249000.0
+    165000.0,
+    171000.0,
+    401000.0
    ],
    "severance_provision": [
-    522000.0,
-    584000.0,
-    584000.0
+    55000.0,
+    107000.0,
+    129000.0
    ],
    "long_term_debt": [
-    1800000.0,
-    2394000.0,
-    1989000.0
+    390000.0,
+    391000.0,
+    448000.0
    ],
    "bank_debt_long": [
-    1800000.0,
-    2242000.0,
-    1816000.0
+    390000.0,
+    391000.0,
+    375000.0
    ],
    "short_term_debt": [
-    3420000.0,
-    4051000.0,
-    4671000.0
+    1525000.0,
+    2822000.0,
+    3467000.0
    ],
    "bank_debt_short": [
-    403000.0,
-    129000.0,
-    298000.0
+    205000.0,
+    260000.0,
+    169000.0
    ],
    "current_liabilities": [
-    3603000.0,
-    4218000.0,
-    4879000.0
+    1603000.0,
+    2934000.0,
+    3612000.0
    ],
    "ebitda": [
-    315000.0,
-    361000.0,
-    397000.0
+    191000.0,
+    145000.0,
+    929000.0
    ]
   },
   "ratio_history": {
    "asset_turnover": [
-    1.43147,
-    1.665363,
-    1.665654
+    2.466787,
+    2.634749,
+    2.608061
    ],
    "liquidita_su_attivo": [
-    0.064201,
-    0.030239,
-    0.039085
+    0.065522,
+    0.154871,
+    0.216558
    ],
    "tfr_su_attivo": [
-    0.064572,
-    0.061747,
-    0.059133
+    0.024853,
+    0.029697,
+    0.028105
    ],
    "clca": [
-    0.423058,
-    0.428315,
-    0.472965
+    0.68911,
+    0.783236,
+    0.755338
    ],
    "imposte_su_utile_ante": [
-    0.235955,
-    0.170732,
-    0.1875
+    0.540541,
+    0.92,
+    0.379217
    ],
    "quick_ratio": [
-    1.705523,
-    1.587719,
-    1.466284
+    1.202121,
+    1.028971,
+    1.112126
    ],
    "ebitda_su_attivo": [
-    0.038966,
-    0.038169,
-    0.040198
+    0.086308,
+    0.040244,
+    0.202397
    ],
    "equity_ratio": [
-    0.25099,
-    0.225418,
-    0.227724
+    0.074559,
+    0.04746,
+    0.087364
    ]
   },
+  "indicator_history": {
+   "quick_ratio_aumento_estremo": {
+    "values": [
+     0.116161,
+     0.0,
+     0.083156
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "asset_turnover": {
+    "values": [
+     2.466787,
+     2.634749,
+     2.608061
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "tfr_su_attivo": {
+    "values": [
+     0.024853,
+     0.029697,
+     0.028105
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "liquidita_su_attivo": {
+    "values": [
+     0.065522,
+     0.154871,
+     0.216558
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "imposte_su_utile_ante": {
+    "values": [
+     0.540541,
+     0.92,
+     0.379217
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "d_asset_turnover_2y": {
+    "values": [
+     -0.826719,
+     0.080807,
+     0.141274
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "vol_ricavi_3y": {
+    "values": [
+     0.490396,
+     0.607825,
+     0.366249
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "clca": {
+    "values": [
+     0.68911,
+     0.783236,
+     0.755338
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "cagr_attivo_1y": {
+    "values": [
+     1.295643,
+     0.628107,
+     0.273938
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "d_ebitda_su_attivo_2y": {
+    "values": [
+     -0.030575,
+     -0.052079,
+     0.116088
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   }
+  },
   "lfi": {
-   "xb": -3.914026,
-   "pd_model": 0.019569,
-   "pd": 0.009056,
-   "pd_low": 0.006483,
-   "pd_high": 0.012203,
+   "xb": -3.941211,
+   "pd_model": 0.019055,
+   "pd": 0.008728,
+   "pd_low": 0.006288,
+   "pd_high": 0.011792,
    "model_decile": 4,
    "cluster_pd_mean": 0.029718,
    "xb_cluster_mean": -4.053074,
-   "pd_pct_portfolio": 28.3,
-   "pd_pct_cluster": 58.7,
+   "pd_pct_portfolio": 27.6,
+   "pd_pct_cluster": 57.9,
    "n_missing_core": 0,
    "negative_equity": false
   },
   "indicators": {
    "quick_ratio_aumento_estremo": {
-    "value": 0.0,
+    "value": 0.083156,
     "driver": -0.092172,
-    "portfolio_pct": 24.1,
+    "portfolio_pct": 61.9,
     "portfolio_median": 0.00947,
     "cluster_median": 0.0,
-    "cluster_pct": 25.5,
+    "cluster_pct": 67.8,
     "sub_pd_cluster_mean": 0.026278,
     "area": "liquidity",
     "family": "dyn_liquidity",
     "sub_pd": 0.023611,
-    "sub_pct": 36.4
+    "sub_pct": 0.0
    },
    "eta_azienda": {
-    "value": 12.0646,
-    "driver": 0.244567,
-    "portfolio_pct": 59.8,
+    "value": 9.162878,
+    "driver": 0.761028,
+    "portfolio_pct": 47.9,
     "portfolio_median": 9.606108,
     "cluster_median": 18.279668,
-    "cluster_pct": 32.0,
+    "cluster_pct": 22.3,
     "sub_pd_cluster_mean": 0.02009,
     "area": "anagrafica",
     "family": "anagrafica",
-    "sub_pd": 0.020418,
-    "sub_pct": 36.4
+    "sub_pd": 0.033188,
+    "sub_pct": 51.7
    },
    "asset_turnover": {
-    "value": 1.665654,
+    "value": 2.608061,
     "driver": -0.014759,
-    "portfolio_pct": 68.8,
+    "portfolio_pct": 89.3,
     "portfolio_median": 1.27147,
     "cluster_median": 1.694441,
-    "cluster_pct": 48.7,
+    "cluster_pct": 75.9,
     "sub_pd_cluster_mean": 0.025941,
     "area": "efficiency",
     "family": "efficiency",
     "sub_pd": 0.025501,
-    "sub_pct": 35.1
+    "sub_pct": 0.0
    },
    "tfr_su_attivo": {
-    "value": 0.059133,
-    "driver": -0.332825,
-    "portfolio_pct": 76.2,
+    "value": 0.028105,
+    "driver": -0.054029,
+    "portfolio_pct": 55.3,
     "portfolio_median": 0.022989,
     "cluster_median": 0.021487,
-    "cluster_pct": 82.7,
+    "cluster_pct": 58.5,
     "sub_pd_cluster_mean": 0.027594,
     "area": "structure",
     "family": "structure",
-    "sub_pd": 0.014407,
-    "sub_pct": 18.4
+    "sub_pd": 0.022916,
+    "sub_pct": 41.8
    },
    "liquidita_su_attivo": {
-    "value": 0.039085,
-    "driver": 0.397668,
-    "portfolio_pct": 27.1,
+    "value": 0.216558,
+    "driver": -0.591347,
+    "portfolio_pct": 73.0,
     "portfolio_median": 0.100242,
     "cluster_median": 0.08606,
-    "cluster_pct": 29.9,
+    "cluster_pct": 79.5,
     "sub_pd_cluster_mean": 0.028634,
     "area": "liquidity",
     "family": "liquidity",
-    "sub_pd": 0.035408,
-    "sub_pct": 73.4
+    "sub_pd": 0.017125,
+    "sub_pct": 23.9
    },
    "imposte_su_utile_ante": {
-    "value": 0.1875,
-    "driver": 0.1982,
-    "portfolio_pct": 20.4,
+    "value": 0.379217,
+    "driver": -0.152256,
+    "portfolio_pct": 65.7,
     "portfolio_median": 0.314286,
     "cluster_median": 0.306912,
-    "cluster_pct": 9.3,
+    "cluster_pct": 74.5,
     "sub_pd_cluster_mean": 0.026279,
     "area": "earnings_quality",
     "family": "earnings_quality",
-    "sub_pd": 0.03121,
-    "sub_pct": 77.8
+    "sub_pd": 0.022365,
+    "sub_pct": 17.9
    },
    "d_asset_turnover_2y": {
-    "value": 0.234185,
+    "value": 0.141274,
     "driver": -0.067181,
-    "portfolio_pct": 67.5,
+    "portfolio_pct": 60.3,
     "portfolio_median": 0.037418,
     "cluster_median": 0.052573,
-    "cluster_pct": 68.4,
+    "cluster_pct": 59.8,
     "sub_pd_cluster_mean": 0.027773,
     "area": "efficiency",
     "family": "dyn_efficiency",
     "sub_pd": 0.022234,
-    "sub_pct": 38.0
+    "sub_pct": 0.0
    },
    "vol_ricavi_3y": {
-    "value": 0.180782,
-    "driver": -0.0436,
-    "portfolio_pct": 37.6,
+    "value": 0.366249,
+    "driver": 0.18985,
+    "portfolio_pct": 67.0,
     "portfolio_median": 0.24189,
     "cluster_median": 0.172335,
-    "cluster_pct": 52.8,
+    "cluster_pct": 83.4,
     "sub_pd_cluster_mean": 0.023169,
     "area": "dynamics",
     "family": "dynamics",
-    "sub_pd": 0.019104,
-    "sub_pct": 38.2
+    "sub_pd": 0.031548,
+    "sub_pct": 61.8
    },
    "clca": {
-    "value": 0.472965,
-    "driver": -0.068287,
-    "portfolio_pct": 42.8,
+    "value": 0.755338,
+    "driver": 0.155998,
+    "portfolio_pct": 81.5,
     "portfolio_median": 0.52192,
     "cluster_median": 0.505153,
-    "cluster_pct": 44.3,
+    "cluster_pct": 88.4,
     "sub_pd_cluster_mean": 0.026185,
     "area": "leverage",
     "family": "leverage",
-    "sub_pd": 0.022688,
-    "sub_pct": 23.2
+    "sub_pd": 0.033485,
+    "sub_pct": 79.7
    },
    "cagr_attivo_1y": {
-    "value": 0.044195,
-    "driver": -0.062469,
-    "portfolio_pct": 33.8,
+    "value": 0.273938,
+    "driver": -0.003174,
+    "portfolio_pct": 66.3,
     "portfolio_median": 0.13652,
     "cluster_median": 0.108292,
-    "cluster_pct": 35.4,
+    "cluster_pct": 74.4,
     "sub_pd_cluster_mean": 0.025012,
     "area": "growth",
     "family": "dyn_growth",
-    "sub_pd": 0.018406,
-    "sub_pct": 26.6
+    "sub_pd": 0.022828,
+    "sub_pct": 58.5
    },
    "d_ebitda_su_attivo_2y": {
-    "value": 0.001233,
+    "value": 0.116088,
     "driver": -0.020094,
-    "portfolio_pct": 45.9,
+    "portfolio_pct": 82.8,
     "portfolio_median": 0.007736,
     "cluster_median": 0.011199,
-    "cluster_pct": 40.6,
+    "cluster_pct": 90.6,
     "sub_pd_cluster_mean": 0.02551,
     "area": "profitability",
     "family": "dyn_profitability",
     "sub_pd": 0.024195,
-    "sub_pct": 41.4
+    "sub_pct": 0.0
    }
   },
   "areas": {
    "liquidity": {
-    "driver": 0.305496,
-    "risk_pct": 67.6
+    "driver": -0.683519,
+    "risk_pct": 19.2
    },
    "anagrafica": {
-    "driver": 0.244567,
-    "risk_pct": 36.4
+    "driver": 0.761028,
+    "risk_pct": 53.3
    },
    "efficiency": {
     "driver": -0.081939,
     "risk_pct": 27.1
    },
    "structure": {
-    "driver": -0.332825,
-    "risk_pct": 18.4
+    "driver": -0.054029,
+    "risk_pct": 44.5
    },
    "earnings_quality": {
-    "driver": 0.1982,
-    "risk_pct": 77.8
+    "driver": -0.152256,
+    "risk_pct": 33.4
    },
    "dynamics": {
-    "driver": -0.0436,
-    "risk_pct": 38.2
+    "driver": 0.18985,
+    "risk_pct": 65.0
    },
    "leverage": {
-    "driver": -0.068287,
-    "risk_pct": 23.2
+    "driver": 0.155998,
+    "risk_pct": 81.3
    },
    "growth": {
-    "driver": -0.062469,
-    "risk_pct": 26.6
+    "driver": -0.003174,
+    "risk_pct": 62.5
    },
    "profitability": {
     "driver": -0.020094,
@@ -1091,16 +1465,20 @@
   },
   "name": "Distribuzione Montelisio S.p.A.",
   "lfi_history": {
-   "simulated": true,
    "years": [
     2021,
     2022,
     2023
    ],
    "pd": [
-    0.007735,
-    0.008961,
-    0.009056
+    0.082249,
+    0.025701,
+    0.008728
+   ],
+   "source": [
+    "model",
+    "model",
+    "model"
    ],
    "negative_equity": [
     false,
@@ -1112,12 +1490,12 @@
  {
   "case_id": "LFI-04",
   "note": "negative_equity",
-  "scoring_month": "2025-04",
+  "scoring_month": "2025-08",
   "sector": "Agriculture, Industry & Manufacturing",
-  "ateco_2dgt": "13",
+  "ateco_2dgt": "20",
   "size_class": "Revenue below EUR 5M",
   "cluster": "industria_lower",
-  "customer_type": "New customer",
+  "customer_type": "Returning customer",
   "years": [
    2021,
    2022,
@@ -1125,330 +1503,452 @@
   ],
   "financials_eur": {
    "revenue": [
-    329000.0,
-    296000.0,
-    473000.0
+    121000.0,
+    132000.0,
+    141000.0
    ],
    "ebit": [
-    12000.0,
-    -47000.0,
-    7000.0
+    7000.0,
+    4000.0,
+    9000.0
    ],
    "financial_expenses": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "pre_tax_result": [
+    7000.0,
+    4000.0,
+    9000.0
+   ],
+   "taxes": [
     1000.0,
     1000.0,
     2000.0
    ],
-   "pre_tax_result": [
-    11000.0,
-    -48000.0,
-    5000.0
-   ],
-   "taxes": [
-    3000.0,
-    0.0,
-    4000.0
-   ],
    "net_income": [
-    8000.0,
-    -48000.0,
-    1000.0
+    6000.0,
+    3000.0,
+    7000.0
    ],
    "cash_flow": [
-    29000.0,
-    -41000.0,
-    19000.0
+    8000.0,
+    6000.0,
+    10000.0
    ],
    "inventories": [
-    71000.0,
-    84000.0,
-    90000.0
+    107000.0,
+    93000.0,
+    93000.0
    ],
    "liquidity": [
-    27000.0,
-    19000.0,
-    16000.0
+    13000.0,
+    6000.0,
+    9000.0
    ],
    "current_assets": [
-    196000.0,
-    188000.0,
-    192000.0
+    403000.0,
+    381000.0,
+    356000.0
    ],
    "total_assets": [
-    282000.0,
-    291000.0,
-    289000.0
+    404000.0,
+    382000.0,
+    363000.0
    ],
    "equity": [
-    46000.0,
-    -2000.0,
-    -1000.0
+    -14000.0,
+    -11000.0,
+    -4000.0
    ],
    "severance_provision": [
     15000.0,
     16000.0,
-    23000.0
+    18000.0
    ],
    "long_term_debt": [
-    36000.0,
-    66000.0,
-    37000.0
+    24000.0,
+    83000.0,
+    88000.0
    ],
    "bank_debt_long": [
-    36000.0,
-    66000.0,
-    37000.0
+    0.0,
+    1000.0,
+    1000.0
    ],
    "short_term_debt": [
-    166000.0,
-    184000.0,
-    189000.0
+    379000.0,
+    294000.0,
+    261000.0
    ],
    "bank_debt_short": [
+    null,
     0.0,
-    5000.0,
-    17000.0
+    0.0
    ],
    "current_liabilities": [
-    185000.0,
-    211000.0,
-    230000.0
+    379000.0,
+    294000.0,
+    261000.0
    ],
    "ebitda": [
-    27000.0,
-    -47000.0,
-    16000.0
+    7000.0,
+    4000.0,
+    10000.0
    ]
   },
   "ratio_history": {
    "asset_turnover": [
-    1.166667,
-    1.017182,
-    1.636678
+    0.299505,
+    0.34555,
+    0.38843
    ],
    "liquidita_su_attivo": [
-    0.095745,
-    0.065292,
-    0.055363
+    0.032178,
+    0.015707,
+    0.024793
    ],
    "tfr_su_attivo": [
-    0.053191,
-    0.054983,
-    0.079585
+    0.037129,
+    0.041885,
+    0.049587
    ],
    "clca": [
-    0.588652,
-    0.632302,
-    0.653979
+    0.938119,
+    0.769634,
+    0.719008
    ],
    "imposte_su_utile_ante": [
-    0.272727,
-    null,
-    0.8
+    0.142857,
+    0.25,
+    0.222222
    ],
    "quick_ratio": [
-    0.675676,
-    0.492891,
-    0.443478
+    0.781003,
+    0.979592,
+    1.007663
    ],
    "ebitda_su_attivo": [
-    0.095745,
-    -0.161512,
-    0.055363
+    0.017327,
+    0.010471,
+    0.027548
    ],
    "equity_ratio": [
-    0.163121,
-    -0.006873,
-    -0.00346
+    -0.034653,
+    -0.028796,
+    -0.011019
    ]
   },
+  "indicator_history": {
+   "quick_ratio_aumento_estremo": {
+    "values": [
+     0.0,
+     0.198589,
+     0.028071
+    ],
+    "source": [
+     "earlier",
+     "computed",
+     "model"
+    ]
+   },
+   "asset_turnover": {
+    "values": [
+     0.299505,
+     0.34555,
+     0.38843
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "tfr_su_attivo": {
+    "values": [
+     0.037129,
+     0.041885,
+     0.049587
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "liquidita_su_attivo": {
+    "values": [
+     0.032178,
+     0.015707,
+     0.024793
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "imposte_su_utile_ante": {
+    "values": [
+     0.142857,
+     0.25,
+     0.222222
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "d_asset_turnover_2y": {
+    "values": [
+     0.040336,
+     -0.188824,
+     0.088925
+    ],
+    "source": [
+     "earlier",
+     "simulated",
+     "model"
+    ]
+   },
+   "vol_ricavi_3y": {
+    "values": [
+     0.500722,
+     0.01109,
+     0.076269
+    ],
+    "source": [
+     "earlier",
+     "simulated",
+     "model"
+    ]
+   },
+   "clca": {
+    "values": [
+     0.938119,
+     0.769634,
+     0.719008
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "cagr_attivo_1y": {
+    "values": [
+     0.177843,
+     -0.054455,
+     -0.049738
+    ],
+    "source": [
+     "earlier",
+     "computed",
+     "model"
+    ]
+   },
+   "d_ebitda_su_attivo_2y": {
+    "values": [
+     0.000212,
+     0.032891,
+     0.010221
+    ],
+    "source": [
+     "earlier",
+     "simulated",
+     "model"
+    ]
+   }
+  },
   "lfi": {
-   "xb": -3.59776,
-   "pd_model": 0.026655,
-   "pd": 0.013942,
-   "pd_low": 0.011131,
-   "pd_high": 0.016725,
+   "xb": -3.545111,
+   "pd_model": 0.028056,
+   "pd": 0.015119,
+   "pd_low": 0.012336,
+   "pd_high": 0.017973,
    "model_decile": 5,
    "cluster_pd_mean": 0.026564,
    "xb_cluster_mean": -3.367866,
-   "pd_pct_portfolio": 37.2,
-   "pd_pct_cluster": 38.3,
+   "pd_pct_portfolio": 38.8,
+   "pd_pct_cluster": 40.7,
    "n_missing_core": 0,
    "negative_equity": true
   },
   "indicators": {
    "quick_ratio_aumento_estremo": {
-    "value": 0.0,
+    "value": 0.028071,
     "driver": -0.063917,
-    "portfolio_pct": 24.1,
+    "portfolio_pct": 53.3,
     "portfolio_median": 0.00947,
     "cluster_median": 0.006718,
-    "cluster_pct": 24.4,
+    "cluster_pct": 54.2,
     "sub_pd_cluster_mean": 0.026849,
     "area": "liquidity",
     "family": "dyn_liquidity",
     "sub_pd": 0.023611,
-    "sub_pct": 36.4
+    "sub_pct": 0.0
    },
    "eta_azienda": {
-    "value": 7.93074,
-    "driver": 0.169919,
-    "portfolio_pct": 41.1,
+    "value": 22.134435,
+    "driver": -0.452248,
+    "portfolio_pct": 81.1,
     "portfolio_median": 9.606108,
     "cluster_median": 9.509888,
-    "cluster_pct": 41.0,
+    "cluster_pct": 82.2,
     "sub_pd_cluster_mean": 0.029811,
     "area": "anagrafica",
     "family": "anagrafica",
-    "sub_pd": 0.033372,
-    "sub_pct": 58.3
+    "sub_pd": 0.0117,
+    "sub_pct": 17.7
    },
    "asset_turnover": {
-    "value": 1.636678,
-    "driver": -0.042299,
-    "portfolio_pct": 67.7,
+    "value": 0.38843,
+    "driver": 0.11762,
+    "portfolio_pct": 5.6,
     "portfolio_median": 1.27147,
     "cluster_median": 1.114655,
-    "cluster_pct": 77.3,
+    "cluster_pct": 7.6,
     "sub_pd_cluster_mean": 0.027836,
     "area": "efficiency",
     "family": "efficiency",
-    "sub_pd": 0.025501,
-    "sub_pct": 35.1
+    "sub_pd": 0.034038,
+    "sub_pct": 94.0
    },
    "tfr_su_attivo": {
-    "value": 0.079585,
-    "driver": -0.144524,
-    "portfolio_pct": 83.9,
+    "value": 0.049587,
+    "driver": -0.057696,
+    "portfolio_pct": 71.4,
     "portfolio_median": 0.022989,
     "cluster_median": 0.031205,
-    "cluster_pct": 80.0,
+    "cluster_pct": 65.2,
     "sub_pd_cluster_mean": 0.025952,
     "area": "structure",
     "family": "structure",
-    "sub_pd": 0.014407,
-    "sub_pct": 18.4
+    "sub_pd": 0.018646,
+    "sub_pct": 28.6
    },
    "liquidita_su_attivo": {
-    "value": 0.055363,
-    "driver": 0.120411,
-    "portfolio_pct": 34.6,
+    "value": 0.024793,
+    "driver": 0.381587,
+    "portfolio_pct": 19.3,
     "portfolio_median": 0.100242,
     "cluster_median": 0.085848,
-    "cluster_pct": 39.1,
+    "cluster_pct": 24.3,
     "sub_pd_cluster_mean": 0.02873,
     "area": "liquidity",
     "family": "liquidity",
-    "sub_pd": 0.030855,
-    "sub_pct": 60.8
+    "sub_pd": 0.043246,
+    "sub_pct": 76.1
    },
    "imposte_su_utile_ante": {
-    "value": 0.8,
-    "driver": -0.12572,
-    "portfolio_pct": 92.6,
+    "value": 0.222222,
+    "driver": 0.098491,
+    "portfolio_pct": 23.9,
     "portfolio_median": 0.314286,
     "cluster_median": 0.324324,
-    "cluster_pct": 91.4,
+    "cluster_pct": 24.9,
     "sub_pd_cluster_mean": 0.027065,
     "area": "earnings_quality",
     "family": "earnings_quality",
-    "sub_pd": 0.021345,
-    "sub_pct": 11.8
+    "sub_pd": 0.03121,
+    "sub_pct": 63.8
    },
    "d_asset_turnover_2y": {
-    "value": 0.470012,
+    "value": 0.088925,
     "driver": -0.031274,
-    "portfolio_pct": 79.6,
+    "portfolio_pct": 55.4,
     "portfolio_median": 0.037418,
     "cluster_median": 0.032401,
-    "cluster_pct": 82.6,
+    "cluster_pct": 56.6,
     "sub_pd_cluster_mean": 0.026478,
     "area": "efficiency",
     "family": "dyn_efficiency",
     "sub_pd": 0.022234,
-    "sub_pct": 38.0
+    "sub_pct": 0.0
    },
    "vol_ricavi_3y": {
-    "value": 0.257165,
-    "driver": -0.015042,
-    "portfolio_pct": 52.6,
+    "value": 0.076269,
+    "driver": -0.134477,
+    "portfolio_pct": 11.3,
     "portfolio_median": 0.24189,
     "cluster_median": 0.242563,
-    "cluster_pct": 53.2,
+    "cluster_pct": 10.2,
     "sub_pd_cluster_mean": 0.028578,
     "area": "dynamics",
     "family": "dynamics",
-    "sub_pd": 0.023891,
-    "sub_pct": 52.6
+    "sub_pd": 0.015087,
+    "sub_pct": 9.2
    },
    "clca": {
-    "value": 0.653979,
-    "driver": -0.027507,
-    "portfolio_pct": 69.0,
+    "value": 0.719008,
+    "driver": 0.034608,
+    "portfolio_pct": 77.5,
     "portfolio_median": 0.52192,
     "cluster_median": 0.519165,
-    "cluster_pct": 69.3,
+    "cluster_pct": 77.5,
     "sub_pd_cluster_mean": 0.027779,
     "area": "leverage",
     "family": "leverage",
-    "sub_pd": 0.024571,
-    "sub_pct": 64.5
+    "sub_pd": 0.029776,
+    "sub_pct": 77.1
    },
    "cagr_attivo_1y": {
-    "value": -0.006873,
+    "value": -0.049738,
     "driver": -0.046358,
-    "portfolio_pct": 24.0,
+    "portfolio_pct": 17.0,
     "portfolio_median": 0.13652,
     "cluster_median": 0.129683,
-    "cluster_pct": 24.4,
+    "cluster_pct": 16.9,
     "sub_pd_cluster_mean": 0.027494,
     "area": "growth",
     "family": "dyn_growth",
     "sub_pd": 0.018406,
-    "sub_pct": 26.6
+    "sub_pct": 0.0
    },
    "d_ebitda_su_attivo_2y": {
-    "value": -0.040381,
+    "value": 0.010221,
     "driver": -0.023582,
-    "portfolio_pct": 26.7,
+    "portfolio_pct": 51.4,
     "portfolio_median": 0.007736,
     "cluster_median": 0.006672,
-    "cluster_pct": 26.0,
+    "cluster_pct": 52.4,
     "sub_pd_cluster_mean": 0.027093,
     "area": "profitability",
     "family": "dyn_profitability",
     "sub_pd": 0.024195,
-    "sub_pct": 41.4
+    "sub_pct": 0.0
    }
   },
   "areas": {
    "liquidity": {
-    "driver": 0.056493,
-    "risk_pct": 55.7
+    "driver": 0.31767,
+    "risk_pct": 79.5
    },
    "anagrafica": {
-    "driver": 0.169919,
-    "risk_pct": 58.3
+    "driver": -0.452248,
+    "risk_pct": 18.7
    },
    "efficiency": {
-    "driver": -0.073573,
-    "risk_pct": 27.1
+    "driver": 0.086346,
+    "risk_pct": 84.5
    },
    "structure": {
-    "driver": -0.144524,
-    "risk_pct": 18.4
+    "driver": -0.057696,
+    "risk_pct": 28.6
    },
    "earnings_quality": {
-    "driver": -0.12572,
-    "risk_pct": 11.8
+    "driver": 0.098491,
+    "risk_pct": 77.8
    },
    "dynamics": {
-    "driver": -0.015042,
-    "risk_pct": 52.6
+    "driver": -0.134477,
+    "risk_pct": 13.7
    },
    "leverage": {
-    "driver": -0.027507,
-    "risk_pct": 64.5
+    "driver": 0.034608,
+    "risk_pct": 77.4
    },
    "growth": {
     "driver": -0.046358,
@@ -1461,19 +1961,23 @@
   },
   "name": "Lavorazioni Ferrandia S.r.l.",
   "lfi_history": {
-   "simulated": true,
    "years": [
     2021,
     2022,
     2023
    ],
    "pd": [
-    0.008313,
-    0.020539,
-    0.013942
+    0.036366,
+    0.017368,
+    0.015119
+   ],
+   "source": [
+    "model",
+    "simulated",
+    "model"
    ],
    "negative_equity": [
-    false,
+    true,
     true,
     true
    ]
@@ -1482,7 +1986,7 @@
  {
   "case_id": "LFI-05",
   "note": "",
-  "scoring_month": "2025-09",
+  "scoring_month": "2025-10",
   "sector": "Construction & Real Estate",
   "ateco_2dgt": "41",
   "size_class": "Revenue above EUR 5M",
@@ -1495,154 +1999,276 @@
   ],
   "financials_eur": {
    "revenue": [
-    4966000.0,
-    4047000.0,
-    7361000.0
+    26098000.0,
+    48092000.0,
+    53048000.0
    ],
    "ebit": [
-    492000.0,
-    235000.0,
-    141000.0
+    3005000.0,
+    4482000.0,
+    5340000.0
    ],
    "financial_expenses": [
-    4000.0,
-    8000.0,
-    16000.0
+    93000.0,
+    2427000.0,
+    2273000.0
    ],
    "pre_tax_result": [
-    488000.0,
-    227000.0,
-    162000.0
+    2921000.0,
+    3680000.0,
+    3183000.0
    ],
    "taxes": [
-    195000.0,
-    100000.0,
-    121000.0
+    866000.0,
+    1164000.0,
+    1105000.0
    ],
    "net_income": [
-    293000.0,
-    127000.0,
-    41000.0
+    2055000.0,
+    2516000.0,
+    2078000.0
    ],
    "cash_flow": [
-    432000.0,
-    287000.0,
-    211000.0
+    2308000.0,
+    3141000.0,
+    2481000.0
    ],
    "inventories": [
-    1110000.0,
-    215000.0,
-    570000.0
+    235000.0,
+    151000.0,
+    6648000.0
    ],
    "liquidity": [
-    420000.0,
-    309000.0,
-    706000.0
+    1879000.0,
+    1312000.0,
+    5363000.0
    ],
    "current_assets": [
-    4395000.0,
-    3220000.0,
-    5035000.0
+    9544000.0,
+    29576000.0,
+    30781000.0
    ],
    "total_assets": [
-    4738000.0,
-    3670000.0,
-    5838000.0
+    12901000.0,
+    35163000.0,
+    41322000.0
    ],
    "equity": [
-    510000.0,
-    836000.0,
-    792000.0
+    2115000.0,
+    5385000.0,
+    7462000.0
    ],
    "severance_provision": [
-    132000.0,
-    175000.0,
-    209000.0
+    52000.0,
+    115000.0,
+    217000.0
    ],
    "long_term_debt": [
-    493000.0,
-    0.0,
-    0.0
+    1847000.0,
+    8331000.0,
+    11580000.0
    ],
    "bank_debt_long": [
-    19000.0,
-    0.0,
-    0.0
+    1612000.0,
+    8318000.0,
+    11580000.0
    ],
    "short_term_debt": [
-    3581000.0,
-    2627000.0,
-    4797000.0
+    8020000.0,
+    21018000.0,
+    21877000.0
    ],
    "bank_debt_short": [
-    231000.0,
-    147000.0,
-    1968000.0
+    6000.0,
+    1028000.0,
+    2569000.0
    ],
    "current_liabilities": [
-    3587000.0,
-    2629000.0,
-    4815000.0
+    8021000.0,
+    21183000.0,
+    21914000.0
    ],
    "ebitda": [
-    566000.0,
-    329000.0,
-    311000.0
+    3170000.0,
+    4972000.0,
+    5743000.0
    ]
   },
   "ratio_history": {
    "asset_turnover": [
-    1.048122,
-    1.102725,
-    1.260877
+    2.022944,
+    1.367688,
+    1.283771
    ],
    "liquidita_su_attivo": [
-    0.088645,
-    0.084196,
-    0.120932
+    0.145648,
+    0.037312,
+    0.129786
    ],
    "tfr_su_attivo": [
-    0.02786,
-    0.047684,
-    0.0358
+    0.004031,
+    0.00327,
+    0.005251
    ],
    "clca": [
-    0.755804,
-    0.715804,
-    0.821686
+    0.621657,
+    0.597731,
+    0.529427
    ],
    "imposte_su_utile_ante": [
-    0.39959,
-    0.440529,
-    0.746914
+    0.296474,
+    0.316304,
+    0.347157
    ],
    "quick_ratio": [
-    0.915807,
-    1.14302,
-    0.92731
+    1.160578,
+    1.389086,
+    1.101259
    ],
    "ebitda_su_attivo": [
-    0.11946,
-    0.089646,
-    0.053272
+    0.245717,
+    0.141399,
+    0.138982
    ],
    "equity_ratio": [
-    0.10764,
-    0.227793,
-    0.135663
+    0.163941,
+    0.153144,
+    0.180582
    ]
   },
+  "indicator_history": {
+   "quick_ratio_aumento_estremo": {
+    "values": [
+     0.20902,
+     0.228507,
+     0.0
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "asset_turnover": {
+    "values": [
+     2.022944,
+     1.367688,
+     1.283771
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "tfr_su_attivo": {
+    "values": [
+     0.004031,
+     0.00327,
+     0.005251
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "liquidita_su_attivo": {
+    "values": [
+     0.145648,
+     0.037312,
+     0.129786
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "imposte_su_utile_ante": {
+    "values": [
+     0.296474,
+     0.316304,
+     0.347157
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "d_asset_turnover_2y": {
+    "values": [
+     1.197762,
+     0.208478,
+     -0.739173
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "vol_ricavi_3y": {
+    "values": [
+     0.952954,
+     0.687841,
+     0.338214
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "clca": {
+    "values": [
+     0.621657,
+     0.597731,
+     0.529427
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "cagr_attivo_1y": {
+    "values": [
+     0.535102,
+     1.725603,
+     0.175156
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "d_ebitda_su_attivo_2y": {
+    "values": [
+     0.168367,
+     -0.052557,
+     -0.106736
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   }
+  },
   "lfi": {
-   "xb": -3.21027,
-   "pd_model": 0.038781,
-   "pd": 0.022082,
-   "pd_low": 0.018428,
-   "pd_high": 0.025822,
+   "xb": -3.205696,
+   "pd_model": 0.038952,
+   "pd": 0.02223,
+   "pd_low": 0.018563,
+   "pd_high": 0.025982,
    "model_decile": 6,
    "cluster_pd_mean": 0.034503,
    "xb_cluster_mean": -3.011521,
-   "pd_pct_portfolio": 47.1,
-   "pd_pct_cluster": 40.3,
+   "pd_pct_portfolio": 47.2,
+   "pd_pct_cluster": 40.5,
    "n_missing_core": 0,
    "negative_equity": false
   },
@@ -1658,189 +2284,193 @@
     "area": "liquidity",
     "family": "dyn_liquidity",
     "sub_pd": 0.023611,
-    "sub_pct": 36.4
+    "sub_pct": 0.0
    },
    "eta_azienda": {
-    "value": 10.310199,
-    "driver": 0.077235,
-    "portfolio_pct": 53.2,
+    "value": 11.881747,
+    "driver": -0.15347,
+    "portfolio_pct": 59.1,
     "portfolio_median": 9.606108,
     "cluster_median": 9.105334,
-    "cluster_pct": 56.1,
+    "cluster_pct": 62.2,
     "sub_pd_cluster_mean": 0.030817,
     "area": "anagrafica",
     "family": "anagrafica",
-    "sub_pd": 0.029537,
-    "sub_pct": 48.1
+    "sub_pd": 0.020503,
+    "sub_pct": 40.5
    },
    "asset_turnover": {
-    "value": 1.260877,
+    "value": 1.283771,
     "driver": -0.033761,
-    "portfolio_pct": 49.4,
+    "portfolio_pct": 50.8,
     "portfolio_median": 1.27147,
     "cluster_median": 1.248475,
-    "cluster_pct": 50.8,
+    "cluster_pct": 52.4,
     "sub_pd_cluster_mean": 0.027274,
     "area": "efficiency",
     "family": "efficiency",
     "sub_pd": 0.025501,
-    "sub_pct": 35.1
+    "sub_pct": 0.0
    },
    "tfr_su_attivo": {
-    "value": 0.0358,
-    "driver": -0.113352,
-    "portfolio_pct": 62.1,
+    "value": 0.005251,
+    "driver": 0.174617,
+    "portfolio_pct": 25.3,
     "portfolio_median": 0.022989,
     "cluster_median": 0.020879,
-    "cluster_pct": 64.9,
+    "cluster_pct": 25.3,
     "sub_pd_cluster_mean": 0.029421,
     "area": "structure",
     "family": "structure",
-    "sub_pd": 0.018646,
-    "sub_pct": 34.5
+    "sub_pd": 0.041372,
+    "sub_pct": 71.8
    },
    "liquidita_su_attivo": {
-    "value": 0.120932,
-    "driver": -0.07844,
-    "portfolio_pct": 55.5,
+    "value": 0.129786,
+    "driver": -0.110946,
+    "portfolio_pct": 57.7,
     "portfolio_median": 0.100242,
     "cluster_median": 0.092605,
-    "cluster_pct": 57.9,
+    "cluster_pct": 59.9,
     "sub_pd_cluster_mean": 0.027963,
     "area": "liquidity",
     "family": "liquidity",
-    "sub_pd": 0.023318,
-    "sub_pct": 46.9
+    "sub_pd": 0.022399,
+    "sub_pct": 39.8
    },
    "imposte_su_utile_ante": {
-    "value": 0.746914,
-    "driver": -0.111727,
-    "portfolio_pct": 90.7,
+    "value": 0.347157,
+    "driver": -0.082645,
+    "portfolio_pct": 59.7,
     "portfolio_median": 0.314286,
     "cluster_median": 0.333333,
-    "cluster_pct": 90.8,
+    "cluster_pct": 53.9,
     "sub_pd_cluster_mean": 0.026097,
     "area": "earnings_quality",
     "family": "earnings_quality",
-    "sub_pd": 0.021345,
-    "sub_pct": 11.8
+    "sub_pd": 0.022365,
+    "sub_pct": 17.9
    },
    "d_asset_turnover_2y": {
-    "value": 0.212755,
-    "driver": -0.046803,
-    "portfolio_pct": 66.0,
+    "value": -0.739173,
+    "driver": 0.109456,
+    "portfolio_pct": 10.3,
     "portfolio_median": 0.037418,
     "cluster_median": 0.023207,
-    "cluster_pct": 66.1,
+    "cluster_pct": 12.5,
     "sub_pd_cluster_mean": 0.02843,
     "area": "efficiency",
     "family": "dyn_efficiency",
-    "sub_pd": 0.022234,
-    "sub_pct": 38.0
+    "sub_pd": 0.039375,
+    "sub_pct": 88.7
    },
    "vol_ricavi_3y": {
-    "value": 0.313467,
-    "driver": -0.021944,
-    "portfolio_pct": 61.0,
+    "value": 0.338214,
+    "driver": 0.016375,
+    "portfolio_pct": 63.9,
     "portfolio_median": 0.24189,
     "cluster_median": 0.330441,
-    "cluster_pct": 47.4,
+    "cluster_pct": 51.0,
     "sub_pd_cluster_mean": 0.033507,
     "area": "dynamics",
     "family": "dynamics",
-    "sub_pd": 0.027491,
-    "sub_pct": 61.0
+    "sub_pd": 0.031548,
+    "sub_pct": 61.8
    },
    "clca": {
-    "value": 0.821686,
-    "driver": 0.165681,
-    "portfolio_pct": 88.3,
+    "value": 0.529427,
+    "driver": -0.059055,
+    "portfolio_pct": 51.1,
     "portfolio_median": 0.52192,
     "cluster_median": 0.56731,
-    "cluster_pct": 87.4,
+    "cluster_pct": 44.0,
     "sub_pd_cluster_mean": 0.02841,
     "area": "leverage",
     "family": "leverage",
-    "sub_pd": 0.044217,
-    "sub_pct": 91.9
+    "sub_pd": 0.023037,
+    "sub_pct": 47.0
    },
    "cagr_attivo_1y": {
-    "value": 0.590736,
-    "driver": 0.074332,
-    "portfolio_pct": 83.4,
+    "value": 0.175156,
+    "driver": -0.065085,
+    "portfolio_pct": 55.4,
     "portfolio_median": 0.13652,
     "cluster_median": 0.208387,
-    "cluster_pct": 74.8,
+    "cluster_pct": 46.1,
     "sub_pd_cluster_mean": 0.032124,
     "area": "growth",
     "family": "dyn_growth",
-    "sub_pd": 0.044259,
-    "sub_pct": 83.4
+    "sub_pd": 0.019063,
+    "sub_pct": 55.4
    },
    "d_ebitda_su_attivo_2y": {
-    "value": -0.066188,
-    "driver": -0.03185,
-    "portfolio_pct": 20.2,
+    "value": -0.106736,
+    "driver": 0.088459,
+    "portfolio_pct": 14.1,
     "portfolio_median": 0.007736,
     "cluster_median": 0.007843,
-    "cluster_pct": 22.4,
+    "cluster_pct": 16.4,
     "sub_pd_cluster_mean": 0.027956,
     "area": "profitability",
     "family": "dyn_profitability",
-    "sub_pd": 0.024195,
-    "sub_pct": 41.4
+    "sub_pd": 0.036349,
+    "sub_pct": 85.0
    }
   },
   "areas": {
    "liquidity": {
-    "driver": -0.15656,
-    "risk_pct": 39.0
+    "driver": -0.189067,
+    "risk_pct": 34.9
    },
    "anagrafica": {
-    "driver": 0.077235,
-    "risk_pct": 48.1
+    "driver": -0.15347,
+    "risk_pct": 40.5
    },
    "efficiency": {
-    "driver": -0.080564,
-    "risk_pct": 27.1
+    "driver": 0.075695,
+    "risk_pct": 81.7
    },
    "structure": {
-    "driver": -0.113352,
-    "risk_pct": 34.5
+    "driver": 0.174617,
+    "risk_pct": 76.0
    },
    "earnings_quality": {
-    "driver": -0.111727,
-    "risk_pct": 11.8
+    "driver": -0.082645,
+    "risk_pct": 33.4
    },
    "dynamics": {
-    "driver": -0.021944,
-    "risk_pct": 61.0
+    "driver": 0.016375,
+    "risk_pct": 65.0
    },
    "leverage": {
-    "driver": 0.165681,
-    "risk_pct": 91.9
+    "driver": -0.059055,
+    "risk_pct": 52.6
    },
    "growth": {
-    "driver": 0.074332,
-    "risk_pct": 83.4
+    "driver": -0.065085,
+    "risk_pct": 55.4
    },
    "profitability": {
-    "driver": -0.03185,
-    "risk_pct": 41.4
+    "driver": 0.088459,
+    "risk_pct": 85.5
    }
   },
   "name": "Edilizia Rovanto S.r.l.",
   "lfi_history": {
-   "simulated": true,
    "years": [
     2022,
     2023,
     2024
    ],
    "pd": [
-    0.020809,
-    0.01796,
-    0.022082
+    0.036696,
+    0.040658,
+    0.02223
+   ],
+   "source": [
+    "model",
+    "model",
+    "model"
    ],
    "negative_equity": [
     false,
@@ -1852,10 +2482,10 @@
  {
   "case_id": "LFI-06",
   "note": "",
-  "scoring_month": "2025-07",
+  "scoring_month": "2025-04",
   "sector": "Social, Cultural & Recreational Services",
-  "ateco_2dgt": "87",
-  "size_class": "Revenue below EUR 5M",
+  "ateco_2dgt": "96",
+  "size_class": "Revenue above EUR 5M",
   "cluster": "socioculturali",
   "customer_type": "Active customer",
   "years": [
@@ -1865,306 +2495,428 @@
   ],
   "financials_eur": {
    "revenue": [
-    240000.0,
-    281000.0,
-    409000.0
+    1419000.0,
+    2993000.0,
+    6252000.0
    ],
    "ebit": [
-    -15000.0,
-    15000.0,
-    12000.0
+    108000.0,
+    606000.0,
+    352000.0
    ],
    "financial_expenses": [
-    2000.0,
-    2000.0,
-    7000.0
+    6000.0,
+    15000.0,
+    10000.0
    ],
    "pre_tax_result": [
-    -17000.0,
-    13000.0,
-    5000.0
+    102000.0,
+    591000.0,
+    342000.0
    ],
    "taxes": [
-    2000.0,
-    1000.0,
-    3000.0
+    49000.0,
+    194000.0,
+    220000.0
    ],
    "net_income": [
-    -19000.0,
-    12000.0,
-    2000.0
+    53000.0,
+    397000.0,
+    122000.0
    ],
    "cash_flow": [
-    -8000.0,
-    25000.0,
-    13000.0
+    79000.0,
+    627000.0,
+    545000.0
    ],
    "inventories": [
+    79000.0,
     0.0,
-    0.0,
-    0.0
+    40000.0
    ],
    "liquidity": [
-    10000.0,
-    9000.0,
-    7000.0
+    310000.0,
+    472000.0,
+    697000.0
    ],
    "current_assets": [
-    292000.0,
-    271000.0,
-    293000.0
+    439000.0,
+    503000.0,
+    1031000.0
    ],
    "total_assets": [
-    305000.0,
-    281000.0,
-    309000.0
+    1670000.0,
+    2570000.0,
+    3847000.0
    ],
    "equity": [
-    62000.0,
-    74000.0,
-    76000.0
+    120000.0,
+    517000.0,
+    639000.0
    ],
    "severance_provision": [
-    13000.0,
-    19000.0,
-    26000.0
+    23000.0,
+    53000.0,
+    134000.0
    ],
    "long_term_debt": [
-    7000.0,
-    8000.0,
-    30000.0
+    708000.0,
+    511000.0,
+    1271000.0
    ],
    "bank_debt_long": [
-    0.0,
-    0.0,
-    23000.0
+    664000.0,
+    511000.0,
+    367000.0
    ],
    "short_term_debt": [
-    223000.0,
-    180000.0,
-    177000.0
+    568000.0,
+    1111000.0,
+    875000.0
    ],
    "bank_debt_short": [
-    null,
-    null,
-    64000.0
+    0.0,
+    0.0,
+    12000.0
    ],
    "current_liabilities": [
-    223000.0,
-    180000.0,
-    177000.0
+    819000.0,
+    1489000.0,
+    1803000.0
    ],
    "ebitda": [
-    -10000.0,
-    18000.0,
-    13000.0
+    108000.0,
+    804000.0,
+    775000.0
    ]
   },
   "ratio_history": {
    "asset_turnover": [
-    0.786885,
-    1.0,
-    1.323625
+    0.849701,
+    1.164591,
+    1.625162
    ],
    "liquidita_su_attivo": [
-    0.032787,
-    0.032028,
-    0.022654
+    0.185629,
+    0.183658,
+    0.18118
    ],
    "tfr_su_attivo": [
-    0.042623,
-    0.067616,
-    0.084142
+    0.013772,
+    0.020623,
+    0.034832
    ],
    "clca": [
-    0.731148,
-    0.640569,
-    0.572816
+    0.34012,
+    0.432296,
+    0.22745
    ],
    "imposte_su_utile_ante": [
-    null,
-    0.076923,
-    0.6
+    0.480392,
+    0.328257,
+    0.643275
    ],
    "quick_ratio": [
-    1.309417,
-    1.505556,
-    1.655367
+    0.43956,
+    0.337811,
+    0.549639
    ],
    "ebitda_su_attivo": [
-    -0.032787,
-    0.064057,
-    0.042071
+    0.064671,
+    0.31284,
+    0.201456
    ],
    "equity_ratio": [
-    0.203279,
-    0.263345,
-    0.245955
+    0.071856,
+    0.201167,
+    0.166103
    ]
   },
+  "indicator_history": {
+   "quick_ratio_aumento_estremo": {
+    "values": [
+     0.0,
+     0.0,
+     0.211829
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "asset_turnover": {
+    "values": [
+     0.849701,
+     1.164591,
+     1.625162
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "tfr_su_attivo": {
+    "values": [
+     0.013772,
+     0.020623,
+     0.034832
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "liquidita_su_attivo": {
+    "values": [
+     0.185629,
+     0.183658,
+     0.18118
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "imposte_su_utile_ante": {
+    "values": [
+     0.480392,
+     0.328257,
+     0.643275
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "d_asset_turnover_2y": {
+    "values": [
+     -1.705855,
+     0.078671,
+     0.775462
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "vol_ricavi_3y": {
+    "values": [
+     0.239918,
+     0.448901,
+     0.693446
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "clca": {
+    "values": [
+     0.34012,
+     0.432296,
+     0.22745
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "cagr_attivo_1y": {
+    "values": [
+     0.205776,
+     0.538922,
+     0.496887
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "d_ebitda_su_attivo_2y": {
+    "values": [
+     -0.019254,
+     0.23053,
+     0.136785
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   }
+  },
   "lfi": {
-   "xb": -3.306835,
-   "pd_model": 0.035337,
-   "pd": 0.022,
-   "pd_low": 0.017649,
-   "pd_high": 0.026604,
+   "xb": -3.453472,
+   "pd_model": 0.030665,
+   "pd": 0.017151,
+   "pd_low": 0.013557,
+   "pd_high": 0.020836,
    "model_decile": 6,
    "cluster_pd_mean": 0.028864,
    "xb_cluster_mean": -3.340533,
-   "pd_pct_portfolio": 47.0,
-   "pd_pct_cluster": 50.1,
+   "pd_pct_portfolio": 41.5,
+   "pd_pct_cluster": 43.6,
    "n_missing_core": 0,
    "negative_equity": false
   },
   "indicators": {
    "quick_ratio_aumento_estremo": {
-    "value": 0.149812,
-    "driver": -0.07979,
-    "portfolio_pct": 69.8,
+    "value": 0.211829,
+    "driver": 0.018166,
+    "portfolio_pct": 75.3,
     "portfolio_median": 0.00947,
     "cluster_median": 0.008686,
-    "cluster_pct": 67.9,
+    "cluster_pct": 73.1,
     "sub_pd_cluster_mean": 0.028032,
     "area": "liquidity",
     "family": "dyn_liquidity",
-    "sub_pd": 0.023611,
-    "sub_pct": 36.4
+    "sub_pd": 0.027717,
+    "sub_pct": 73.3
    },
    "eta_azienda": {
-    "value": 9.179308,
+    "value": 8.735938,
     "driver": 0.1459,
-    "portfolio_pct": 48.0,
+    "portfolio_pct": 45.6,
     "portfolio_median": 9.606108,
     "cluster_median": 8.864057,
-    "cluster_pct": 51.3,
+    "cluster_pct": 49.5,
     "sub_pd_cluster_mean": 0.030673,
     "area": "anagrafica",
     "family": "anagrafica",
     "sub_pd": 0.033188,
-    "sub_pct": 53.3
+    "sub_pct": 51.7
    },
    "asset_turnover": {
-    "value": 1.323625,
+    "value": 1.625162,
     "driver": -0.045752,
-    "portfolio_pct": 53.0,
+    "portfolio_pct": 67.3,
     "portfolio_median": 1.27147,
     "cluster_median": 1.132704,
-    "cluster_pct": 59.9,
+    "cluster_pct": 71.6,
     "sub_pd_cluster_mean": 0.028133,
     "area": "efficiency",
     "family": "efficiency",
     "sub_pd": 0.025501,
-    "sub_pct": 35.1
+    "sub_pct": 0.0
    },
    "tfr_su_attivo": {
-    "value": 0.084142,
-    "driver": -0.145694,
-    "portfolio_pct": 85.1,
+    "value": 0.034832,
+    "driver": -0.061768,
+    "portfolio_pct": 61.3,
     "portfolio_median": 0.022989,
     "cluster_median": 0.028638,
-    "cluster_pct": 76.5,
+    "cluster_pct": 54.6,
     "sub_pd_cluster_mean": 0.027574,
     "area": "structure",
     "family": "structure",
-    "sub_pd": 0.014407,
-    "sub_pct": 18.4
+    "sub_pd": 0.018646,
+    "sub_pct": 28.7
    },
    "liquidita_su_attivo": {
-    "value": 0.022654,
-    "driver": 0.481065,
-    "portfolio_pct": 18.2,
+    "value": 0.18118,
+    "driver": -0.14918,
+    "portfolio_pct": 67.5,
     "portfolio_median": 0.100242,
     "cluster_median": 0.142722,
-    "cluster_pct": 14.1,
+    "cluster_pct": 56.8,
     "sub_pd_cluster_mean": 0.024971,
     "area": "liquidity",
     "family": "liquidity",
-    "sub_pd": 0.043246,
-    "sub_pct": 83.7
+    "sub_pd": 0.018493,
+    "sub_pct": 29.7
    },
    "imposte_su_utile_ante": {
-    "value": 0.6,
+    "value": 0.643275,
     "driver": -0.149278,
-    "portfolio_pct": 85.2,
+    "portfolio_pct": 86.9,
     "portfolio_median": 0.314286,
     "cluster_median": 0.296296,
-    "cluster_pct": 81.9,
+    "cluster_pct": 83.4,
     "sub_pd_cluster_mean": 0.028516,
     "area": "earnings_quality",
     "family": "earnings_quality",
     "sub_pd": 0.021345,
-    "sub_pct": 11.8
+    "sub_pct": 6.5
    },
    "d_asset_turnover_2y": {
-    "value": 0.536739,
+    "value": 0.775462,
     "driver": -0.036113,
-    "portfolio_pct": 81.7,
+    "portfolio_pct": 87.3,
     "portfolio_median": 0.037418,
     "cluster_median": 0.050485,
-    "cluster_pct": 79.2,
+    "cluster_pct": 85.7,
     "sub_pd_cluster_mean": 0.027472,
     "area": "efficiency",
     "family": "dyn_efficiency",
     "sub_pd": 0.022234,
-    "sub_pct": 38.0
+    "sub_pct": 0.0
    },
    "vol_ricavi_3y": {
-    "value": 0.284365,
-    "driver": -0.01298,
-    "portfolio_pct": 56.9,
+    "value": 0.693446,
+    "driver": 0.164888,
+    "portfolio_pct": 86.0,
     "portfolio_median": 0.24189,
     "cluster_median": 0.269713,
-    "cluster_pct": 52.3,
+    "cluster_pct": 83.8,
     "sub_pd_cluster_mean": 0.030546,
     "area": "dynamics",
     "family": "dynamics",
-    "sub_pd": 0.025319,
-    "sub_pct": 58.2
+    "sub_pd": 0.05077,
+    "sub_pct": 82.9
    },
    "clca": {
-    "value": 0.572816,
-    "driver": -0.043429,
-    "portfolio_pct": 57.5,
+    "value": 0.22745,
+    "driver": -0.048178,
+    "portfolio_pct": 11.8,
     "portfolio_median": 0.52192,
     "cluster_median": 0.464677,
-    "cluster_pct": 63.9,
+    "cluster_pct": 18.1,
     "sub_pd_cluster_mean": 0.027626,
     "area": "leverage",
     "family": "leverage",
-    "sub_pd": 0.023037,
-    "sub_pct": 52.6
+    "sub_pd": 0.022688,
+    "sub_pct": 0.0
    },
    "cagr_attivo_1y": {
-    "value": 0.099644,
-    "driver": -0.047044,
-    "portfolio_pct": 44.0,
+    "value": 0.496887,
+    "driver": 0.081562,
+    "portfolio_pct": 80.0,
     "portfolio_median": 0.13652,
     "cluster_median": 0.122222,
-    "cluster_pct": 46.4,
+    "cluster_pct": 79.9,
     "sub_pd_cluster_mean": 0.028109,
     "area": "growth",
     "family": "dyn_growth",
-    "sub_pd": 0.018406,
-    "sub_pct": 26.6
+    "sub_pd": 0.043196,
+    "sub_pct": 78.6
    },
    "d_ebitda_su_attivo_2y": {
-    "value": 0.074858,
+    "value": 0.136785,
     "driver": -0.033186,
-    "portfolio_pct": 75.7,
+    "portfolio_pct": 85.1,
     "portfolio_median": 0.007736,
     "cluster_median": 0.011334,
-    "cluster_pct": 69.8,
+    "cluster_pct": 78.5,
     "sub_pd_cluster_mean": 0.028524,
     "area": "profitability",
     "family": "dyn_profitability",
     "sub_pd": 0.024195,
-    "sub_pct": 41.4
+    "sub_pct": 0.0
    }
   },
   "areas": {
    "liquidity": {
-    "driver": 0.401275,
-    "risk_pct": 79.5
+    "driver": -0.131014,
+    "risk_pct": 31.5
    },
    "anagrafica": {
     "driver": 0.1459,
@@ -2175,24 +2927,24 @@
     "risk_pct": 27.1
    },
    "structure": {
-    "driver": -0.145694,
-    "risk_pct": 18.4
+    "driver": -0.061768,
+    "risk_pct": 34.5
    },
    "earnings_quality": {
     "driver": -0.149278,
     "risk_pct": 11.8
    },
    "dynamics": {
-    "driver": -0.01298,
-    "risk_pct": 58.2
+    "driver": 0.164888,
+    "risk_pct": 86.1
    },
    "leverage": {
-    "driver": -0.043429,
-    "risk_pct": 52.6
+    "driver": -0.048178,
+    "risk_pct": 23.2
    },
    "growth": {
-    "driver": -0.047044,
-    "risk_pct": 26.6
+    "driver": 0.081562,
+    "risk_pct": 79.4
    },
    "profitability": {
     "driver": -0.033186,
@@ -2201,16 +2953,20 @@
   },
   "name": "Polisportiva Tivenna S.r.l.",
   "lfi_history": {
-   "simulated": true,
    "years": [
     2021,
     2022,
     2023
    ],
    "pd": [
-    0.03096,
-    0.021341,
-    0.022
+    0.0217,
+    0.016366,
+    0.017151
+   ],
+   "source": [
+    "model",
+    "model",
+    "model"
    ],
    "negative_equity": [
     false,
@@ -2227,7 +2983,7 @@
   "ateco_2dgt": "45",
   "size_class": "Revenue below EUR 5M",
   "cluster": "commercio_lower",
-  "customer_type": "Active customer",
+  "customer_type": "New customer",
   "years": [
    2021,
    2022,
@@ -2235,334 +2991,456 @@
   ],
   "financials_eur": {
    "revenue": [
-    373000.0,
-    405000.0,
-    506000.0
+    178000.0,
+    232000.0,
+    225000.0
    ],
    "ebit": [
-    8000.0,
-    16000.0,
-    22000.0
+    24000.0,
+    29000.0,
+    44000.0
    ],
    "financial_expenses": [
-    7000.0,
-    8000.0,
-    11000.0
+    0.0,
+    3000.0,
+    4000.0
    ],
    "pre_tax_result": [
-    2000.0,
-    8000.0,
-    11000.0
+    24000.0,
+    26000.0,
+    40000.0
    ],
    "taxes": [
     1000.0,
-    4000.0,
-    7000.0
+    7000.0,
+    15000.0
    ],
    "net_income": [
-    1000.0,
-    4000.0,
-    4000.0
+    23000.0,
+    19000.0,
+    25000.0
    ],
    "cash_flow": [
-    44000.0,
-    62000.0,
-    55000.0
+    23000.0,
+    20000.0,
+    27000.0
    ],
    "inventories": [
-    391000.0,
-    430000.0,
-    450000.0
+    121000.0,
+    269000.0,
+    314000.0
    ],
    "liquidity": [
-    3000.0,
-    13000.0,
-    14000.0
+    8000.0,
+    1000.0,
+    16000.0
    ],
    "current_assets": [
-    456000.0,
-    523000.0,
-    568000.0
+    176000.0,
+    282000.0,
+    357000.0
    ],
    "total_assets": [
-    684000.0,
-    768000.0,
-    815000.0
+    176000.0,
+    282000.0,
+    361000.0
    ],
    "equity": [
-    42000.0,
-    46000.0,
-    50000.0
+    29000.0,
+    30000.0,
+    72000.0
    ],
    "severance_provision": [
-    38000.0,
-    43000.0,
-    42000.0
+    0.0,
+    1000.0,
+    1000.0
    ],
    "long_term_debt": [
-    275000.0,
-    340000.0,
-    490000.0
+    41000.0,
+    21000.0,
+    21000.0
    ],
    "bank_debt_long": [
-    30000.0,
-    26000.0,
-    19000.0
-   ],
-   "short_term_debt": [
-    329000.0,
-    339000.0,
-    232000.0
-   ],
-   "bank_debt_short": [
     0.0,
     0.0,
     0.0
    ],
+   "short_term_debt": [
+    106000.0,
+    230000.0,
+    267000.0
+   ],
+   "bank_debt_short": [
+    null,
+    33000.0,
+    40000.0
+   ],
    "current_liabilities": [
-    329000.0,
-    339000.0,
-    233000.0
+    106000.0,
+    230000.0,
+    267000.0
    ],
    "ebitda": [
-    43000.0,
-    59000.0,
-    61000.0
+    24000.0,
+    29000.0,
+    45000.0
    ]
   },
   "ratio_history": {
    "asset_turnover": [
-    0.545322,
-    0.527344,
-    0.620859
+    1.011364,
+    0.822695,
+    0.623269
    ],
    "liquidita_su_attivo": [
-    0.004386,
-    0.016927,
-    0.017178
+    0.045455,
+    0.003546,
+    0.044321
    ],
    "tfr_su_attivo": [
-    0.055556,
-    0.05599,
-    0.051534
+    0.0,
+    0.003546,
+    0.00277
    ],
    "clca": [
-    0.480994,
-    0.441406,
-    0.284663
+    0.602273,
+    0.815603,
+    0.739612
    ],
    "imposte_su_utile_ante": [
-    0.5,
-    0.5,
-    0.636364
+    0.041667,
+    0.269231,
+    0.375
    ],
    "quick_ratio": [
-    0.197568,
-    0.274336,
-    0.506438
+    0.518868,
+    0.056522,
+    0.161049
    ],
    "ebitda_su_attivo": [
-    0.062865,
-    0.076823,
-    0.074847
+    0.136364,
+    0.102837,
+    0.124654
    ],
    "equity_ratio": [
-    0.061404,
-    0.059896,
-    0.06135
+    0.164773,
+    0.106383,
+    0.199446
    ]
   },
+  "indicator_history": {
+   "quick_ratio_aumento_estremo": {
+    "values": [
+     0.0,
+     0.0,
+     0.104527
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "asset_turnover": {
+    "values": [
+     1.011364,
+     0.822695,
+     0.623269
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "tfr_su_attivo": {
+    "values": [
+     0.0,
+     0.003546,
+     0.00277
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "liquidita_su_attivo": {
+    "values": [
+     0.045455,
+     0.003546,
+     0.044321
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "imposte_su_utile_ante": {
+    "values": [
+     0.041667,
+     0.269231,
+     0.375
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "d_asset_turnover_2y": {
+    "values": [
+     0.083827,
+     0.387211,
+     -0.388095
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "vol_ricavi_3y": {
+    "values": [
+     0.261272,
+     0.360068,
+     0.138735
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "clca": {
+    "values": [
+     0.602273,
+     0.815603,
+     0.739612
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "cagr_attivo_1y": {
+    "values": [
+     -0.290323,
+     0.602273,
+     0.280142
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "d_ebitda_su_attivo_2y": {
+    "values": [
+     0.013175,
+     0.147192,
+     -0.01171
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   }
+  },
   "lfi": {
-   "xb": -2.662825,
-   "pd_model": 0.065203,
-   "pd": 0.03988,
-   "pd_low": 0.035856,
-   "pd_high": 0.043997,
+   "xb": -2.621975,
+   "pd_model": 0.067737,
+   "pd": 0.041372,
+   "pd_low": 0.03714,
+   "pd_high": 0.04563,
    "model_decile": 8,
    "cluster_pd_mean": 0.041774,
    "xb_cluster_mean": -2.813185,
-   "pd_pct_portfolio": 66.4,
-   "pd_pct_cluster": 55.0,
+   "pd_pct_portfolio": 67.9,
+   "pd_pct_cluster": 56.9,
    "n_missing_core": 0,
    "negative_equity": false
   },
   "indicators": {
    "quick_ratio_aumento_estremo": {
-    "value": 0.232101,
-    "driver": 0.032541,
-    "portfolio_pct": 76.6,
+    "value": 0.104527,
+    "driver": -0.07633,
+    "portfolio_pct": 64.6,
     "portfolio_median": 0.00947,
     "cluster_median": 0.010983,
-    "cluster_pct": 76.8,
+    "cluster_pct": 64.5,
     "sub_pd_cluster_mean": 0.027343,
     "area": "liquidity",
     "family": "dyn_liquidity",
-    "sub_pd": 0.027717,
-    "sub_pct": 75.7
+    "sub_pd": 0.023611,
+    "sub_pct": 0.0
    },
    "eta_azienda": {
-    "value": 8.642683,
-    "driver": 0.100444,
-    "portfolio_pct": 45.1,
+    "value": 10.832501,
+    "driver": -0.111494,
+    "portfolio_pct": 55.3,
     "portfolio_median": 9.606108,
     "cluster_median": 8.077933,
-    "cluster_pct": 53.7,
+    "cluster_pct": 64.8,
     "sub_pd_cluster_mean": 0.032819,
     "area": "anagrafica",
     "family": "anagrafica",
-    "sub_pd": 0.03332,
-    "sub_pct": 55.3
+    "sub_pd": 0.02396,
+    "sub_pct": 42.4
    },
    "asset_turnover": {
-    "value": 0.620859,
+    "value": 0.623269,
     "driver": 0.10478,
-    "portfolio_pct": 13.4,
+    "portfolio_pct": 13.5,
     "portfolio_median": 1.27147,
     "cluster_median": 1.387828,
-    "cluster_pct": 11.5,
+    "cluster_pct": 11.6,
     "sub_pd_cluster_mean": 0.027005,
     "area": "efficiency",
     "family": "efficiency",
     "sub_pd": 0.031965,
-    "sub_pct": 88.2
+    "sub_pct": 85.5
    },
    "tfr_su_attivo": {
-    "value": 0.051534,
-    "driver": -0.134051,
-    "portfolio_pct": 72.5,
+    "value": 0.00277,
+    "driver": 0.157793,
+    "portfolio_pct": 20.9,
     "portfolio_median": 0.022989,
     "cluster_median": 0.017857,
-    "cluster_pct": 76.2,
+    "cluster_pct": 27.0,
     "sub_pd_cluster_mean": 0.031466,
     "area": "structure",
     "family": "structure",
-    "sub_pd": 0.018643,
-    "sub_pct": 27.6
+    "sub_pd": 0.041372,
+    "sub_pct": 71.8
    },
    "liquidita_su_attivo": {
-    "value": 0.017178,
-    "driver": 0.474244,
-    "portfolio_pct": 14.8,
+    "value": 0.044321,
+    "driver": 0.292652,
+    "portfolio_pct": 29.6,
     "portfolio_median": 0.100242,
     "cluster_median": 0.111036,
-    "cluster_pct": 13.0,
+    "cluster_pct": 27.0,
     "sub_pd_cluster_mean": 0.026633,
     "area": "liquidity",
     "family": "liquidity",
-    "sub_pd": 0.043246,
-    "sub_pct": 83.7
+    "sub_pd": 0.034774,
+    "sub_pct": 69.7
    },
    "imposte_su_utile_ante": {
-    "value": 0.636364,
-    "driver": -0.151193,
-    "portfolio_pct": 86.7,
+    "value": 0.375,
+    "driver": -0.121727,
+    "portfolio_pct": 65.0,
     "portfolio_median": 0.314286,
     "cluster_median": 0.305556,
-    "cluster_pct": 87.9,
+    "cluster_pct": 67.4,
     "sub_pd_cluster_mean": 0.02781,
     "area": "earnings_quality",
     "family": "earnings_quality",
-    "sub_pd": 0.021345,
-    "sub_pct": 11.8
+    "sub_pd": 0.022365,
+    "sub_pct": 17.9
    },
    "d_asset_turnover_2y": {
-    "value": 0.075537,
-    "driver": -0.050526,
-    "portfolio_pct": 54.0,
+    "value": -0.388095,
+    "driver": -0.001461,
+    "portfolio_pct": 19.6,
     "portfolio_median": 0.037418,
     "cluster_median": 0.04375,
-    "cluster_pct": 52.7,
+    "cluster_pct": 22.9,
     "sub_pd_cluster_mean": 0.029041,
     "area": "efficiency",
     "family": "dyn_efficiency",
-    "sub_pd": 0.022234,
-    "sub_pct": 38.0
+    "sub_pd": 0.026569,
+    "sub_pct": 79.7
    },
    "vol_ricavi_3y": {
-    "value": 0.162194,
-    "driver": -0.08129,
-    "portfolio_pct": 33.3,
+    "value": 0.138735,
+    "driver": -0.131646,
+    "portfolio_pct": 27.4,
     "portfolio_median": 0.24189,
     "cluster_median": 0.241277,
-    "cluster_pct": 33.6,
+    "cluster_pct": 27.6,
     "sub_pd_cluster_mean": 0.02903,
     "area": "dynamics",
     "family": "dynamics",
-    "sub_pd": 0.019104,
-    "sub_pct": 38.2
+    "sub_pd": 0.015945,
+    "sub_pct": 20.8
    },
    "clca": {
-    "value": 0.284663,
-    "driver": -0.066883,
-    "portfolio_pct": 17.7,
+    "value": 0.739612,
+    "driver": 0.068394,
+    "portfolio_pct": 79.9,
     "portfolio_median": 0.52192,
     "cluster_median": 0.541217,
-    "cluster_pct": 17.1,
+    "cluster_pct": 76.3,
     "sub_pd_cluster_mean": 0.028748,
     "area": "leverage",
     "family": "leverage",
-    "sub_pd": 0.022688,
-    "sub_pct": 23.2
+    "sub_pd": 0.033485,
+    "sub_pct": 79.7
    },
    "cagr_attivo_1y": {
-    "value": 0.061198,
-    "driver": -0.049284,
-    "portfolio_pct": 37.0,
+    "value": 0.280142,
+    "driver": 0.038671,
+    "portfolio_pct": 66.9,
     "portfolio_median": 0.13652,
     "cluster_median": 0.122291,
-    "cluster_pct": 39.2,
+    "cluster_pct": 69.2,
     "sub_pd_cluster_mean": 0.027466,
     "area": "growth",
     "family": "dyn_growth",
-    "sub_pd": 0.018406,
-    "sub_pct": 26.6
+    "sub_pd": 0.031194,
+    "sub_pct": 66.9
    },
    "d_ebitda_su_attivo_2y": {
-    "value": 0.011981,
+    "value": -0.01171,
     "driver": -0.028423,
-    "portfolio_pct": 52.5,
+    "portfolio_pct": 38.1,
     "portfolio_median": 0.007736,
     "cluster_median": 0.009056,
-    "cluster_pct": 51.8,
+    "cluster_pct": 37.5,
     "sub_pd_cluster_mean": 0.027478,
     "area": "profitability",
     "family": "dyn_profitability",
     "sub_pd": 0.024195,
-    "sub_pct": 41.4
+    "sub_pct": 0.0
    }
   },
   "areas": {
    "liquidity": {
-    "driver": 0.506785,
-    "risk_pct": 94.1
+    "driver": 0.216322,
+    "risk_pct": 64.3
    },
    "anagrafica": {
-    "driver": 0.100444,
-    "risk_pct": 55.3
+    "driver": -0.111494,
+    "risk_pct": 43.5
    },
    "efficiency": {
-    "driver": 0.054254,
-    "risk_pct": 73.4
+    "driver": 0.103319,
+    "risk_pct": 85.4
    },
    "structure": {
-    "driver": -0.134051,
-    "risk_pct": 27.6
+    "driver": 0.157793,
+    "risk_pct": 76.0
    },
    "earnings_quality": {
-    "driver": -0.151193,
-    "risk_pct": 11.8
+    "driver": -0.121727,
+    "risk_pct": 33.4
    },
    "dynamics": {
-    "driver": -0.08129,
-    "risk_pct": 38.2
+    "driver": -0.131646,
+    "risk_pct": 25.0
    },
    "leverage": {
-    "driver": -0.066883,
-    "risk_pct": 23.2
+    "driver": 0.068394,
+    "risk_pct": 81.3
    },
    "growth": {
-    "driver": -0.049284,
-    "risk_pct": 26.6
+    "driver": 0.038671,
+    "risk_pct": 67.0
    },
    "profitability": {
     "driver": -0.028423,
@@ -2571,16 +3449,20 @@
   },
   "name": "Commerciale Brusata S.r.l.",
   "lfi_history": {
-   "simulated": true,
    "years": [
     2021,
     2022,
     2023
    ],
    "pd": [
-    0.051649,
-    0.0466,
-    0.03988
+    0.052487,
+    0.076183,
+    0.041372
+   ],
+   "source": [
+    "model",
+    "model",
+    "model"
    ],
    "negative_equity": [
     false,
@@ -2742,6 +3624,128 @@
     0.185111
    ]
   },
+  "indicator_history": {
+   "quick_ratio_aumento_estremo": {
+    "values": [
+     1.43094,
+     0.143858,
+     1.428761
+    ],
+    "source": [
+     "simulated",
+     "earlier",
+     "model"
+    ]
+   },
+   "asset_turnover": {
+    "values": [
+     1.161039,
+     1.290043,
+     1.118712
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "tfr_su_attivo": {
+    "values": [
+     0.015584,
+     0.02381,
+     0.030181
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "liquidita_su_attivo": {
+    "values": [
+     0.148052,
+     0.108225,
+     0.014085
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "imposte_su_utile_ante": {
+    "values": [
+     0.423077,
+     0.346939,
+     null
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "d_asset_turnover_2y": {
+    "values": [
+     0.289352,
+     0.118222,
+     -0.042327
+    ],
+    "source": [
+     "simulated",
+     "earlier",
+     "model"
+    ]
+   },
+   "vol_ricavi_3y": {
+    "values": [
+     0.247517,
+     0.27768,
+     0.144684
+    ],
+    "source": [
+     "simulated",
+     "earlier",
+     "model"
+    ]
+   },
+   "clca": {
+    "values": [
+     0.67013,
+     0.664502,
+     0.299799
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "cagr_attivo_1y": {
+    "values": [
+     0.245073,
+     0.2,
+     0.075758
+    ],
+    "source": [
+     "simulated",
+     "earlier",
+     "model"
+    ]
+   },
+   "d_ebitda_su_attivo_2y": {
+    "values": [
+     0.016167,
+     -0.057482,
+     -0.059557
+    ],
+    "source": [
+     "simulated",
+     "earlier",
+     "model"
+    ]
+   }
+  },
   "lfi": {
    "xb": -2.192838,
    "pd_model": 0.100395,
@@ -2768,7 +3772,7 @@
     "area": "liquidity",
     "family": "dyn_liquidity",
     "sub_pd": 0.046914,
-    "sub_pct": 96.3
+    "sub_pct": 95.5
    },
    "eta_azienda": {
     "value": 7.89817,
@@ -2781,7 +3785,7 @@
     "area": "anagrafica",
     "family": "anagrafica",
     "sub_pd": 0.033372,
-    "sub_pct": 58.3
+    "sub_pct": 55.4
    },
    "asset_turnover": {
     "value": 1.118712,
@@ -2794,7 +3798,7 @@
     "area": "efficiency",
     "family": "efficiency",
     "sub_pd": 0.025501,
-    "sub_pct": 35.1
+    "sub_pct": 0.0
    },
    "tfr_su_attivo": {
     "value": 0.030181,
@@ -2807,7 +3811,7 @@
     "area": "structure",
     "family": "structure",
     "sub_pd": 0.022916,
-    "sub_pct": 44.5
+    "sub_pct": 41.8
    },
    "liquidita_su_attivo": {
     "value": 0.014085,
@@ -2820,7 +3824,7 @@
     "area": "liquidity",
     "family": "liquidity",
     "sub_pd": 0.043246,
-    "sub_pct": 83.7
+    "sub_pct": 76.1
    },
    "imposte_su_utile_ante": {
     "value": null,
@@ -2833,7 +3837,7 @@
     "area": "earnings_quality",
     "family": "earnings_quality",
     "sub_pd": 0.030077,
-    "sub_pct": 58.5
+    "sub_pct": 53.5
    },
    "d_asset_turnover_2y": {
     "value": -0.042327,
@@ -2846,7 +3850,7 @@
     "area": "efficiency",
     "family": "dyn_efficiency",
     "sub_pd": 0.022234,
-    "sub_pct": 38.0
+    "sub_pct": 0.0
    },
    "vol_ricavi_3y": {
     "value": 0.144684,
@@ -2859,7 +3863,7 @@
     "area": "dynamics",
     "family": "dynamics",
     "sub_pd": 0.015945,
-    "sub_pct": 25.0
+    "sub_pct": 20.8
    },
    "clca": {
     "value": 0.299799,
@@ -2872,7 +3876,7 @@
     "area": "leverage",
     "family": "leverage",
     "sub_pd": 0.022688,
-    "sub_pct": 23.2
+    "sub_pct": 0.0
    },
    "cagr_attivo_1y": {
     "value": 0.075758,
@@ -2885,7 +3889,7 @@
     "area": "growth",
     "family": "dyn_growth",
     "sub_pd": 0.018406,
-    "sub_pct": 26.6
+    "sub_pct": 0.0
    },
    "d_ebitda_su_attivo_2y": {
     "value": -0.059557,
@@ -2898,7 +3902,7 @@
     "area": "profitability",
     "family": "dyn_profitability",
     "sub_pd": 0.024195,
-    "sub_pct": 41.4
+    "sub_pct": 0.0
    }
   },
   "areas": {
@@ -2941,7 +3945,6 @@
   },
   "name": "Emporio Orcellia S.r.l.",
   "lfi_history": {
-   "simulated": true,
    "years": [
     2021,
     2022,
@@ -2949,8 +3952,13 @@
    ],
    "pd": [
     0.052189,
-    0.051315,
+    0.02868,
     0.059909
+   ],
+   "source": [
+    "simulated",
+    "model",
+    "model"
    ],
    "negative_equity": [
     false,
@@ -2962,335 +3970,457 @@
  {
   "case_id": "LFI-09",
   "note": "",
-  "scoring_month": "2024-09",
+  "scoring_month": "2025-10",
   "sector": "Rental & Transport",
-  "ateco_2dgt": "52",
-  "size_class": "Revenue above EUR 5M",
+  "ateco_2dgt": "49",
+  "size_class": "Revenue below EUR 5M",
   "cluster": "rac",
   "customer_type": "Active customer",
   "years": [
-   2021,
    2022,
-   2023
+   2023,
+   2024
   ],
   "financials_eur": {
    "revenue": [
-    17398000.0,
-    16271000.0,
-    12120000.0
+    1710000.0,
+    2347000.0,
+    2233000.0
    ],
    "ebit": [
-    233000.0,
-    120000.0,
-    210000.0
+    181000.0,
+    54000.0,
+    56000.0
    ],
    "financial_expenses": [
-    93000.0,
-    51000.0,
-    98000.0
+    1000.0,
+    3000.0,
+    17000.0
    ],
    "pre_tax_result": [
-    142000.0,
-    71000.0,
-    117000.0
+    180000.0,
+    51000.0,
+    39000.0
    ],
    "taxes": [
-    60000.0,
-    21000.0,
-    59000.0
+    24000.0,
+    42000.0,
+    30000.0
    ],
    "net_income": [
-    82000.0,
-    50000.0,
-    58000.0
+    156000.0,
+    9000.0,
+    9000.0
    ],
    "cash_flow": [
-    117000.0,
-    84000.0,
-    79000.0
+    203000.0,
+    61000.0,
+    26000.0
    ],
    "inventories": [
     0.0,
-    0.0,
+    11000.0,
     0.0
    ],
    "liquidity": [
-    1263000.0,
-    705000.0,
-    483000.0
+    43000.0,
+    68000.0,
+    31000.0
    ],
    "current_assets": [
-    6948000.0,
-    7233000.0,
-    5722000.0
+    605000.0,
+    1584000.0,
+    1422000.0
    ],
    "total_assets": [
-    7863000.0,
-    8684000.0,
-    7242000.0
+    972000.0,
+    1658000.0,
+    1489000.0
    ],
    "equity": [
-    402000.0,
-    857000.0,
-    916000.0
+    200000.0,
+    208000.0,
+    218000.0
    ],
    "severance_provision": [
-    46000.0,
-    60000.0,
-    18000.0
+    35000.0,
+    0.0,
+    0.0
    ],
    "long_term_debt": [
-    229000.0,
-    132000.0,
-    44000.0
+    338000.0,
+    0.0,
+    0.0
    ],
    "bank_debt_long": [
-    194000.0,
-    125000.0,
-    44000.0
+    21000.0,
+    0.0,
+    0.0
    ],
    "short_term_debt": [
-    7175000.0,
-    7620000.0,
-    6239000.0
+    399000.0,
+    1408000.0,
+    1229000.0
    ],
    "bank_debt_short": [
-    350000.0,
-    715000.0,
-    721000.0
+    139000.0,
+    629000.0,
+    220000.0
    ],
    "current_liabilities": [
-    7179000.0,
-    7622000.0,
-    6241000.0
+    399000.0,
+    1408000.0,
+    1229000.0
    ],
    "ebitda": [
-    233000.0,
-    120000.0,
-    210000.0
+    204000.0,
+    93000.0,
+    73000.0
    ]
   },
   "ratio_history": {
    "asset_turnover": [
-    2.212641,
-    1.873676,
-    1.673571
+    1.759259,
+    1.415561,
+    1.499664
    ],
    "liquidita_su_attivo": [
-    0.160626,
-    0.081184,
-    0.066694
+    0.044239,
+    0.041013,
+    0.020819
    ],
    "tfr_su_attivo": [
-    0.00585,
-    0.006909,
-    0.002486
+    0.036008,
+    0.0,
+    0.0
    ],
    "clca": [
-    0.912502,
-    0.877476,
-    0.861502
+    0.410494,
+    0.849216,
+    0.825386
    ],
    "imposte_su_utile_ante": [
-    0.422535,
-    0.295775,
-    0.504274
+    0.133333,
+    0.823529,
+    0.769231
    ],
    "quick_ratio": [
-    0.967823,
-    0.948964,
-    0.91684
+    1.516291,
+    1.117188,
+    1.157038
    ],
    "ebitda_su_attivo": [
-    0.029632,
-    0.013819,
-    0.028998
+    0.209877,
+    0.056092,
+    0.049026
    ],
    "equity_ratio": [
-    0.051126,
-    0.098687,
-    0.126484
+    0.205761,
+    0.125452,
+    0.146407
    ]
   },
+  "indicator_history": {
+   "quick_ratio_aumento_estremo": {
+    "values": [
+     0.105438,
+     0.0,
+     0.039851
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "asset_turnover": {
+    "values": [
+     1.759259,
+     1.415561,
+     1.499664
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "tfr_su_attivo": {
+    "values": [
+     0.036008,
+     0.0,
+     0.0
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "liquidita_su_attivo": {
+    "values": [
+     0.044239,
+     0.041013,
+     0.020819
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "imposte_su_utile_ante": {
+    "values": [
+     0.133333,
+     0.823529,
+     0.769231
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "d_asset_turnover_2y": {
+    "values": [
+     0.275168,
+     -0.361418,
+     -0.259595
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "vol_ricavi_3y": {
+    "values": [
+     0.441413,
+     0.316306,
+     0.162009
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "clca": {
+    "values": [
+     0.410494,
+     0.849216,
+     0.825386
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "cagr_attivo_1y": {
+    "values": [
+     0.398561,
+     0.705761,
+     -0.10193
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "d_ebitda_su_attivo_2y": {
+    "values": [
+     0.216695,
+     -0.012973,
+     -0.16085
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   }
+  },
   "lfi": {
-   "xb": -2.330736,
-   "pd_model": 0.088609,
-   "pd": 0.062246,
-   "pd_low": 0.053966,
-   "pd_high": 0.071098,
-   "model_decile": 9,
+   "xb": -2.295685,
+   "pd_model": 0.091481,
+   "pd": 0.063997,
+   "pd_low": 0.055355,
+   "pd_high": 0.07299,
+   "model_decile": 10,
    "cluster_pd_mean": 0.062989,
    "xb_cluster_mean": -2.418712,
-   "pd_pct_portfolio": 84.4,
-   "pd_pct_cluster": 53.6,
+   "pd_pct_portfolio": 85.4,
+   "pd_pct_cluster": 55.6,
    "n_missing_core": 0,
    "negative_equity": false
   },
   "indicators": {
    "quick_ratio_aumento_estremo": {
-    "value": 0.0,
+    "value": 0.039851,
     "driver": -0.058186,
-    "portfolio_pct": 24.1,
+    "portfolio_pct": 55.2,
     "portfolio_median": 0.00947,
     "cluster_median": 0.025904,
-    "cluster_pct": 22.9,
+    "cluster_pct": 53.0,
     "sub_pd_cluster_mean": 0.027315,
     "area": "liquidity",
     "family": "dyn_liquidity",
     "sub_pd": 0.023611,
-    "sub_pct": 36.4
+    "sub_pct": 0.0
    },
    "eta_azienda": {
-    "value": 8.738082,
-    "driver": 0.021369,
-    "portfolio_pct": 45.6,
+    "value": 13.904433,
+    "driver": -0.215765,
+    "portfolio_pct": 65.2,
     "portfolio_median": 9.606108,
     "cluster_median": 6.834053,
-    "cluster_pct": 61.9,
+    "cluster_pct": 80.2,
     "sub_pd_cluster_mean": 0.035804,
     "area": "anagrafica",
     "family": "anagrafica",
-    "sub_pd": 0.033188,
-    "sub_pct": 53.3
+    "sub_pd": 0.020418,
+    "sub_pct": 32.4
    },
    "asset_turnover": {
-    "value": 1.673571,
+    "value": 1.499664,
     "driver": -0.021334,
-    "portfolio_pct": 69.1,
+    "portfolio_pct": 61.8,
     "portfolio_median": 1.27147,
     "cluster_median": 1.398298,
-    "cluster_pct": 62.6,
+    "cluster_pct": 54.7,
     "sub_pd_cluster_mean": 0.026924,
     "area": "efficiency",
     "family": "efficiency",
     "sub_pd": 0.025501,
-    "sub_pct": 35.1
+    "sub_pct": 0.0
    },
    "tfr_su_attivo": {
-    "value": 0.002486,
-    "driver": 0.127852,
-    "portfolio_pct": 20.5,
+    "value": 0.0,
+    "driver": 0.212521,
+    "portfolio_pct": 8.5,
     "portfolio_median": 0.022989,
     "cluster_median": 0.02032,
-    "cluster_pct": 25.0,
+    "cluster_pct": 10.8,
     "sub_pd_cluster_mean": 0.030615,
     "area": "structure",
     "family": "structure",
-    "sub_pd": 0.041372,
-    "sub_pct": 76.0
+    "sub_pd": 0.055716,
+    "sub_pct": 83.0
    },
    "liquidita_su_attivo": {
-    "value": 0.066694,
-    "driver": 0.080178,
-    "portfolio_pct": 39.1,
+    "value": 0.020819,
+    "driver": 0.29375,
+    "portfolio_pct": 17.0,
     "portfolio_median": 0.100242,
     "cluster_median": 0.074219,
-    "cluster_pct": 46.5,
+    "cluster_pct": 19.7,
     "sub_pd_cluster_mean": 0.029373,
     "area": "liquidity",
     "family": "liquidity",
-    "sub_pd": 0.030855,
-    "sub_pct": 60.8
+    "sub_pd": 0.043246,
+    "sub_pct": 76.1
    },
    "imposte_su_utile_ante": {
-    "value": 0.504274,
-    "driver": -0.100696,
-    "portfolio_pct": 80.2,
+    "value": 0.769231,
+    "driver": -0.12031,
+    "portfolio_pct": 91.7,
     "portfolio_median": 0.314286,
     "cluster_median": 0.296552,
-    "cluster_pct": 81.2,
+    "cluster_pct": 91.8,
     "sub_pd_cluster_mean": 0.028137,
     "area": "earnings_quality",
     "family": "earnings_quality",
-    "sub_pd": 0.022234,
-    "sub_pct": 17.8
+    "sub_pd": 0.021345,
+    "sub_pct": 6.5
    },
    "d_asset_turnover_2y": {
-    "value": -0.539071,
-    "driver": 0.079034,
-    "portfolio_pct": 14.6,
+    "value": -0.259595,
+    "driver": -0.029873,
+    "portfolio_pct": 25.6,
     "portfolio_median": 0.037418,
     "cluster_median": 0.07946,
-    "cluster_pct": 14.4,
+    "cluster_pct": 25.8,
     "sub_pd_cluster_mean": 0.027241,
     "area": "efficiency",
     "family": "dyn_efficiency",
-    "sub_pd": 0.037282,
-    "sub_pct": 86.0
+    "sub_pd": 0.022234,
+    "sub_pct": 0.0
    },
    "vol_ricavi_3y": {
-    "value": 0.182116,
+    "value": 0.162009,
     "driver": -0.083846,
-    "portfolio_pct": 37.9,
+    "portfolio_pct": 33.2,
     "portfolio_median": 0.24189,
     "cluster_median": 0.29408,
-    "cluster_pct": 31.2,
+    "cluster_pct": 28.2,
     "sub_pd_cluster_mean": 0.032414,
     "area": "dynamics",
     "family": "dynamics",
     "sub_pd": 0.019104,
-    "sub_pct": 38.2
+    "sub_pct": 30.8
    },
    "clca": {
-    "value": 0.861502,
+    "value": 0.825386,
     "driver": 0.120137,
-    "portfolio_pct": 91.7,
+    "portfolio_pct": 88.6,
     "portfolio_median": 0.52192,
     "cluster_median": 0.591928,
-    "cluster_pct": 87.8,
+    "cluster_pct": 83.6,
     "sub_pd_cluster_mean": 0.029398,
     "area": "leverage",
     "family": "leverage",
     "sub_pd": 0.044217,
-    "sub_pct": 91.9
+    "sub_pct": 87.6
    },
    "cagr_attivo_1y": {
-    "value": -0.166053,
+    "value": -0.10193,
     "driver": -0.054239,
-    "portfolio_pct": 6.6,
+    "portfolio_pct": 11.2,
     "portfolio_median": 0.13652,
     "cluster_median": 0.216571,
-    "cluster_pct": 5.7,
+    "cluster_pct": 10.0,
     "sub_pd_cluster_mean": 0.031824,
     "area": "growth",
     "family": "dyn_growth",
     "sub_pd": 0.018406,
-    "sub_pct": 26.6
+    "sub_pct": 0.0
    },
    "d_ebitda_su_attivo_2y": {
-    "value": -0.000635,
-    "driver": -0.022293,
-    "portfolio_pct": 44.5,
+    "value": -0.16085,
+    "driver": 0.080173,
+    "portfolio_pct": 9.5,
     "portfolio_median": 0.007736,
     "cluster_median": 0.006038,
-    "cluster_pct": 45.9,
+    "cluster_pct": 9.7,
     "sub_pd_cluster_mean": 0.027548,
     "area": "profitability",
     "family": "dyn_profitability",
-    "sub_pd": 0.024195,
-    "sub_pct": 41.4
+    "sub_pd": 0.037912,
+    "sub_pct": 86.5
    }
   },
   "areas": {
    "liquidity": {
-    "driver": 0.021992,
-    "risk_pct": 55.7
+    "driver": 0.235563,
+    "risk_pct": 79.5
    },
    "anagrafica": {
-    "driver": 0.021369,
-    "risk_pct": 53.3
+    "driver": -0.215765,
+    "risk_pct": 36.4
    },
    "efficiency": {
-    "driver": 0.0577,
-    "risk_pct": 77.1
+    "driver": -0.051207,
+    "risk_pct": 27.1
    },
    "structure": {
-    "driver": 0.127852,
-    "risk_pct": 76.0
+    "driver": 0.212521,
+    "risk_pct": 91.5
    },
    "earnings_quality": {
-    "driver": -0.100696,
-    "risk_pct": 17.8
+    "driver": -0.12031,
+    "risk_pct": 11.8
    },
    "dynamics": {
     "driver": -0.083846,
@@ -3305,22 +4435,26 @@
     "risk_pct": 26.6
    },
    "profitability": {
-    "driver": -0.022293,
-    "risk_pct": 41.4
+    "driver": 0.080173,
+    "risk_pct": 88.6
    }
   },
   "name": "Autoservizi Castrivo S.r.l.",
   "lfi_history": {
-   "simulated": true,
    "years": [
-    2021,
     2022,
-    2023
+    2023,
+    2024
    ],
    "pd": [
-    0.055261,
-    0.065082,
-    0.062246
+    0.026235,
+    0.040184,
+    0.063997
+   ],
+   "source": [
+    "model",
+    "model",
+    "model"
    ],
    "negative_equity": [
     false,
@@ -3482,6 +4616,128 @@
     0.352632
    ]
   },
+  "indicator_history": {
+   "quick_ratio_aumento_estremo": {
+    "values": [
+     0.0,
+     0.014315,
+     0.388218
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "asset_turnover": {
+    "values": [
+     2.0025,
+     1.501441,
+     0.757895
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "tfr_su_attivo": {
+    "values": [
+     0.005,
+     0.008646,
+     0.007895
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "liquidita_su_attivo": {
+    "values": [
+     0.185,
+     0.057637,
+     0.021053
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "imposte_su_utile_ante": {
+    "values": [
+     0.266667,
+     0.26087,
+     0.27027
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "d_asset_turnover_2y": {
+    "values": [
+     0.637115,
+     -0.495463,
+     -1.244605
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "vol_ricavi_3y": {
+    "values": [
+     0.550822,
+     0.213987,
+     0.478618
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "clca": {
+    "values": [
+     0.8675,
+     0.795389,
+     0.639474
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "cagr_attivo_1y": {
+    "values": [
+     0.23839,
+     -0.1325,
+     0.095101
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "d_ebitda_su_attivo_2y": {
+    "values": [
+     0.155962,
+     -0.012286,
+     -0.185921
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   }
+  },
   "lfi": {
    "xb": -1.353049,
    "pd_model": 0.205372,
@@ -3521,7 +4777,7 @@
     "area": "anagrafica",
     "family": "anagrafica",
     "sub_pd": 0.058279,
-    "sub_pct": 98.8
+    "sub_pct": 97.6
    },
    "asset_turnover": {
     "value": 0.757895,
@@ -3534,7 +4790,7 @@
     "area": "efficiency",
     "family": "efficiency",
     "sub_pd": 0.02899,
-    "sub_pct": 81.0
+    "sub_pct": 79.7
    },
    "tfr_su_attivo": {
     "value": 0.007895,
@@ -3547,7 +4803,7 @@
     "area": "structure",
     "family": "structure",
     "sub_pd": 0.038973,
-    "sub_pct": 70.5
+    "sub_pct": 69.7
    },
    "liquidita_su_attivo": {
     "value": 0.021053,
@@ -3560,7 +4816,7 @@
     "area": "liquidity",
     "family": "liquidity",
     "sub_pd": 0.043246,
-    "sub_pct": 83.7
+    "sub_pct": 76.1
    },
    "imposte_su_utile_ante": {
     "value": 0.27027,
@@ -3573,7 +4829,7 @@
     "area": "earnings_quality",
     "family": "earnings_quality",
     "sub_pd": 0.03121,
-    "sub_pct": 77.8
+    "sub_pct": 63.8
    },
    "d_asset_turnover_2y": {
     "value": -1.244605,
@@ -3586,7 +4842,7 @@
     "area": "efficiency",
     "family": "dyn_efficiency",
     "sub_pd": 0.05932,
-    "sub_pct": 93.9
+    "sub_pct": 92.3
    },
    "vol_ricavi_3y": {
     "value": 0.478618,
@@ -3612,7 +4868,7 @@
     "area": "leverage",
     "family": "leverage",
     "sub_pd": 0.024571,
-    "sub_pct": 64.5
+    "sub_pct": 59.7
    },
    "cagr_attivo_1y": {
     "value": 0.095101,
@@ -3625,7 +4881,7 @@
     "area": "growth",
     "family": "dyn_growth",
     "sub_pd": 0.018406,
-    "sub_pct": 26.6
+    "sub_pct": 0.0
    },
    "d_ebitda_su_attivo_2y": {
     "value": -0.185921,
@@ -3638,7 +4894,7 @@
     "area": "profitability",
     "family": "dyn_profitability",
     "sub_pd": 0.040077,
-    "sub_pct": 91.8
+    "sub_pct": 91.3
    }
   },
   "areas": {
@@ -3681,16 +4937,20 @@
   },
   "name": "Costruzioni Pradalto S.p.A.",
   "lfi_history": {
-   "simulated": true,
    "years": [
     2022,
     2023,
     2024
    ],
    "pd": [
-    0.080352,
-    0.115354,
+    0.048882,
+    0.056054,
     0.108243
+   ],
+   "source": [
+    "model",
+    "model",
+    "model"
    ],
    "negative_equity": [
     false,
