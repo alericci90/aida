@@ -56,15 +56,17 @@ def load_portfolio() -> dict:
         return json.load(f)
 
 
-def load_customer(case_id: str) -> dict:
-    """Dati cliente da payline/<case_id>.json: chiavi di objects.CUSTOMER_FIELDS (valori grezzi) piu'
-    monthly_current / monthly_new (euro) per il riquadro dell'impegno mensile. Nel mock-up i file sono simulati da
-    tools/build_cases.py; se il file non c'e': {}."""
-    path = REPO.parent / "payline" / f"{case_id}.json"
-    if not path.exists():
-        return {}
-    with open(path, "r", encoding="utf-8") as f:
-        j = json.load(f)
+def load_customer(case: dict) -> dict:
+    """Dati cliente: chiavi di objects.CUSTOMER_FIELDS (valori grezzi) piu' monthly_current / monthly_new (euro).
+    Fonte: il campo "customer" di cases.json; in mancanza payline/<case_id>.json (stesso formato a gruppi
+    company / relationship / fleet). Nel mock-up sono simulati da tools/build_cases.py. Nessun dato: {}."""
+    j = case.get("customer")
+    if not j:
+        path = REPO.parent / "payline" / f"{case['case_id']}.json"
+        if path.exists():
+            with open(path, "r", encoding="utf-8") as f:
+                j = json.load(f)
+    j = j or {}
     return {k: v for group in ("company", "relationship", "fleet") for k, v in j.get(group, {}).items()}
 
 

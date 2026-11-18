@@ -306,6 +306,7 @@ for n, c in enumerate(cases, 1):
                      "monthly_current": monthly_cur, "monthly_new": fee_new,
                      "claims": claims, "services": services, "buyback": buyback}}
     json.dump(pay, open(Path(OUT).parent / "payline" / f"{c['case_id']}.json", "w"), indent=2)
+    c["customer"] = pay          # stessi dati anche dentro cases.json: per il mock-up basta un solo file di dati
     c["name"] = name
     # PD sui bilanci precedenti: REALE (pratica precedente della stessa azienda) se c'e', altrimenti SIMULATA come
     # PD_t * exp(-delta), delta = peggioramento (+) o miglioramento (-) di liquidita', redditivita', debito a breve e

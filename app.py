@@ -96,6 +96,13 @@ if "selected_company" not in st.session_state:
 cases = _cases()
 portfolio = _portfolio()
 
+# controllo di versione dei dati: se repository_lfi/cases.json non e' aggiornato lo si dice, invece di andare in errore
+REQUIRED_CASE_KEYS = ["lfi", "indicators", "financials_eur", "lfi_history", "indicator_history", "customer"]
+_old = sorted({k for c in cases.values() for k in REQUIRED_CASE_KEYS if k not in c})
+if _old:
+    st.error(f"repository_lfi/cases.json is an older version (missing: {', '.join(_old)}). Replace it with the latest "
+             f"file in the folder repository_lfi of the app ({APP_DIR / 'repository_lfi' / 'cases.json'}).")
+
 if st.session_state.modalita != "Companies DB":
     st.session_state.submitted = False
     st.session_state.selected_company = None
@@ -118,7 +125,10 @@ if st.session_state.submitted and st.session_state.selected_company in cases:
     fin = case["financials_eur"]
     years = case["years"]
     cls = lfi_class(lfi["pd"], lfi["negative_equity"])
-    customer = load_customer(case_id)
+    customer = load_customer(case)
+    if not customer:
+        st.warning("Customer data not available for this company: repository_lfi/cases.json is an older version "
+                   "(no 'customer' field). Replace it with the latest file.")
 
     # ----- CUSTOMER DATA (stesse card del template) -----
     st.divider()
@@ -232,7 +242,11 @@ if st.session_state.submitted and st.session_state.selected_company in cases:
 
         with colC:
             series_key, series_label, series_fmt = meta["history"]
-            series = case["indicator_history"][series_key]["values"]      # l'indicatore stesso sui tre bilanci
+            hist_ = case.get("indicator_history", {}).get(series_key)
+            if hist_ is None:                                       # cases.json vecchio: niente grafico, nessun errore
+                st.divider()
+                continue
+            series = hist_["values"]                                # l'indicatore stesso sui tre bilanci
             series_label = series_label or meta["label"]
             st.markdown(f"<div class='aida-spark-title'>{series_label} · 3Y trend</div>", unsafe_allow_html=True)
             ref = ind["cluster_median"]                             # mediana del segmento dell'indicatore
