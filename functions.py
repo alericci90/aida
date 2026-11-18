@@ -275,7 +275,7 @@ def class_radar(case: dict, dark: bool = True):
     fig.update_layout(
         font=dict(family="Inter, system-ui, sans-serif", color=cc["tick"]),
         polar=dict(bgcolor="rgba(255,255,255,0)",
-                   radialaxis=dict(visible=True, range=[1, n], tickvals=list(range(1, n + 1)),
+                   radialaxis=dict(visible=True, range=[0, n], tickvals=list(range(1, n + 1)),   # da 0: anche la classe 1 ha superficie
                                    tickfont=dict(size=11, color=cc["tick"]), gridcolor=cc["grid"], linecolor=cc["grid"]),
                    angularaxis=dict(tickfont=dict(size=11, color=cc["angular"]), gridcolor=cc["grid"],
                                     linecolor=cc["grid"])),
