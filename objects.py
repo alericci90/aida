@@ -1,294 +1,202 @@
 # %% objects
-DESCRIZIONI = {
-    "struttura": {
-        1: "Struttura patrimoniale molto solida.",
-        2: "Buon equilibrio patrimoniale.",
-        3: "Capitalizzazione sufficiente.",
-        4: "Struttura finanziaria fragile.",
-        5: "Grave sottocapitalizzazione."
-    },
-    "liquidita": {
-        1: "Elevata liquidità di breve periodo.",
-        2: "Liquidità adeguata.",
-        3: "Equilibrio borderline.",
-        4: "Tensione di liquidità.",
-        5: "Grave carenza di liquidità."
-    },
-    "leva": {
-        1: "Indebitamento sostenibile.",
-        2: "Leva sotto controllo.",
-        3: "Indebitamento significativo.",
-        4: "Debito elevato.",
-        5: "Indebitamento critico."
-    },
-    "cashflow": {
-        1: "Elevata capacità di generare cassa.",
-        2: "Buona generazione di cassa.",
-        3: "Cash flow moderato.",
-        4: "Debole autofinanziamento.",
-        5: "Grave inefficienza operativa."
-    },
-    "profitability": {
-        1: "Oneri finanziari trascurabili.",
-        2: "Oneri finanziari contenuti.",
-        3: "Incidenza rilevante.",
-        4: "Oneri elevati.",
-        5: "Carico finanziario critico."
-    },
-    "cagr_ricavi": {
-        1: "Crescita dei ricavi estremamente robusta (≥20%), indice di forte competitività, capacità di scalare e accelerazione commerciale.",
-        2: "Crescita sostenuta (10–20%), superiore alla media di mercato; domanda in espansione e execution efficace.",
-        3: "Crescita non negativa ma moderata (0–10%): posizionamento stabile, sviluppo organico, mantenimento delle quote.",
-        4: "Contrazione lieve (−10%–0%): segnali di rallentamento; pressione competitiva o mercato meno dinamico.",
-        5: "Contrazione significativa (<−10%): stagnazione o perdita di competitività; revisione del modello commerciale consigliata."
-    }
+# ============================================================================
+#  AIDA · LEASYS FINANCIAL INDEX — METADATI DEL MODELLO (nessuna logica)
+# ----------------------------------------------------------------------------
+#  Unica fonte per: scala delle classi, aree, indicatori del nucleo, scheda del
+#  modello. La dashboard (app.py) e il prompt dell'AI Analyst
+#  (funzione_ai_azure_eng.py) leggono da qui: cambiando una definizione in
+#  questo file cambiano insieme la pagina e cio' che viene detto all'LLM.
+# ============================================================================
+
+# ---------------------------------------------------------------------------
+# SCALA DELLE CLASSI DI RISCHIO
+# ---------------------------------------------------------------------------
+# Tagli ufficiali forniti dall'utente il 18/11/2026: 5 soglie sulla PD calibrata (pd_cal) -> 6 classi.
+# Ogni valore e' l'estremo superiore della classe (PD < soglia); l'ultima classe non ha tetto.
+# Il numero di classi e' len(LFI_CLASS_CUTS) + 1: cambiando la lista tutto il resto si adegua.
+LFI_CLASS_CUTS = [0.006187781657340546, 0.015126294306543511, 0.03135440708411206, 0.051596325904445246,
+                  0.08868207243027773]
+LFI_CLASSES_PROVISIONAL = False     # True mostra in pagina l'avviso "scala provvisoria"
+
+# Override: patrimonio netto negativo -> classe peggiore, qualunque sia la PD.
+OVERRIDE_NEGATIVE_EQUITY = True
+
+# Colori di riferimento (il colore di ogni classe e' interpolato su questa scala) ed etichette di fascia.
+BAND_COLORS = {1: "#16976A", 2: "#67B35A", 3: "#F3B13C", 4: "#EE6B2C", 5: "#9E1B14"}
+BAND_LABELS = {1: "EXCELLENT", 2: "GOOD", 3: "ADEQUATE", 4: "WEAK", 5: "CRITICAL"}
+BAND_DESCRIPTIONS = {
+    1: "Default risk well below the portfolio average.",
+    2: "Default risk below the portfolio average.",
+    3: "Default risk in line with the portfolio average.",
+    4: "Default risk above the portfolio average.",
+    5: "Default risk well above the portfolio average.",
 }
 
-DESCRIZIONI_eng = {
-    "struttura": {
-        1: "Very solid capital structure.",
-        2: "Good capital balance.",
-        3: "Adequate capitalization.",
-        4: "Fragile financial structure.",
-        5: "Severe undercapitalization."
-    },
-    "liquidita": {
-        1: "High short-term liquidity.",
-        2: "Adequate liquidity.",
-        3: "Borderline equilibrium.",
-        4: "Liquidity tension.",
-        5: "Severe liquidity shortage."
-    },
-    "leva": {
-        1: "Sustainable indebtedness.",
-        2: "Leverage under control.",
-        3: "Significant indebtedness.",
-        4: "High debt level.",
-        5: "Critical indebtedness."
-    },
-    "cashflow": {
-        1: "High cash generation capacity.",
-        2: "Good cash generation.",
-        3: "Moderate cash flow.",
-        4: "Weak self-financing capacity.",
-        5: "Severe operating inefficiency."
-    },
-    "profitability": {
-        1: "Negligible financial expenses.",
-        2: "Low financial expenses.",
-        3: "Significant incidence.",
-        4: "High financial charges.",
-        5: "Critical financial burden."
-    },
-    "cagr_ricavi": {
-        1: "Extremely robust revenue growth (≥20%), indicating strong competitiveness, scalability, and commercial acceleration.",
-        2: "Sustained growth (10–20%), above market average; expanding demand and effective execution.",
-        3: "Non-negative but moderate growth (0–10%): stable positioning, organic development, and market share preservation.",
-        4: "Slight contraction (−10%–0%): signs of slowdown; competitive pressure or less dynamic market.",
-        5: "Significant contraction (<−10%): stagnation or loss of competitiveness; a revision of the commercial model is recommended."
-    }
+# ---------------------------------------------------------------------------
+# SEGMENTI (cluster del modello)
+# ---------------------------------------------------------------------------
+CLUSTER_LABELS = {
+    "industria_lower": "Agriculture, Industry & Manufacturing · revenue below EUR 5M",
+    "industria_higher": "Agriculture, Industry & Manufacturing · revenue above EUR 5M",
+    "costruzioni": "Construction & Real Estate",
+    "commercio_lower": "Trade, Tourism & Consumer Services · revenue below EUR 5M",
+    "commercio_higher": "Trade, Tourism & Consumer Services · revenue above EUR 5M",
+    "finance": "ICT, Finance, Insurance & Professional Services",
+    "socioculturali": "Social, Cultural & Recreational Services",
+    "rac": "Rental & Transport",
 }
 
-DESCRIZIONE_INTEGRATO = {
-    1: "Profilo complessivo molto solido.",
-    2: "Profilo solido con lievi attenzioni.",
-    3: "Profilo intermedio.",
-    4: "Profilo fragile.",
-    5: "Profilo critico."
+# ---------------------------------------------------------------------------
+# AREE (sottoscore del nucleo): ordine di presentazione
+# ---------------------------------------------------------------------------
+AREAS = {
+    "liquidity": "Liquidity",
+    "anagrafica": "Company age",
+    "structure": "Workforce structure",
+    "efficiency": "Efficiency",
+    "dynamics": "Revenue stability",
+    "earnings_quality": "Earnings quality",
+    "leverage": "Short-term leverage",
+    "growth": "Asset growth",
+    "profitability": "Profitability trend",
 }
 
-DESCRIZIONE_INTEGRATO_eng = {
-    1: "Overall profile is very strong.",
-    2: "Strong profile with minor concerns.",
-    3: "Intermediate profile.",
-    4: "Weak profile.",
-    5: "Critical profile."
+# ---------------------------------------------------------------------------
+# GLI 11 INDICATORI DEL NUCLEO (Run O solocore)
+# ---------------------------------------------------------------------------
+# trend_good: verso favorevole della serie a 3 esercizi mostrata nel grafico ("up" / "down"), None se il verso
+#             non e' univoco per il modello (il commento al trend descrive solo l'andamento)
+# family    : famiglia del modello (una per indicatore: e' la chiave del sottoindice di famiglia)
+# direction : "risk" = valori alti aumentano il rischio; "protective" = lo riducono
+#             (verso con cui l'indicatore entra nel modello; "from data" dove non era imposto)
+# fmt       : come si mostra il valore -> "ratio" | "pct" | "pct_signed" | "ratio_signed" | "years"
+# history   : (serie a 3 esercizi da mostrare nel grafico, etichetta, formato) oppure None
+#             la serie e' una chiave di case["ratio_history"] o di case["financials_eur"]
+INDICATORS = {
+    "liquidita_su_attivo": dict(
+        trend_good='up', family="liquidity", family_label="Liquidity",
+        label="Cash buffer", area="liquidity", direction="protective", fmt="pct",
+        formula="Liquidity / Total assets",
+        reading="Share of assets held in cash and liquid financial assets: the buffer available to meet payments.",
+        history=("liquidita_su_attivo", "Liquidity / Total assets", "pct")),
+    "quick_ratio_aumento_estremo": dict(
+        trend_good=None, family="dyn_liquidity", family_label="Liquidity dynamics",
+        label="Sharp rise in quick ratio", area="liquidity", direction="risk", fmt="ratio",
+        formula="max(Quick ratio(t) − Quick ratio(t−1), 0)  ·  Quick ratio = (Current assets − Inventories) / Current liabilities",
+        reading="Size of the one-year jump in the quick ratio (0 if it fell). In the portfolio the one-year change in "
+                "the quick ratio has a U-shaped relation with default: an abrupt jump goes with higher risk, like an "
+                "abrupt fall.",
+        history=("quick_ratio", "Quick ratio", "ratio")),
+    "eta_azienda": dict(
+        trend_good=None, family="anagrafica", family_label="Company age",
+        label="Company age", area="anagrafica", direction="protective", fmt="years",
+        formula="Years since the start of activity, at the application date",
+        reading="In the portfolio, younger companies default more often.",
+        history=None),
+    "tfr_su_attivo": dict(
+        trend_good='up', family="structure", family_label="Structure",
+        label="Severance provision on assets", area="structure", direction="protective (from data)", fmt="pct",
+        formula="Employee severance provision (TFR) / Total assets",
+        reading="A proxy of a stable, structured workforce: companies with a sizeable provision built up over the "
+                "years default less often.",
+        history=("tfr_su_attivo", "TFR / Total assets", "pct")),
+    "asset_turnover": dict(
+        trend_good='up', family="efficiency", family_label="Efficiency",
+        label="Asset turnover", area="efficiency", direction="protective", fmt="ratio",
+        formula="Revenue / Total assets",
+        reading="Revenue generated per euro of assets.",
+        history=("asset_turnover", "Revenue / Total assets", "ratio")),
+    "d_asset_turnover_2y": dict(
+        trend_good='up', family="dyn_efficiency", family_label="Efficiency dynamics",
+        label="Asset turnover change (2Y)", area="efficiency", direction="protective", fmt="ratio_signed",
+        formula="Asset turnover(t) − Asset turnover(t−2)",
+        reading="Whether assets are producing more or less revenue than two years earlier.",
+        history=("asset_turnover", "Revenue / Total assets", "ratio")),
+    "vol_ricavi_3y": dict(
+        trend_good=None, family="dynamics", family_label="Revenue dynamics",
+        label="Revenue volatility (3Y)", area="dynamics", direction="risk", fmt="ratio",
+        formula="Standard deviation / |mean| of revenue over the last three fiscal years",
+        reading="How unstable revenue has been, in either direction: strong swings go with higher risk.",
+        history=("revenue", "Revenue", "eur")),
+    "imposte_su_utile_ante": dict(
+        trend_good='up', family="earnings_quality", family_label="Earnings quality",
+        label="Effective tax rate", area="earnings_quality", direction="protective (from data)", fmt="pct",
+        formula="Taxes / Pre-tax result  (only if the pre-tax result is positive; capped at 150%)",
+        reading="In the portfolio a higher effective tax rate goes with lower risk. Not available when the "
+                "pre-tax result is zero or negative: in that case the model uses the risk level observed for "
+                "companies without a positive pre-tax result.",
+        history=("imposte_su_utile_ante", "Taxes / Pre-tax result", "pct")),
+    "clca": dict(
+        trend_good='down', family="leverage", family_label="Leverage",
+        label="Short-term debt on assets", area="leverage", direction="risk", fmt="pct",
+        formula="Debts due within 12 months / Total assets",
+        reading="Weight of the debts to be repaid within the year on total assets.",
+        history=("clca", "Short-term debts / Total assets", "pct")),
+    "cagr_attivo_1y": dict(
+        trend_good=None, family="dyn_growth", family_label="Growth dynamics",
+        label="Asset growth (1Y)", area="growth", direction="risk (from data)", fmt="pct_signed",
+        formula="Total assets(t) / Total assets(t−1) − 1",
+        reading="Very fast balance-sheet growth in one year goes with higher risk (expansion ahead of the company's "
+                "financial capacity).",
+        history=("total_assets", "Total assets", "eur")),
+    "d_ebitda_su_attivo_2y": dict(
+        trend_good='up', family="dyn_profitability", family_label="Profitability dynamics",
+        label="EBITDA on assets change (2Y)", area="profitability", direction="protective", fmt="ratio_signed",
+        formula="EBITDA / Total assets(t) − EBITDA / Total assets(t−2)  ·  EBITDA = gross operating margin + other income/charges",
+        reading="Whether gross operating profitability has improved or worsened over two years.",
+        history=("ebitda_su_attivo", "EBITDA / Total assets", "pct")),
 }
 
-INDICATOR_META = {
-    "struttura": {
-        "label": "Patrimonio netto / Attivo",
-        "positivo": "up",
-        "commenti": {
-            "up": "Il rafforzamento progressivo della capitalizzazione indica una struttura patrimoniale in miglioramento.",
-            "down": "La riduzione dell’incidenza del patrimonio netto segnala un indebolimento della struttura patrimoniale.",
-            "flat": "La struttura patrimoniale risulta sostanzialmente stabile nel periodo osservato."
-        }
-    },
-    "liquidita": {
-        "label": "Attivo a breve / Passivo a breve",
-        "positivo": "up",
-        "commenti": {
-            "up": "La dinamica crescente del capitale circolante evidenzia un miglioramento della posizione di liquidità.",
-            "down": "La contrazione del rapporto segnala una progressiva tensione nella gestione della liquidità.",
-            "flat": "Il profilo di liquidità rimane complessivamente stabile nel triennio."
-        }
-    },
-    "leva": {
-        "label": "(Debiti totali − Liquidità) / EBITDA",
-        "positivo": "down",
-        "commenti": {
-            "up": "L’aumento della leva finanziaria indica una minore sostenibilità del debito nel tempo.",
-            "down": "La riduzione della leva finanziaria segnala un miglioramento della sostenibilità dell’indebitamento.",
-            "flat": "Il livello di leva finanziaria risulta sostanzialmente invariato nel periodo analizzato."
-        }
-    },
-    "cashflow": {
-        "label": "Cash flow / Attivo",
-        "positivo": "up",
-        "commenti": {
-            "up": "La maggiore capacità di generazione di cassa riflette un miglioramento dell’efficienza degli asset.",
-            "down": "La riduzione della capacità di generare cassa evidenzia un indebolimento dell’efficienza operativa.",
-            "flat": "La capacità di generazione di cassa risulta stabile nel triennio."
-        }
-    },
-    "profitability": {
-        "label": "Oneri finanziari / Ricavi",
-        "positivo": "down",
-        "commenti": {
-            "up": "L’incremento del peso degli oneri finanziari penalizza progressivamente la redditività.",
-            "down": "La riduzione dell’incidenza degli oneri finanziari migliora la sostenibilità economica.",
-            "flat": "Il peso degli oneri finanziari sui ricavi risulta sostanzialmente stabile."
-        }
-    }
-}
-
-INDICATOR_META_eng = {
-    "struttura": {
-        "label": "Net Worth / Total Assets",
-        "positivo": "up",
-        "commenti": {
-            "up": "The progressive strengthening of capitalization indicates an improving capital structure.",
-            "down": "The reduction in the equity ratio signals a weakening of the capital structure.",
-            "flat": "The capital structure remains substantially stable over the observed period."
-        }
-    },
-    "liquidita": {
-        "label": "Current Assets / Current Liabilities",
-        "positivo": "up",
-        "commenti": {
-            "up": "The increasing trend in working capital indicates an improvement in the liquidity position.",
-            "down": "The contraction of the ratio signals rising pressure in liquidity management.",
-            "flat": "The liquidity profile remains overall stable over the three-year period."
-        }
-    },
-    "leva": {
-        "label": "(Total Debts - Liquidity) / EBITDA",
-        "positivo": "down",
-        "commenti": {
-            "up": "The increase in financial leverage indicates lower debt sustainability over time.",
-            "down": "The reduction in financial leverage signals an improvement in debt sustainability.",
-            "flat": "The level of financial leverage remains substantially unchanged over the period analysed."
-        }
-    },
-    "cashflow": {
-        "label": "Cash Flow / Total Assets",
-        "positivo": "up",
-        "commenti": {
-            "up": "The improved cash-generation ability reflects greater asset efficiency.",
-            "down": "The decline in cash-generation capacity highlights a weakening of operational efficiency.",
-            "flat": "Cash-generation capacity remains stable over the three-year period."
-        }
-    },
-    "profitability": {
-        "label": "Financial Payables / Revenue",
-        "positivo": "down",
-        "commenti": {
-            "up": "The increasing weight of financial expenses progressively penalizes profitability.",
-            "down": "The reduction in financial-expense incidence improves economic sustainability.",
-            "flat": "The weight of financial expenses relative to revenue remains substantially stable."
-        }
-    }
-}
-
-radar_labels = [
-    "Struttura Patrimoniale",
-    "Liquidità",
-    "Leva Finanziaria",
-    "Flussi di Cassa",
-    "Profitability"
+# ---------------------------------------------------------------------------
+# VOCI DI BILANCIO MOSTRATE (chiave in case["financials_eur"] -> etichetta)
+# ---------------------------------------------------------------------------
+FINANCIAL_ITEMS = [
+    ("Income statement", [
+        ("revenue", "Revenue"), ("ebitda", "EBITDA"), ("ebit", "EBIT"),
+        ("financial_expenses", "Financial expenses"), ("pre_tax_result", "Pre-tax result"),
+        ("taxes", "Taxes"), ("net_income", "Net income"), ("cash_flow", "Cash flow")]),
+    ("Assets", [
+        ("total_assets", "Total assets"), ("current_assets", "Current assets"),
+        ("inventories", "Inventories"), ("liquidity", "Liquidity")]),
+    ("Equity and liabilities", [
+        ("equity", "Equity"), ("severance_provision", "Severance provision (TFR)"),
+        ("long_term_debt", "Debts due beyond 12 months"), ("bank_debt_long", "  of which bank debt (beyond 12 months)"),
+        ("short_term_debt", "Debts due within 12 months"), ("bank_debt_short", "  of which bank debt (within 12 months)"),
+        ("current_liabilities", "Current liabilities")]),
 ]
 
-radar_labels_eng = [
-    "Capital Structure",
-    "Current Liquidity",
-    "Debt Sustainability",
-    "Cash Flow",
-    "Profitability"
+# ---------------------------------------------------------------------------
+# SCHEDA DEL MODELLO (numeri dal log del Run O solocore, 16/11/2026)
+# ---------------------------------------------------------------------------
+MODEL_INFO = {
+    "name": "Leasys Financial Index (LFI)",
+    "version": "Run O · fixed core",
+    "target": "Default on Leasys within 12 months of the application (more than 90 days past due)",
+    "sample": "57,014 applications from 39,719 companies, April 2022 – October 2025",
+    "structure": "Logistic model on 11 indicators shared by all companies; level and slope specific to each of the "
+                 "8 sector / size segments",
+    "calibration": "Hierarchical Bayesian calibration on observed 12-month defaults, with a 90% credible band",
+    "gini_test": "53.31%",          # Gini test osservate, media sui 12 fold
+    "gini_test_activated": "53.78%",
+    "gini_train": "55.68%",
+    "validation": "3 × 4-fold cross-validation by company",
+}
+
+# ---------------------------------------------------------------------------
+# INDICATORI MOSTRATI IN "INDICATOR RESULTS" E NEL RADAR
+# ---------------------------------------------------------------------------
+# L'eta' dell'azienda non e' un indicatore di bilancio: resta nel modello e nello SHAP, non in queste sezioni.
+DISPLAY_INDICATORS = [k for k in INDICATORS if k != "eta_azienda"]
+
+# Voci dell'ultimo bilancio mostrate nelle card "Financial Statement Indicators" (chiave -> etichetta)
+FINANCIAL_CARDS = [
+    ("equity", "Net Worth"), ("total_assets", "Total Assets"), ("current_assets", "Current Assets"),
+    ("inventories", "Inventories"), ("liquidity", "Liquidity"), ("current_liabilities", "Current Liabilities"),
+    ("short_term_debt", "Debts Due Within 12 Months"), ("severance_provision", "Severance Provision (TFR)"),
+    ("revenue", "Revenues"), ("ebitda", "EBITDA"), ("pre_tax_result", "Pre-tax Result"), ("taxes", "Taxes"),
 ]
 
-colori_classi_radar = {
-    1: "#16976A",
-    2: "#67B35A",
-    3: "#F3B13C",
-    4: "#EE6B2C",
-    5: "#9E1B14"
-}
-
-INDICATOR_META = {
-    "struttura": {
-        "label": "Patrimonio netto / Attivo",
-        "positivo": "up",
-        "commenti": {
-            "up": "Il rafforzamento progressivo della capitalizzazione indica una struttura patrimoniale in miglioramento.",
-            "down": "La riduzione dell’incidenza del patrimonio netto segnala un indebolimento della struttura patrimoniale.",
-            "flat": "La struttura patrimoniale risulta sostanzialmente stabile nel periodo osservato."
-        }
-    },
-    "liquidita": {
-        "label": "Attivo a breve / Passivo a breve",
-        "positivo": "up",
-        "commenti": {
-            "up": "La dinamica crescente del capitale circolante evidenzia un miglioramento della posizione di liquidità.",
-            "down": "La contrazione del rapporto segnala una progressiva tensione nella gestione della liquidità.",
-            "flat": "Il profilo di liquidità rimane complessivamente stabile nel triennio."
-        }
-    },
-    "leva": {
-        "label": "(Debiti totali − Liquidità) / EBITDA",
-        "positivo": "down",
-        "commenti": {
-            "up": "L’aumento della leva finanziaria indica una minore sostenibilità del debito nel tempo.",
-            "down": "La riduzione della leva finanziaria segnala un miglioramento della sostenibilità dell’indebitamento.",
-            "flat": "Il livello di leva finanziaria risulta sostanzialmente invariato nel periodo analizzato."
-        }
-    },
-    "cashflow": {
-        "label": "Cash flow / Attivo",
-        "positivo": "up",
-        "commenti": {
-            "up": "La maggiore capacità di generazione di cassa riflette un miglioramento dell’efficienza degli asset.",
-            "down": "La riduzione della capacità di generare cassa evidenzia un indebolimento dell’efficienza operativa.",
-            "flat": "La capacità di generazione di cassa risulta stabile nel triennio."
-        }
-    },
-    "profitability": {
-        "label": "Oneri finanziari / Ricavi",
-        "positivo": "down",
-        "commenti": {
-            "up": "L’incremento del peso degli oneri finanziari penalizza progressivamente la redditività.",
-            "down": "La riduzione dell’incidenza degli oneri finanziari migliora la sostenibilità economica.",
-            "flat": "Il peso degli oneri finanziari sui ricavi risulta sostanzialmente stabile."
-        }
-    }
-}
-
-descr_cagr = {
-    "up": "Ricavi in rafforzamento: CAGR positivo e in miglioramento della trazione commerciale.",
-    "down": "Ricavi in contrazione: CAGR negativo e calo della dinamica commerciale.",
-    "flat": "Ricavi sostanzialmente stabili: CAGR prossimo allo zero."
-}
-
-descr_cagr_eng = {
-    "up": "Revenues strengthening: positive CAGR and improving commercial traction.",
-    "down": "Revenues contracting: negative CAGR and weakening commercial momentum.",
-    "flat": "Revenues broadly stable: CAGR close to zero."
-}
-
-COLORI_CLASSI = {
-    1: "#2ecc71",
-    2: "#a9dfbf",
-    3: "#f1c40f",
-    4: "#e74c3c",
-    5: "#922b21"
-}
+# Card "Customer Data": stesse voci e stesso ordine del template (valori dal file payline/<case_id>.json, se c'e')
+CUSTOMER_FIELDS = ["Name", "TaxCode", "Active Contracts", "Overall Outstanding", "Rental & RMKT Total", "Rental",
+                   "Remarketing", "Retail & Leasing Total", "Retail", "Leasing", "Overall Past-due",
+                   "Rental fees Past-due", "Rental extra-fees Past-due"]

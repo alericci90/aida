@@ -1,440 +1,341 @@
 # %% functions
-import os
+# ============================================================================
+#  AIDA · LEASYS FINANCIAL INDEX — FORMATTAZIONE, GRAFICI, PDF
+# ----------------------------------------------------------------------------
+#  Nessun calcolo del modello: qui si formattano numeri e si disegnano i
+#  risultati letti da lfi_engine. Le funzioni fmt_* sono le stesse usate per
+#  costruire il testo passato all'AI Analyst: un numero ha la stessa forma
+#  nella pagina e nel prompt.
+# ============================================================================
+import math
+
 import plotly.graph_objects as go
+
+from lfi_engine import class_color, subindex_class
+from objects import AREAS, BAND_LABELS, DISPLAY_INDICATORS, FINANCIAL_ITEMS, INDICATORS
 from style import chart_colors
-import tempfile
 
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, Image as RLImage
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.lib.colors import HexColor
-from reportlab.lib.pagesizes import A4
-from reportlab.lib.units import cm
-from io import BytesIO
-
-from objects import INDICATOR_META, INDICATOR_META_eng
+NA = "n/a"
+RISK_UP, RISK_DOWN, NEUTRAL = "#E5544A", "#1FBE86", "#7c8aa6"
+DRIVER_NEUTRAL = 0.02          # |driver| sotto questa soglia = effetto trascurabile
 
 
-def commento_trend(valori):
-    v0, v1, v2 = valori  # anno_bil-2, anno_bil-1, anno_bil
-
-    delta_tot = v2 - v0
-    soglia = abs(v0) * 0.05  # 5% per considerare variazione significativa
-
-    if delta_tot > soglia:
-        return "L’indicatore evidenzia un miglioramento progressivo nel triennio."
-    elif delta_tot < -soglia:
-        return "L’indicatore mostra un progressivo deterioramento nel triennio."
-    else:
-        return "L’indicatore risulta sostanzialmente stabile nel periodo analizzato."
+# ---------------------------------------------------------------------------
+# FORMATTAZIONE (separatore migliaia = virgola, decimali = punto)
+# ---------------------------------------------------------------------------
+def _missing(x) -> bool:
+    return x is None or (isinstance(x, float) and math.isnan(x))
 
 
-def genera_pdf_leasys(
-        output_path,
-        logo_path,
-        dati_bilancio,
-        classi,
-        descrizioni,
-        score_int,
-        descrizione_int,
-        indicatori_calcolati=None,
-        grafici=None
-):
-    # --- import locali per evitare side effects ---
+def fmt_eur(x) -> str:
+    """Importo in euro senza decimali: €1,234,000 / -€313,000."""
+    if _missing(x):
+        return NA
+    return f"{'-' if x < 0 else ''}€{abs(x):,.0f}"
 
 
-    blu = HexColor("#00467a")
-
-    # -----------------------------------------------------------
-    # DOCUMENTO PDF
-    # -----------------------------------------------------------
-    doc = SimpleDocTemplate(
-        output_path,
-        pagesize=A4,
-        rightMargin=2 * cm,
-        leftMargin=2 * cm,
-        topMargin=2 * cm,
-        bottomMargin=2 * cm
-    )
-
-    styles = getSampleStyleSheet()
-    # Evita doppie definizioni se la funzione viene richiamata più volte
-    if "Titolo" not in styles:
-        styles.add(ParagraphStyle(
-            name="Titolo",
-            fontName="Helvetica-Bold",
-            fontSize=18,
-            textColor=blu,
-            spaceAfter=20
-        ))
-    if "Testo" not in styles:
-        styles.add(ParagraphStyle(
-            name="Testo",
-            fontSize=11,
-            spaceAfter=8
-        ))
-
-    story = []
-
-    # -----------------------------------------------------------
-    # LOGO
-    # -----------------------------------------------------------
-    story.append(RLImage(logo_path, width=6 * cm, height=3 * cm))
-    story.append(Spacer(1, 20))
-
-    # -----------------------------------------------------------
-    # TITOLO PRINCIPALE
-    # -----------------------------------------------------------
-    story.append(Paragraph("Financial Index Dashboard", styles["Titolo"]))
-
-    # -----------------------------------------------------------
-    # DATI DI BILANCIO (valori iniziali)
-    # -----------------------------------------------------------
-    story.append(Paragraph("<b>Indicatori di bilancio</b>", styles["Testo"]))
-
-    tab_bilancio = [[k, f"€ {v:,.0f}"] for k, v in dati_bilancio.items()]
-    table = Table(tab_bilancio, colWidths=[8 * cm, 6 * cm])
-    table.setStyle(TableStyle([
-        ("GRID", (0, 0), (-1, -1), 0.5, blu),
-        ("BACKGROUND", (0, 0), (-1, 0), HexColor("#eaf1f8")),
-        ("FONT", (0, 0), (-1, -1), "Helvetica"),
-        ("FONTSIZE", (0, 0), (-1, -1), 10)
-    ]))
-    story.append(table)
-    story.append(Spacer(1, 20))
-
-    # -----------------------------------------------------------
-    # INDICATORI CALCOLATI (ind1..ind5 + CAGR)
-    # -----------------------------------------------------------
-    if indicatori_calcolati:
-        story.append(Paragraph("<b>Indicatori calcolati</b>", styles["Testo"]))
-        tab_calc = [[k, f"{v:.4f}" if v is not None else ""] for k, v in indicatori_calcolati.items()]
-        table2 = Table(tab_calc, colWidths=[8 * cm, 6 * cm])
-        table2.setStyle(TableStyle([
-            ("GRID", (0, 0), (-1, -1), 0.5, blu),
-            ("BACKGROUND", (0, 0), (-1, 0), HexColor("#eaf1f8")),
-            ("FONT", (0, 0), (-1, -1), "Helvetica"),
-            ("FONTSIZE", (0, 0), (-1, -1), 10)
-        ]))
-        story.append(table2)
-        story.append(Spacer(1, 20))
-
-    # -----------------------------------------------------------
-    # RISULTATI PER INDICATORE (testo + classe)
-    # -----------------------------------------------------------
-    story.append(Paragraph("<b>Risultati per indicatore</b>", styles["Testo"]))
-    for nome, valore, classe, key, _ in classi:
-        story.append(Paragraph(
-            f"<b>{nome}</b> – Classe {classe}<br/>{descrizioni[key][classe]}",
-            styles["Testo"]
-        ))
-    story.append(Spacer(1, 20))
-
-    # -----------------------------------------------------------
-    # SCORE INTEGRATO
-    # -----------------------------------------------------------
-    story.append(Paragraph(
-        f"<b>Score integrato:</b> Classe {score_int}<br/>{descrizione_int}",
-        styles["Testo"]
-    ))
-    story.append(Spacer(1, 20))
-
-    # -----------------------------------------------------------
-    # UTILS: inserimento immagine con ridimensionamento anti-LayoutError
-    # -----------------------------------------------------------
-    def _append_image(flowables, img_obj, max_width=14*cm, max_height=18*cm, title=None):
-        """
-        img_obj: può essere un RLImage già creato, oppure un path/BytesIO per costruirlo.
-        """
-        if not isinstance(img_obj, RLImage):
-            img = RLImage(img_obj)
-        else:
-            img = img_obj
-
-        # scaling proporzionale
-        ratio_w = max_width / img.imageWidth
-        ratio_h = max_height / img.imageHeight
-        ratio = min(ratio_w, ratio_h, 1.0)  # non ingrandire
-
-        img.drawWidth = img.imageWidth * ratio
-        img.drawHeight = img.imageHeight * ratio
-
-        if title:
-            flowables.append(Paragraph(f"<b>{title}</b>", styles["Testo"]))
-        flowables.append(img)
-        flowables.append(Spacer(1, 15))
-
-    # -----------------------------------------------------------
-    # GRAFICI (SPARKLINE + RADAR) — in-memory preferito, fallback su temp
-    # -----------------------------------------------------------
-    tmp_files_for_cleanup = []
-
-    if grafici:
-        story.append(Paragraph("<b>Grafici</b>", styles["Titolo"]))
-
-        # Import lazy per evitare overhead se non servono
-        # Plotly figure -> bytes (PNG)
-        def _fig_to_png_bytes(fig):
-            # Preferisci to_image (in-memory) se disponibile
-            try:
-                # plotly >= 4.9, richiede kaleido installato
-                png_bytes = fig.to_image(format="png", scale=2)
-                return png_bytes
-            except Exception:
-                return None
-
-        for nome, fig in grafici.items():
-            png_bytes = _fig_to_png_bytes(fig)
-            if png_bytes:
-                bio = BytesIO(png_bytes)
-                _append_image(story, bio, title=nome)
-            else:
-                # Fallback: scrivi su file temporaneo e NON cancellare finché il doc non è costruito
-                tmp = tempfile.NamedTemporaryFile(delete=False, suffix=".png")
-                tmp.close()  # chiudi handle per evitare lock su Windows
-                try:
-                    # usa write_image (kaleido) — se non disponibile, solleva eccezione
-                    fig.write_image(tmp.name, scale=2)
-                    tmp_files_for_cleanup.append(tmp.name)
-                    _append_image(story, tmp.name, title=nome)
-                except Exception:
-                    # Se anche questo fallisce, salta il grafico
-                    try:
-                        os.unlink(tmp.name)
-                    except Exception:
-                        pass
-                    story.append(Paragraph(f"<i>Impossibile renderizzare il grafico: {nome}</i>", styles["Testo"]))
-                    story.append(Spacer(1, 10))
-
-    # -----------------------------------------------------------
-    # BUILD PDF (e cleanup eventuali file temporanei DOPO il build)
-    # -----------------------------------------------------------
-    try:
-        doc.build(story)
-    finally:
-        # Su Windows il lock si libera solo dopo il build; ora possiamo pulire
-        for p in tmp_files_for_cleanup:
-            try:
-                os.unlink(p)
-            except Exception:
-                # Se non riuscisse, evitiamo di rompere il flusso
-                pass
+def fmt_pct(x, nd: int = 2, signed: bool = False) -> str:
+    """Quota espressa come percentuale: 0.0149 -> 1.49%."""
+    if _missing(x):
+        return NA
+    return f"{x * 100:{'+' if signed else ''},.{nd}f}%"
 
 
-def sparkline(values, anno_bil, score_intg=False):
-    cc = chart_colors()
-    fig = go.Figure()
-    fig.add_trace(go.Scatter(
-        x=[anno_bil - 2, anno_bil - 1, anno_bil],
-        y=values,
-        mode="lines+markers",
-        line=dict(color=cc["line"], width=2.5, shape="spline", smoothing=0.6),
-        marker=dict(size=8, color=cc["marker"], line=dict(color=cc["hover"], width=2)),
-        hovertemplate="Year %{x}<br>Value %{y:.4f}<extra></extra>"
-    ))
-
-    # layout comune
-    base_layout = dict(
-        height=220,          # più basso = più rettangolare
-        width=700,           # aggiunto: lo rende più largo
-        margin=dict(l=30, r=12, t=12, b=26),
-        plot_bgcolor="rgba(0,0,0,0)",
-        paper_bgcolor="rgba(0,0,0,0)",
-        font=dict(family="Inter, system-ui, sans-serif", color=cc["tick"]),
-        hoverlabel=dict(
-            bgcolor=cc["line"], font=dict(color=cc["hover"], family="JetBrains Mono")
-        ),
-        xaxis=dict(
-            title="",
-            tickmode="array",
-            tickvals=[anno_bil - 2, anno_bil - 1, anno_bil],
-            tickfont=dict(size=10, color=cc["tick"]),
-            showgrid=False,
-            showline=True,
-            linewidth=1,
-            linecolor=cc["axis"],
-            zeroline=False
-        ),
-        yaxis=dict(
-            title="",
-            tickfont=dict(size=10, color=cc["tick"]),
-            showgrid=True,
-            gridcolor=cc["grid"],
-            showline=False,
-            zeroline=False
-        )
-    )
-
-    # caso specifico per score_intg
-    if score_intg:
-        base_layout["yaxis"]["range"] = [1, 5]
-
-    fig.update_layout(**base_layout)
-    return fig
+def fmt_ratio(x, nd: int = 3, signed: bool = False) -> str:
+    if _missing(x):
+        return NA
+    return f"{x:{'+' if signed else ''},.{nd}f}"
 
 
-def classe_struttura(x):
-    if x >= 0.40:
-        return 1
-    elif x >= 0.30:
-        return 2
-    elif x >= 0.20:
-        return 3
-    elif x >= 0.10:
-        return 4
-    else:
-        return 5
+def fmt_value(x, kind: str) -> str:
+    """Valore di un indicatore secondo il suo formato (objects.INDICATORS[...]['fmt'])."""
+    if kind == "eur":
+        return fmt_eur(x)
+    if kind == "pct":
+        return fmt_pct(x, 1)
+    if kind == "pct_signed":
+        return fmt_pct(x, 1, signed=True)
+    if kind == "ratio_signed":
+        return fmt_ratio(x, 3, signed=True)
+    if kind == "years":
+        return NA if _missing(x) else f"{x:.1f} years"
+    return fmt_ratio(x, 3)
 
 
-def classe_liquidita(x):
-    if x >= 1.8:
-        return 1
-    elif x >= 1.3:
-        return 2
-    elif x >= 1.0:
-        return 3
-    elif x >= 0.7:
-        return 4
-    else:
-        return 5
+def fmt_driver(d) -> str:
+    """Driver in punti di log-odds con il moltiplicatore sugli odds: +0.61 (odds ×1.84)."""
+    if _missing(d):
+        return NA
+    return f"{d:+.2f} (odds ×{math.exp(d):.2f})"
 
 
-def classe_leva(x):
-    if x <= 1.5:
-        return 1
-    elif x <= 3.0:
-        return 2
-    elif x <= 5.0:
-        return 3
-    elif x <= 7.0:
-        return 4
-    else:
-        return 5
+def driver_effect(d) -> str:
+    """Lettura qualitativa del driver rispetto alla pratica media del segmento."""
+    if _missing(d) or abs(d) < DRIVER_NEUTRAL:
+        return "neutral"
+    return "raises risk" if d > 0 else "lowers risk"
 
 
-def classe_cashflow(x):
-    if x >= 0.10:
-        return 1
-    elif x >= 0.06:
-        return 2
-    elif x >= 0.03:
-        return 3
-    elif x >= 0.00:
-        return 4
-    else:
-        return 5
+def ordinal(n: float) -> str:
+    n = int(round(n))
+    suf = "th" if 10 <= n % 100 <= 20 else {1: "st", 2: "nd", 3: "rd"}.get(n % 10, "th")
+    return f"{n}{suf}"
 
 
-def classe_profit(x):
-    if x <= 0.01:
-        return 1
-    elif x <= 0.03:
-        return 2
-    elif x <= 0.06:
-        return 3
-    elif x <= 0.10:
-        return 4
-    else:
-        return 5
-
-
-def classe_cagr(x):
-    if x >= 0.20:
-        return 1
-    elif x >= 0.10:
-        return 2
-    elif x >= 0:
-        return 3
-    elif x >= -0.1:
-        return 4
-    else:
-        return 5
-
-
-def badge(c):
-    colori = {1: "#16976A", 2: "#67B35A", 3: "#F3B13C", 4: "#EE6B2C", 5: "#9E1B14"}
-    etichette = {1: "EXCELLENT", 2: "GOOD", 3: "ADEQUATE", 4: "WEAK", 5: "CRITICAL"}
-    col = colori.get(c, "#7c8aa6")
-    lab = etichette.get(c, "")
+# ---------------------------------------------------------------------------
+# HTML (solo presentazione)
+# ---------------------------------------------------------------------------
+def class_badge(cls: dict) -> str:
+    """Badge della classe: stesso aspetto del template originale (functions.badge), con il colore della classe."""
+    col, lab = cls["color"], BAND_LABELS[cls["band"]]
     return (
         f"<span style='display:inline-flex;align-items:center;gap:.5rem;"
         f"background:{col};color:#fff;padding:.5rem .85rem;border-radius:11px;"
         f"font-family:\"Space Grotesk\",sans-serif;font-weight:700;font-size:.82rem;"
         f"letter-spacing:.01em;box-shadow:0 12px 24px -14px rgba(0,0,0,.45);'>"
         f"<span style='width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.85);'></span>"
-        f"Class {c}"
+        f"Class {cls['final']}"
         f"<span style='font-family:\"JetBrains Mono\",monospace;font-size:.6rem;"
         f"letter-spacing:.12em;opacity:.85;'>{lab}</span>"
         f"</span>"
     )
 
 
-def commento_trend_intelligente(valori, key):
-    v0, v1, v2 = valori
-    delta = v2 - v0
-    soglia = max(abs(v0) * 0.05, 1e-6)
-
-    if abs(delta) <= soglia:
-        stato = "flat"
-    else:
-        stato = "up" if delta > 0 else "down"
-
-    meta = INDICATOR_META[key]
-
-    return meta["commenti"][stato]
-
-
-def commento_trend_intelligente_eng(valori, key):
-    v0, v1, v2 = valori
-    delta = v2 - v0
-    soglia = max(abs(v0) * 0.05, 1e-6)
-
-    if abs(delta) <= soglia:
-        stato = "flat"
-    else:
-        stato = "up" if delta > 0 else "down"
-
-    meta = INDICATOR_META_eng[key]
-
-    return meta["commenti"][stato]
-
-
-def commento_score_integrato(storico):
-    if storico[2] < storico[0]:
-        return "Il profilo di rischio complessivo evidenzia un miglioramento progressivo nel triennio."
-    elif storico[2] > storico[0]:
-        return "Il profilo di rischio complessivo mostra un deterioramento nel periodo analizzato."
-    else:
-        return "Il profilo di rischio complessivo risulta sostanzialmente stabile nel triennio."
-
-
-def commento_score_integrato_eng(storico):
-    if storico[2] < storico[0]:
+def score_trend_comment(classes) -> str:
+    """Commento al trend dello score integrato (stesso testo del template)."""
+    if classes[-1] < classes[0]:
         return "The overall risk profile shows a progressive improvement over the three-year period."
-    elif storico[2] > storico[0]:
+    if classes[-1] > classes[0]:
         return "The overall risk profile shows a deterioration over the period analysed."
-    else:
-        return "The overall risk profile appears broadly stable over the three-year period."
+    return "The overall risk profile appears broadly stable over the three-year period."
 
 
-def commento_cagr_ricavi(valori, descr_cagr):
-    v0, v1, v2 = valori
+def subindex_description(sub_pd: float, reference_pd: float, reading: str) -> str:
+    """Testo sotto l'indicatore: livello di rischio del sottoindice rispetto alla media del segmento + lettura."""
+    r = sub_pd / reference_pd
+    level = ("well below" if r < 0.5 else "below" if r < 0.85 else "in line with" if r <= 1.15
+             else "above" if r <= 1.75 else "well above")
+    return f"On this indicator alone, default risk is {level} the average of its segment. {reading}"
+
+
+def trend_comment(values, label: str, trend_good) -> str:
+    """Commento all'andamento su tre esercizi (stessa soglia del template: variazione oltre il 5 % del valore
+    iniziale). trend_good = "up" / "down" se il verso e' favorevole per il modello, None se non e' univoco."""
+    v0, v2 = values[0], values[-1]
+    if _missing(v0) or _missing(v2):
+        return f"{label}: the three-year trend is not available for all fiscal years."
     delta = v2 - v0
-    soglia = max(abs(v0) * 0.05, 1e-6)
-    if abs(delta) <= soglia:
-        stato = "flat"
-    else:
-        stato = "up" if delta > 0 else "down"
-    meta = descr_cagr[stato]
-    return meta
+    if abs(delta) <= max(abs(v0) * 0.05, 1e-6):
+        return f"{label} is broadly stable over the three-year period."
+    state = "up" if delta > 0 else "down"
+    moved = "has increased" if state == "up" else "has decreased"
+    if trend_good is None:
+        return f"{label} {moved} over the three-year period."
+    signal = "a favourable" if state == trend_good else "an unfavourable"
+    return f"{label} {moved} over the three-year period: {signal} signal on this indicator."
 
 
-def commento_cagr_ricavi_eng(valori, descr_cagr_eng):
-    v0, v1, v2 = valori
-    delta = v2 - v0
-    soglia = max(abs(v0) * 0.05, 1e-6)
-    if abs(delta) <= soglia:
-        stato = "flat"
-    else:
-        stato = "up" if delta > 0 else "down"
-    meta = descr_cagr_eng[stato]
-    return meta
+def class_scale(cls: dict) -> str:
+    """Striscia delle classi con la classe finale evidenziata (e quella del modello, se c'e' override)."""
+    n = cls["n"]
+    cells = []
+    for c in range(1, n + 1):
+        css = "cell on" if c == cls["final"] else ("cell model" if c == cls["model"] else "cell")
+        cells.append(f"<div class='{css}' style='--cc:{class_color(c, n)};'>{c}</div>")
+    return (
+        "<div class='lfi-scale'>" + "".join(cells) + "</div>"
+        "<div class='lfi-scale-legend'><span>lowest risk</span><span>highest risk</span></div>"
+    )
+
+
+def driver_chip(d) -> str:
+    eff = driver_effect(d)
+    col = {"raises risk": RISK_UP, "lowers risk": RISK_DOWN}.get(eff, NEUTRAL)
+    arrow = {"raises risk": "▲", "lowers risk": "▼"}.get(eff, "●")
+    return (
+        f"<div class='lfi-drv' style='--dc:{col};'><span class='arrow'>{arrow}</span>"
+        f"<span class='eff'>{eff}</span><span class='pts'>{fmt_driver(d)}</span></div>"
+    )
+
+
+def financial_table(case: dict) -> str:
+    """Tabella HTML delle voci di bilancio sui tre esercizi (euro)."""
+    years, fin = case["years"], case["financials_eur"]
+    head = "".join(f"<th>{y}</th>" for y in years)
+    rows = []
+    for group, items in FINANCIAL_ITEMS:
+        rows.append(f"<tr class='grp'><td colspan='{len(years) + 1}'>{group}</td></tr>")
+        for key, label in items:
+            sub = " class='sub'" if label.startswith("  ") else ""
+            cells = "".join(
+                f"<td class='num{' neg' if (not _missing(v) and v < 0) else ''}'>{fmt_eur(v)}</td>" for v in fin[key])
+            rows.append(f"<tr{sub}><td>{label.strip()}</td>{cells}</tr>")
+    return (f"<table class='lfi-table'><thead><tr><th>EUR</th>{head}</tr></thead>"
+            f"<tbody>{''.join(rows)}</tbody></table>")
+
+
+# ---------------------------------------------------------------------------
+# GRAFICI
+# ---------------------------------------------------------------------------
+def _base_layout(cc: dict, height: int) -> dict:
+    return dict(
+        height=height, margin=dict(l=30, r=12, t=12, b=26),
+        plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+        font=dict(family="Inter, system-ui, sans-serif", color=cc["tick"]),
+        hoverlabel=dict(bgcolor=cc["line"], font=dict(color=cc["hover"], family="JetBrains Mono")),
+    )
+
+
+def sparkline(values, years, kind: str = "ratio", reference=None, reference_label: str = "Segment median",
+              y_range=None):
+    """Andamento su tre esercizi. kind = formato dei valori ("ratio" | "pct" | "eur" | "class").
+    reference = valore del segmento di riferimento, disegnato come linea tratteggiata; y_range = [min, max]."""
+    cc = chart_colors()
+    tickformat = {"pct": ".1%", "eur": ",.0f", "class": "d"}.get(kind, ".3f")
+    hover = {"pct": "%{y:.1%}", "eur": "€%{y:,.0f}", "class": "Class %{y}"}.get(kind, "%{y:.3f}")
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(
+        x=years, y=values, mode="lines+markers", connectgaps=False,
+        line=dict(color=cc["line"], width=2.5, shape="spline", smoothing=0.6),
+        marker=dict(size=8, color=cc["marker"], line=dict(color=cc["hover"], width=2)),
+        hovertemplate="Year %{x}<br>" + hover + "<extra></extra>"
+    ))
+    layout = _base_layout(cc, 200)
+    layout.update(
+        xaxis=dict(title="", tickmode="array", tickvals=years, tickfont=dict(size=10, color=cc["tick"]),
+                   showgrid=False, showline=True, linewidth=1, linecolor=cc["axis"], zeroline=False),
+        yaxis=dict(title="", tickformat=tickformat, tickfont=dict(size=10, color=cc["tick"]), showgrid=True,
+                   gridcolor=cc["grid"], showline=False, zeroline=False),
+    )
+    if y_range is not None:
+        layout["yaxis"].update(range=y_range, dtick=1)
+    fig.update_layout(**layout)
+    if reference is not None and not _missing(reference):
+        fig.add_hline(y=reference, line=dict(color=cc["tick"], width=1.2, dash="dash"),
+                      annotation_text=reference_label, annotation_position="top left",
+                      annotation_font=dict(size=9, color=cc["tick"]))
+    return fig
+
+
+def area_drivers_chart(case: dict):
+    """Barre orizzontali: di quanto ogni area sposta lo score dalla pratica media del segmento
+    (punti di log-odds; destra = aumenta il rischio, sinistra = lo riduce)."""
+    cc = chart_colors()
+    items = sorted(((AREAS[a], case["areas"][a]["driver"]) for a in AREAS), key=lambda t: t[1])
+    labels, vals = [t[0] for t in items], [t[1] for t in items]
+    lim = max(0.3, max(abs(v) for v in vals) * 1.35)
+    fig = go.Figure(go.Bar(
+        x=vals, y=labels, orientation="h",
+        marker=dict(color=[RISK_UP if v > 0 else RISK_DOWN for v in vals], line=dict(width=0)),
+        text=[f"  {v:+.2f}  " for v in vals], textposition="outside", cliponaxis=False,
+        textfont=dict(family="JetBrains Mono", size=11, color=cc["angular"]),
+        hovertemplate="%{y}<br>%{x:+.2f} log-odds points<extra></extra>",
+    ))
+    layout = _base_layout(cc, 380)
+    layout.update(
+        margin=dict(l=10, r=30, t=10, b=40), bargap=0.35,
+        xaxis=dict(range=[-lim, lim], zeroline=True, zerolinecolor=cc["axis"], zerolinewidth=1.5, showgrid=True,
+                   gridcolor=cc["grid"], tickfont=dict(size=10, color=cc["tick"]),
+                   title=dict(text="◀ lowers risk    ·    log-odds points vs. segment average    ·    raises risk ▶",
+                              font=dict(size=10, color=cc["tick"]))),
+        yaxis=dict(tickfont=dict(size=12, color=cc["angular"]), showgrid=False),
+    )
+    fig.update_layout(**layout)
+    return fig
+
+
+def class_radar(case: dict, dark: bool = True):
+    """Radar del profilo di rischio (stesso grafico del template): classe del sottoindice di ogni indicatore."""
+    cc = chart_colors()
+    classes = [subindex_class(case["indicators"][k]["sub_pd"]) for k in DISPLAY_INDICATORS]
+    n = classes[0]["n"]
+    closed = lambda x: x + [x[0]]
+    labels = closed([INDICATORS[k]["label"].replace(" on ", "<br>on ").replace(" change", "<br>change")
+                     for k in DISPLAY_INDICATORS])
+    values = closed([c["final"] for c in classes])
+    fig = go.Figure()
+    fig.add_trace(go.Scatterpolar(r=values, theta=labels, fill="toself", fillcolor=cc["radar_fill"],
+                                  line=dict(color=cc["radar_line"], width=2.5), name="Risk Profile"))
+    fig.add_trace(go.Scatterpolar(r=values, theta=labels, mode="markers", showlegend=False,
+                                  marker=dict(size=14, color=closed([c["color"] for c in classes]),
+                                              line=dict(color=cc["hover"] if dark else "white", width=2))))
+    fig.update_layout(
+        font=dict(family="Inter, system-ui, sans-serif", color=cc["tick"]),
+        polar=dict(bgcolor="rgba(255,255,255,0)",
+                   radialaxis=dict(visible=True, range=[1, n], tickvals=list(range(1, n + 1)),
+                                   tickfont=dict(size=11, color=cc["tick"]), gridcolor=cc["grid"], linecolor=cc["grid"]),
+                   angularaxis=dict(tickfont=dict(size=12, color=cc["angular"]), gridcolor=cc["grid"],
+                                    linecolor=cc["grid"])),
+        paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", height=520, margin=dict(t=40, b=40))
+    return fig
+
+
+# ---------------------------------------------------------------------------
+# PDF
+# ---------------------------------------------------------------------------
+def genera_pdf_lfi(output_path: str, logo_path: str, case: dict, cls: dict) -> None:
+    """Report PDF del caso: risultato LFI, aree, indicatori, bilancio."""
+    from reportlab.lib.colors import HexColor
+    from reportlab.lib.pagesizes import A4
+    from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
+    from reportlab.lib.units import cm
+    from reportlab.platypus import Image as RLImage, Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
+
+    blu = HexColor("#00467a")
+    doc = SimpleDocTemplate(output_path, pagesize=A4, rightMargin=2 * cm, leftMargin=2 * cm,
+                            topMargin=2 * cm, bottomMargin=2 * cm)
+    styles = getSampleStyleSheet()
+    styles.add(ParagraphStyle(name="Titolo", fontName="Helvetica-Bold", fontSize=18, textColor=blu, spaceAfter=14))
+    styles.add(ParagraphStyle(name="Sezione", fontName="Helvetica-Bold", fontSize=12, textColor=blu,
+                              spaceBefore=10, spaceAfter=6))
+    styles.add(ParagraphStyle(name="Testo", fontSize=10, leading=13, spaceAfter=6))
+
+    def _table(data, widths, header=True):
+        t = Table(data, colWidths=widths)
+        style = [("GRID", (0, 0), (-1, -1), 0.4, blu), ("FONT", (0, 0), (-1, -1), "Helvetica"),
+                 ("FONTSIZE", (0, 0), (-1, -1), 8.5), ("VALIGN", (0, 0), (-1, -1), "MIDDLE")]
+        if header:
+            style += [("BACKGROUND", (0, 0), (-1, 0), HexColor("#eaf1f8")), ("FONT", (0, 0), (-1, 0), "Helvetica-Bold")]
+        t.setStyle(TableStyle(style))
+        return t
+
+    lfi = case["lfi"]
+    story = [RLImage(logo_path, width=6 * cm, height=3 * cm), Spacer(1, 14),
+             Paragraph("Leasys Financial Index", styles["Titolo"]),
+             Paragraph(f"<b>{case['case_id']}</b> · {case['sector']} · {case['size_class']} · latest statement "
+                       f"{case['years'][-1]} · scored {case['scoring_month']}", styles["Testo"]),
+             Paragraph("LFI result", styles["Sezione"])]
+    res = [["Risk class", f"{cls['final']} of {cls['n']} ({BAND_LABELS[cls['band']]})"],
+           ["Probability of default (12 months)", fmt_pct(lfi["pd"])],
+           ["90% credible band", f"{fmt_pct(lfi['pd_low'])} – {fmt_pct(lfi['pd_high'])}"],
+           ["Segment average PD", fmt_pct(lfi["cluster_pd_mean"])]]
+    if cls["overridden"]:
+        res.append(["Override", f"Negative equity: class {cls['model']} from the PD moved to class {cls['final']}"])
+    story.append(_table(res, [7 * cm, 9 * cm], header=False))
+
+    story.append(Paragraph("Risk drivers by area (log-odds points vs. segment average)", styles["Sezione"]))
+    rows = [["Area", "Driver", "Effect"]]
+    for a, lab in AREAS.items():
+        d = case["areas"][a]["driver"]
+        rows.append([lab, f"{d:+.2f}", driver_effect(d)])
+    story.append(_table(rows, [7 * cm, 4 * cm, 5 * cm]))
+
+    story.append(Paragraph("Indicator results", styles["Sezione"]))
+    rows = [["Family", "Indicator", "Value", "Sub-index PD", "Class", "Driver"]]
+    for k in DISPLAY_INDICATORS:
+        meta, ind = INDICATORS[k], case["indicators"][k]
+        rows.append([meta["family_label"], meta["label"], fmt_value(ind["value"], meta["fmt"]),
+                     fmt_pct(ind["sub_pd"]), str(subindex_class(ind["sub_pd"])["final"]), f"{ind['driver']:+.2f}"])
+    story.append(_table(rows, [3.4 * cm, 5 * cm, 2.3 * cm, 2.2 * cm, 1.3 * cm, 1.8 * cm]))
+
+    story.append(Paragraph("Financial statements (EUR)", styles["Sezione"]))
+    rows = [[""] + [str(y) for y in case["years"]]]
+    for _, items in FINANCIAL_ITEMS:
+        for key, label in items:
+            rows.append([label.strip()] + [fmt_eur(v) for v in case["financials_eur"][key]])
+    story.append(_table(rows, [7 * cm, 3 * cm, 3 * cm, 3 * cm]))
+    story.append(Spacer(1, 10))
+    story.append(Paragraph("The LFI is a statistical estimate based on financial statements and company age only. "
+                           "It does not replace the analyst's judgement nor constitute a formal credit decision.",
+                           styles["Testo"]))
+    doc.build(story)

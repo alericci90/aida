@@ -453,3 +453,72 @@ hr,[data-testid="stDivider"]{ border:none!important; height:1px!important; backg
 .aida-hero .brand .txt .s{ font-family:'JetBrains Mono'; font-size:.62rem; letter-spacing:.18em; text-transform:uppercase; color:var(--mute); margin-top:.25rem; }
 .aida-hero .tag{ font-family:'JetBrains Mono'; font-size:.6rem; letter-spacing:.14em; text-transform:uppercase; color:var(--red-warm); border:1px solid rgba(255,106,61,.3); background:rgba(255,106,61,.08); padding:.35rem .65rem; border-radius:8px; }
 """
+
+
+# ---------------------------------------------------------------------------
+# COMPONENTI LFI (aggiunti per la dashboard del Leasys Financial Index)
+# ---------------------------------------------------------------------------
+#  Usano le variabili del tema scuro con un ripiego per il tema chiaro.
+_LFI_CSS = r"""
+.lfi-badge{ display:inline-flex; align-items:center; gap:.55rem; color:#fff; padding:.7rem 1.05rem; border-radius:13px;
+  font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:1.25rem; box-shadow:0 14px 28px -14px rgba(0,0,0,.6); }
+.lfi-badge .dot{ width:9px; height:9px; border-radius:50%; background:rgba(255,255,255,.85); }
+.lfi-badge .of{ font-size:.8rem; font-weight:500; opacity:.8; }
+.lfi-badge .lab{ font-family:'JetBrains Mono',monospace; font-size:.62rem; letter-spacing:.12em; opacity:.9; margin-left:.25rem; }
+.lfi-pd{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:3.1rem; line-height:1; color:var(--text,#0A1F44); }
+.lfi-pd-label{ font-family:'JetBrains Mono',monospace; font-size:.66rem; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--mute,#52617e); margin-bottom:.45rem; }
+.lfi-pd-band{ font-family:'JetBrains Mono',monospace; font-size:.8rem; color:var(--mute,#52617e); margin-top:.5rem; }
+.lfi-note{ font-size:.9rem; line-height:1.55; color:var(--mute,#52617e); margin-top:.6rem; }
+.lfi-note b{ color:var(--text,#0A1F44); }
+.lfi-alert{ border:1px solid rgba(255,106,61,.35); border-left:4px solid var(--red-warm,#FF6A3D); background:rgba(255,106,61,.08);
+  border-radius:10px; padding:.7rem .95rem; font-size:.88rem; line-height:1.5; color:var(--text,#0A1F44); margin-top:.8rem; }
+.lfi-scale{ display:flex; gap:4px; margin-top:.3rem; }
+.lfi-scale .cell{ flex:1; text-align:center; padding:.5rem 0; border-radius:8px; font-family:'JetBrains Mono',monospace;
+  font-size:.78rem; color:var(--mute,#52617e); background:color-mix(in srgb,var(--cc) 16%,transparent);
+  border:1px solid color-mix(in srgb,var(--cc) 30%,transparent); }
+.lfi-scale .cell.on{ background:var(--cc); color:#fff; font-weight:700; border-color:var(--cc);
+  box-shadow:0 0 0 2px var(--text,#0A1F44), 0 10px 22px -10px var(--cc); transform:translateY(-2px); }
+.lfi-scale .cell.model{ border:2px dashed var(--cc); color:var(--text,#0A1F44); }
+.lfi-scale-legend{ display:flex; justify-content:space-between; font-family:'JetBrains Mono',monospace; font-size:.58rem;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--dim,#7c8aa6); margin-top:.35rem; }
+.lfi-drv{ display:inline-flex; flex-direction:column; gap:.2rem; border:1px solid color-mix(in srgb,var(--dc) 45%,transparent);
+  border-left:4px solid var(--dc); background:color-mix(in srgb,var(--dc) 10%,transparent); border-radius:10px;
+  padding:.55rem .8rem; min-width:150px; }
+.lfi-drv .arrow{ color:var(--dc); font-size:.85rem; line-height:1; }
+.lfi-drv .eff{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:.92rem; color:var(--text,#0A1F44); }
+.lfi-drv .pts{ font-family:'JetBrains Mono',monospace; font-size:.68rem; color:var(--mute,#52617e); }
+.lfi-factors{ display:flex; flex-direction:column; gap:.45rem; }
+.lfi-factor{ display:flex; justify-content:space-between; gap:.8rem; align-items:baseline; padding:.5rem .75rem;
+  border-radius:9px; border:1px solid var(--line,rgba(159,178,214,.16)); border-left:3px solid var(--dc);
+  background:var(--panel,#fff); font-size:.9rem; color:var(--text,#0A1F44); }
+.lfi-factor .v{ font-family:'JetBrains Mono',monospace; font-size:.72rem; color:var(--mute,#52617e); white-space:nowrap; }
+.lfi-table{ width:100%; border-collapse:collapse; font-size:.88rem; background:var(--panel,#fff);
+  border:1px solid var(--line,rgba(159,178,214,.16)); border-radius:12px; overflow:hidden; }
+.lfi-table th{ font-family:'JetBrains Mono',monospace; font-size:.66rem; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--mute,#52617e); text-align:right; padding:.6rem .9rem; border-bottom:1px solid var(--line2,rgba(159,178,214,.3)); }
+.lfi-table th:first-child{ text-align:left; }
+.lfi-table td{ padding:.42rem .9rem; border-bottom:1px solid var(--line,rgba(159,178,214,.16)); color:var(--text,#0A1F44); }
+.lfi-table td.num{ text-align:right; font-family:'JetBrains Mono',monospace; font-size:.82rem; }
+.lfi-table td.neg{ color:#E5544A; }
+.lfi-table tr.grp td{ font-family:'JetBrains Mono',monospace; font-size:.62rem; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--red-warm,#E2231A); padding-top:.8rem; }
+.lfi-table tr.sub td:first-child{ padding-left:1.8rem; color:var(--mute,#52617e); }
+.lfi-pill{ display:inline-block; color:#fff; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:.74rem;
+  padding:.18rem .55rem; border-radius:7px; white-space:nowrap; }
+.lfi-sub{ display:flex; flex-direction:column; align-items:flex-start; gap:.3rem; margin-bottom:.6rem; }
+.lfi-sub .t{ font-family:'JetBrains Mono',monospace; font-size:.58rem; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--mute,#52617e); }
+.lfi-sub .v{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:1.5rem; line-height:1; color:var(--text,#0A1F44); }
+.lfi-subtable td .ind{ font-family:'JetBrains Mono',monospace; font-size:.66rem; color:var(--mute,#52617e); margin-top:.15rem; }
+.lfi-subtable td.bar{ width:30%; white-space:nowrap; }
+.lfi-subtable td.bar .track{ display:inline-block; vertical-align:middle; width:72%; height:8px; border-radius:5px;
+  background:var(--line2,rgba(159,178,214,.25)); overflow:hidden; margin-right:.5rem; }
+.lfi-subtable td.bar .fill{ height:100%; border-radius:5px; }
+.lfi-subtable td.bar span{ font-family:'JetBrains Mono',monospace; font-size:.74rem; color:var(--mute,#52617e); }
+"""
+
+
+def inject_lfi_css():
+    """Stili dei componenti LFI: da chiamare dopo inject_theme()."""
+    st.markdown("<style>" + _LFI_CSS + "</style>", unsafe_allow_html=True)

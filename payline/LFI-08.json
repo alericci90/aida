@@ -1,0 +1,20 @@
+{
+  "_simulated": true,
+  "Name": "Emporio Orcellia S.r.l.",
+  "TaxCode": "51460169990",
+  "Active Contracts": 2,
+  "Outstanding": {
+    "Overall Oustanding": 49305.43,
+    "Rental and Remarketing Total": 49305.43,
+    "Rental": 49127.73,
+    "Remarketing": 177.7,
+    "Retail and Leasing Total": 0.0,
+    "Retail": 0,
+    "Leasing": 0.0
+  },
+  "Scaduto": {
+    "Overall Past-due": 6274.78,
+    "Rental fees Past-due": 5866.23,
+    "Rental extra-fees Past-due": 408.55
+  }
+}

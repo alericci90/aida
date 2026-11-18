@@ -1,58 +1,67 @@
 # %% app_eng
-# streamlit run D:\users\TA16669\PycharmProjects\PythonProject\dashboard\app_azure_eng.py
-# ".\dashboard\logo.png"
-import json
-import numpy as np
-import sys
-from pathlib import Path
-
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(PROJECT_ROOT))
-
-import pandas as pd
-import plotly.graph_objects as go
-import streamlit as st
+# streamlit run app.py
+# ============================================================================
+#  AIDA · LEASYS FINANCIAL INDEX — DASHBOARD (MOCK-UP PER LE PRESENTAZIONI)
+# ----------------------------------------------------------------------------
+#  STESSO TEMPLATE della versione precedente, sezione per sezione:
+#    Data Input -> Customer Data -> Financial Statement Indicators
+#    -> Leasys Financial Index – Integrated Score -> Indicator Results
+#    -> Risk Profile – Radar -> AI Analyst -> Export PDF
+#  Cambia il contenuto: lo score integrato e' l'LFI (Run O, nucleo fisso) e
+#  gli indicatori sono i 10 indicatori di bilancio del nucleo (l'eta'
+#  dell'azienda resta nel modello e nello SHAP, non tra gli indicatori).
+#  Unica sezione in piu': lo SHAP ("What drives the score"), dopo il radar.
+#
+#  I risultati sono letti da lfi_engine (repository_lfi/cases.json): in questo
+#  mock-up non c'e' il motore di scoring, quindi "Upload Excel" e "Manual
+#  Entry" restano nel menu ma non calcolano.
+# ============================================================================
 import tempfile
 
-from functions import (
-    commento_trend_intelligente_eng, genera_pdf_leasys, sparkline, classe_struttura, classe_liquidita, classe_leva,
-    classe_cashflow, classe_profit, classe_cagr, badge, commento_score_integrato_eng, commento_cagr_ricavi_eng)
-from funzione_ai_azure_eng import bilancio_ai_component_eng
-from objects import (DESCRIZIONI_eng, DESCRIZIONE_INTEGRATO_eng, radar_labels_eng, colori_classi_radar,
-                               descr_cagr_eng)
-from style import inject_theme, section_header, kpi_card, rating_class, chart_colors
+import streamlit as st
+
+from functions import (area_drivers_chart, class_badge, class_radar, class_scale, driver_effect, fmt_eur, fmt_pct,
+                       fmt_value, genera_pdf_lfi, ordinal, score_trend_comment, sparkline, subindex_description,
+                       trend_comment)
+from funzione_ai_azure_eng import lfi_ai_component
+from lfi_engine import (case_label, lfi_class, load_cases, load_customer, load_portfolio, statement_age_months,
+                        subindex_class)
+from objects import (BAND_DESCRIPTIONS, CLUSTER_LABELS, CUSTOMER_FIELDS, DISPLAY_INDICATORS, FINANCIAL_CARDS, INDICATORS,
+                     LFI_CLASSES_PROVISIONAL)
+from style import inject_lfi_css, inject_theme, kpi_card, section_header
 
 # %% dashboard
 # CONFIG
 st.set_page_config(page_title="Financial Index Dashboard", layout="wide")
-LEASYS_BLUE = "#1F3556"
-
 
 # CSS + FONT (theme layer, solo estetica)
 DARK_MODE = True   # <-- True = dark premium, False = light
 inject_theme(dark=DARK_MODE)
-
-
-# HEADER
-# col_logo, col_title = st.columns([2, 4])
-
-# with col_logo:
-#     st.image(".\\dashboard\\logo_nuovo.png", use_container_width=True)
+inject_lfi_css()
 
 st.markdown(
     """
     <style>
-    [data-testid="stImage"] img {
-        max-width: 300px !important;
-        height: auto !important;
-    }
+    [data-testid="stImage"] img { max-width: 300px !important; height: auto !important; }
     </style>
     """,
     unsafe_allow_html=True
 )
 
+
+@st.cache_data
+def _cases() -> dict:
+    return load_cases()
+
+
+@st.cache_data
+def _portfolio() -> dict:
+    return load_portfolio()
+
+
+# HEADER
 st.markdown('<div class="center-logo">', unsafe_allow_html=True)
-st.image("logo_nuovo.png", use_container_width=False)
+st.image("logo_nuovo.png", width="content")
 st.markdown('</div>', unsafe_allow_html=True)
 
 st.markdown(
@@ -71,1009 +80,221 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-
-# st.markdown(
-#     """
-#     <h1 style="text-align: center; line-height: 1; font-size: 60px;">
-#         Financial Index Dashboard
-#     </h1>
-#     """,
-#     unsafe_allow_html=True
-# )
-
 st.divider()
-
 
 # MODALITÀ INPUT
 st.markdown(section_header("Data Input", "Entering Financial Statement Data"), unsafe_allow_html=True)
 
-modalita = st.radio("Mode:", ["Companies DB", "Upload Excel", "Manual Entry"],
-                    key="modalita")
-
-if st.session_state.modalita != "Companies DB":
-    st.session_state.selected_company = None
-    st.session_state.submitted_company = False
-
+modalita = st.radio("Mode:", ["Companies DB", "Upload Excel", "Manual Entry"], key="modalita")
 
 if "submitted" not in st.session_state:
     st.session_state.submitted = False
-
-
-# INPUT MANUALE
-if st.session_state.modalita == "Manual Entry":
-    with st.form("manuale"):
-        st.markdown(
-            '<div class="aida-eyebrow">Manual Input</div>'
-            '<div class="aida-sec-title">Primary financial data</div>',
-            unsafe_allow_html=True
-        )
-        st.caption(
-            "Enter the primary indicators for the last three financial statements. "
-            "Derived indicators (ratios, score, CAGR) are computed automatically."
-        )
-
-        st.session_state.anno_bil = st.number_input(
-            "Most recent financial year", min_value=1900, max_value=2100,
-            value=2024, step=1, format="%d"
-        )
-
-        st.markdown("**Net worth**")
-        c0, c1, c2 = st.columns(3)
-        with c0:
-            st.session_state.pn = st.number_input("Net worth", key="in_pn")
-        with c1:
-            st.session_state.pn_1 = st.number_input("Net worth (t-1)", key="in_pn_1")
-        with c2:
-            st.session_state.pn_2 = st.number_input("Net worth (t-2)", key="in_pn_2")
-
-        st.markdown("**Total assets**")
-        c0, c1, c2 = st.columns(3)
-        with c0:
-            st.session_state.attivo = st.number_input("Total assets", key="in_attivo")
-        with c1:
-            st.session_state.attivo_1 = st.number_input("Total assets (t-1)", key="in_attivo_1")
-        with c2:
-            st.session_state.attivo_2 = st.number_input("Total assets (t-2)", key="in_attivo_2")
-
-        st.markdown("**Current assets**")
-        c0, c1, c2 = st.columns(3)
-        with c0:
-            st.session_state.att_breve = st.number_input("Current assets", key="in_att_breve")
-        with c1:
-            st.session_state.att_breve_1 = st.number_input("Current assets (t-1)", key="in_att_breve_1")
-        with c2:
-            st.session_state.att_breve_2 = st.number_input("Current assets (t-2)", key="in_att_breve_2")
-
-        st.markdown("**Current liabilities**")
-        c0, c1, c2 = st.columns(3)
-        with c0:
-            st.session_state.pass_breve = st.number_input("Current liabilities", key="in_pass_breve")
-        with c1:
-            st.session_state.pass_breve_1 = st.number_input("Current liabilities (t-1)", key="in_pass_breve_1")
-        with c2:
-            st.session_state.pass_breve_2 = st.number_input("Current liabilities (t-2)", key="in_pass_breve_2")
-
-        st.markdown("**Total debts**")
-        c0, c1, c2 = st.columns(3)
-        with c0:
-            st.session_state.debiti = st.number_input("Total debts", key="in_debiti")
-        with c1:
-            st.session_state.debiti_1 = st.number_input("Total debts (t-1)", key="in_debiti_1")
-        with c2:
-            st.session_state.debiti_2 = st.number_input("Total debts (t-2)", key="in_debiti_2")
-
-        st.markdown("**Liquidity**")
-        c0, c1, c2 = st.columns(3)
-        with c0:
-            st.session_state.liquidita = st.number_input("Liquidity", key="in_liquidita")
-        with c1:
-            st.session_state.liquidita_1 = st.number_input("Liquidity (t-1)", key="in_liquidita_1")
-        with c2:
-            st.session_state.liquidita_2 = st.number_input("Liquidity (t-2)", key="in_liquidita_2")
-
-        st.markdown("**EBITDA**")
-        c0, c1, c2 = st.columns(3)
-        with c0:
-            st.session_state.ebitda = st.number_input("EBITDA", key="in_ebitda")
-        with c1:
-            st.session_state.ebitda_1 = st.number_input("EBITDA (t-1)", key="in_ebitda_1")
-        with c2:
-            st.session_state.ebitda_2 = st.number_input("EBITDA (t-2)", key="in_ebitda_2")
-
-        st.markdown("**Cash flow**")
-        c0, c1, c2 = st.columns(3)
-        with c0:
-            st.session_state.cf = st.number_input("Cash flow", key="in_cf")
-        with c1:
-            st.session_state.cf_1 = st.number_input("Cash flow (t-1)", key="in_cf_1")
-        with c2:
-            st.session_state.cf_2 = st.number_input("Cash flow (t-2)", key="in_cf_2")
-
-        st.markdown("**Financial payables**")
-        c0, c1, c2 = st.columns(3)
-        with c0:
-            st.session_state.oneri = st.number_input("Financial payables", key="in_oneri")
-        with c1:
-            st.session_state.oneri_1 = st.number_input("Financial payables (t-1)", key="in_oneri_1")
-        with c2:
-            st.session_state.oneri_2 = st.number_input("Financial payables (t-2)", key="in_oneri_2")
-
-        st.markdown("**Revenue**")
-        c0, c1, c2 = st.columns(3)
-        with c0:
-            st.session_state.ricavi = st.number_input("Revenue", key="in_ricavi")
-        with c1:
-            st.session_state.ricavi_1 = st.number_input("Revenue (t-1)", key="in_ricavi_1")
-        with c2:
-            st.session_state.ricavi_2 = st.number_input("Revenue (t-2)", key="in_ricavi_2")
-
-        st.divider()
-        st.markdown(
-            '<div class="aida-eyebrow">Counterparty</div>'
-            '<div class="aida-sec-title">Customer data (optional)</div>',
-            unsafe_allow_html=True
-        )
-
-        c0, c1, c2 = st.columns(3)
-        with c0:
-            st.session_state.Name = st.text_input("Name", key="in_name")
-        with c1:
-            st.session_state.TaxCode = st.text_input("Tax Code", key="in_taxcode")
-        with c2:
-            st.session_state.Active_Contracts = st.number_input(
-                "Active Contracts", min_value=0, step=1, format="%d", key="in_active"
-            )
-
-        c0, c1, c2 = st.columns(3)
-        with c0:
-            st.session_state.Overall_Oustanding = st.number_input("Overall Outstanding", key="in_out_all")
-            st.session_state.Rental_Remarketing_Total = st.number_input("Rental & RMKT Total", key="in_out_rr")
-        with c1:
-            st.session_state.Rental = st.number_input("Rental", key="in_out_rental")
-            st.session_state.Remarketing = st.number_input("Remarketing", key="in_out_rmkt")
-        with c2:
-            st.session_state.Retail_Leasing_Total = st.number_input("Retail & Leasing Total", key="in_out_rl")
-            st.session_state.Retail = st.number_input("Retail", key="in_out_retail")
-
-        c0, c1, c2 = st.columns(3)
-        with c0:
-            st.session_state.Leasing = st.number_input("Leasing", key="in_out_leasing")
-        with c1:
-            st.session_state.Overall_Past_due = st.number_input("Overall Past-due", key="in_pd_all")
-            st.session_state.Rental_fees_Past_due = st.number_input("Rental fees Past-due", key="in_pd_fees")
-        with c2:
-            st.session_state.Rental_extra_fees_Past_due = st.number_input(
-                "Rental extra-fees Past-due", key="in_pd_extra"
-            )
-
-        submitted = st.form_submit_button("Calculate the Score")
-
-    if submitted:
-        # controllo divisori: evita divisioni per zero negli indicatori derivati
-        _mancanti = []
-        if st.session_state.attivo == 0:
-            _mancanti.append("Total assets")
-        if st.session_state.pass_breve == 0:
-            _mancanti.append("Current liabilities")
-        if st.session_state.ebitda == 0:
-            _mancanti.append("EBITDA")
-        if st.session_state.ricavi == 0:
-            _mancanti.append("Revenue")
-        if st.session_state.ricavi_2 == 0:
-            _mancanti.append("Revenue (t-2)")
-
-        if _mancanti:
-            st.session_state.submitted = False
-            st.error(
-                "These fields must be different from zero to compute the indicators: "
-                + ", ".join(_mancanti)
-            )
-        else:
-            st.session_state.submitted = True
-
-
-# INPUT FILE EXCEL
-elif st.session_state.modalita == "Upload Excel":
-    file = st.file_uploader(
-        "Upload Excel file (.xlsx) – sheet: 'input CEE'",
-        type=["xlsx"]
-    )
-
-    if file:
-        try:
-            df = pd.read_excel(
-                file,
-                sheet_name="input CEE",
-                header=None
-            )
-
-            df = df.fillna(0)
-
-            # LETTURA CELLE
-            # ULTIMO ANNO
-            st.session_state.anno_bil = df.iloc[0, 3]
-
-            st.session_state.pn = df.iloc[2, 8]  # I3
-            st.session_state.pn_1 = df.iloc[2, 7]
-            st.session_state.pn_2 = df.iloc[2, 6]
-
-            st.session_state.attivo = df.iloc[83, 3]  # D84
-            st.session_state.attivo_1 = df.iloc[83, 2]
-            st.session_state.attivo_2 = df.iloc[83, 1]
-
-            st.session_state.att_breve = (
-                    df.iloc[38, 3] + df.iloc[46, 3] + df.iloc[49, 3] + df.iloc[52, 3] + df.iloc[54, 3] +
-                    df.iloc[56, 3] + df.iloc[59, 3] + df.iloc[62, 3] + df.iloc[64, 3] + df.iloc[73, 3]
-            )
-            st.session_state.att_breve_1 = (
-                    df.iloc[38, 2] + df.iloc[46, 2] + df.iloc[49, 2] + df.iloc[52, 2] + df.iloc[54, 2] +
-                    df.iloc[56, 2] + df.iloc[59, 2] + df.iloc[62, 2] + df.iloc[64, 2] + df.iloc[73, 2]
-            )
-            st.session_state.att_breve_2 = (
-                    df.iloc[38, 1] + df.iloc[46, 1] + df.iloc[49, 1] + df.iloc[52, 1] + df.iloc[54, 1] +
-                    df.iloc[56, 1] + df.iloc[59, 1] + df.iloc[62, 1] + df.iloc[64, 1] + df.iloc[73, 1]
-            )
-
-            st.session_state.pass_breve = (
-                    df.iloc[36, 8] + df.iloc[39, 8] + df.iloc[42, 8] + df.iloc[45, 8] + df.iloc[48, 8] +
-                    df.iloc[51, 8] + df.iloc[54, 8] + df.iloc[57, 8] + df.iloc[60, 8] + df.iloc[63, 8] +
-                    df.iloc[66, 8] + df.iloc[69, 8]
-            )
-            st.session_state.pass_breve_1 = (
-                    df.iloc[36, 7] + df.iloc[39, 7] + df.iloc[42, 7] + df.iloc[45, 7] + df.iloc[48, 7] +
-                    df.iloc[51, 7] + df.iloc[54, 7] + df.iloc[57, 7] + df.iloc[60, 7] + df.iloc[63, 7] +
-                    df.iloc[66, 7] + df.iloc[69, 7]
-            )
-            st.session_state.pass_breve_2 = (
-                    df.iloc[36, 6] + df.iloc[39, 6] + df.iloc[42, 6] + df.iloc[45, 6] + df.iloc[48, 6] +
-                    df.iloc[51, 6] + df.iloc[54, 6] + df.iloc[57, 6] + df.iloc[60, 6] + df.iloc[63, 6] +
-                    df.iloc[66, 6] + df.iloc[69, 6]
-            )
-
-            st.session_state.debiti = df.iloc[34, 8]  # I35
-            st.session_state.debiti_1 = df.iloc[34, 7]
-            st.session_state.debiti_2 = df.iloc[34, 6]
-
-            st.session_state.liquidita = (
-                    df.iloc[73, 3] + df.iloc[46, 3] + df.iloc[49, 3] + df.iloc[52, 3] + df.iloc[54, 3] +
-                    df.iloc[56, 3] + df.iloc[59, 3] + df.iloc[62, 3] + df.iloc[64, 3]
-            )
-            st.session_state.liquidita_1 = (
-                    df.iloc[73, 2] + df.iloc[46, 2] + df.iloc[49, 2] + df.iloc[52, 2] + df.iloc[54, 2] +
-                    df.iloc[56, 2] + df.iloc[59, 2] + df.iloc[62, 2] + df.iloc[64, 2]
-            )
-            st.session_state.liquidita_2 = (
-                    df.iloc[73, 1] + df.iloc[46, 1] + df.iloc[49, 1] + df.iloc[52, 1] + df.iloc[54, 1] +
-                    df.iloc[56, 1] + df.iloc[59, 1] + df.iloc[62, 1] + df.iloc[64, 1]
-            )
-
-            st.session_state.ebitda = (
-                    df.iloc[92, 3] + df.iloc[93, 3] + df.iloc[94, 3] + df.iloc[95, 3] - df.iloc[113, 3] -
-                    df.iloc[99, 3] + df.iloc[96, 3] - df.iloc[116, 3] -df.iloc[100, 3] - df.iloc[102, 3] -
-                    df.iloc[101, 3]
-            )
-            st.session_state.ebitda_1 = (
-                    df.iloc[92, 2] + df.iloc[93, 2] + df.iloc[94, 2] + df.iloc[95, 2] - df.iloc[113, 2] -
-                    df.iloc[99, 2] + df.iloc[96, 2] - df.iloc[116, 2] -df.iloc[100, 2] - df.iloc[102, 2] -
-                    df.iloc[101, 2]
-            )
-            st.session_state.ebitda_2 = (
-                    df.iloc[92, 1] + df.iloc[93, 1] + df.iloc[94, 1] + df.iloc[95, 1] - df.iloc[113, 1] -
-                    df.iloc[99, 1] + df.iloc[96, 1] - df.iloc[116, 1] -df.iloc[100, 1] - df.iloc[102, 1] -
-                    df.iloc[101, 1]
-            )
-
-            st.session_state.cf = df.iloc[159, 3] + df.iloc[114, 3]  # D160 + D115
-            st.session_state.cf_1 = df.iloc[159, 2] + df.iloc[114, 2]
-            st.session_state.cf_2 = df.iloc[159, 1] + df.iloc[114, 1]
-
-            st.session_state.oneri = (
-                    df.iloc[35, 8] + df.iloc[38, 8] + df.iloc[41, 8] + df.iloc[44, 8] + df.iloc[59, 8]
-            )
-            st.session_state.oneri_1 = (
-                    df.iloc[35, 7] + df.iloc[38, 7] + df.iloc[41, 7] + df.iloc[44, 7] + df.iloc[59, 7]
-            )
-            st.session_state.oneri_2 = (
-                    df.iloc[35, 6] + df.iloc[38, 6] + df.iloc[41, 6] + df.iloc[44, 6] + df.iloc[59, 6]
-            )
-
-            st.session_state.ricavi = df.iloc[92, 3]  # D93
-            st.session_state.ricavi_1 = df.iloc[92, 2]
-            st.session_state.ricavi_2 = df.iloc[92, 1]
-
-            st.session_state.submitted = True
-            st.success("Excel File uploaded correctly")
-
-        except Exception as e:
-            st.error(f"Error in the file reading: {e}")
-
-
-# INPUT AZIENDE SALVATE
-elif st.session_state.modalita == "Companies DB":
-    repo_path = Path("./repository_aziende")
-
-    if not repo_path.exists():
-        st.error("La cartella './repository_aziende' non esiste. Creala e inserisci i file Excel.")
-    else:
-        excel_files = list(repo_path.glob("*.xlsx"))
-
-        if not excel_files:
-            st.warning("Nessuna azienda trovata nella repository.")
-        else:
-            company_names = [f.stem for f in excel_files]
-
-            # inizializza lo stato
-            if "selected_company" not in st.session_state:
-                st.session_state.selected_company = None    
-
-            # selectbox sincronizzata allo stato
-            selected_company = st.selectbox(
-                "Select a company from repository:",
-                company_names,
-                index=company_names.index(st.session_state.selected_company)
-                    if st.session_state.selected_company in company_names
-                    else 0
-            )
-
-            # aggiorna sempre lo stato appena cambia selezione
-            st.session_state.selected_company = selected_company
-
-            # ✅ Form per evitare refresh UI violento
-            with st.form("load_company_form"):
-                submit_company = st.form_submit_button("Load Company Data")
-
-            if submit_company:
-                st.session_state.submitted_company = True
-                st.session_state.selected_company = selected_company
-
-                file_path = repo_path / f"{selected_company}.xlsx"
-
-                try:
-                    df = pd.read_excel(file_path, sheet_name="input CEE", header=None)
-                    df = df.fillna(0)
-
-
-                    # LETTURA CELLE
-                    # ULTIMO ANNO
-                    st.session_state.anno_bil = df.iloc[0, 3]
-
-                    st.session_state.pn = df.iloc[2, 8]  # I3
-                    st.session_state.pn_1 = df.iloc[2, 7]
-                    st.session_state.pn_2 = df.iloc[2, 6]
-
-                    st.session_state.attivo = df.iloc[83, 3]  # D84
-                    st.session_state.attivo_1 = df.iloc[83, 2]
-                    st.session_state.attivo_2 = df.iloc[83, 1]
-
-                    st.session_state.att_breve = (
-                            df.iloc[38, 3] + df.iloc[46, 3] + df.iloc[49, 3] + df.iloc[52, 3] + df.iloc[54, 3] +
-                            df.iloc[56, 3] + df.iloc[59, 3] + df.iloc[62, 3] + df.iloc[64, 3] + df.iloc[73, 3]
-                    )
-                    st.session_state.att_breve_1 = (
-                            df.iloc[38, 2] + df.iloc[46, 2] + df.iloc[49, 2] + df.iloc[52, 2] + df.iloc[54, 2] +
-                            df.iloc[56, 2] + df.iloc[59, 2] + df.iloc[62, 2] + df.iloc[64, 2] + df.iloc[73, 2]
-                    )
-                    st.session_state.att_breve_2 = (
-                            df.iloc[38, 1] + df.iloc[46, 1] + df.iloc[49, 1] + df.iloc[52, 1] + df.iloc[54, 1] +
-                            df.iloc[56, 1] + df.iloc[59, 1] + df.iloc[62, 1] + df.iloc[64, 1] + df.iloc[73, 1]
-                    )
-
-                    st.session_state.pass_breve = (
-                            df.iloc[36, 8] + df.iloc[39, 8] + df.iloc[42, 8] + df.iloc[45, 8] + df.iloc[48, 8] +
-                            df.iloc[51, 8] + df.iloc[54, 8] + df.iloc[57, 8] + df.iloc[60, 8] + df.iloc[63, 8] +
-                            df.iloc[66, 8] + df.iloc[69, 8]
-                    )
-                    st.session_state.pass_breve_1 = (
-                            df.iloc[36, 7] + df.iloc[39, 7] + df.iloc[42, 7] + df.iloc[45, 7] + df.iloc[48, 7] +
-                            df.iloc[51, 7] + df.iloc[54, 7] + df.iloc[57, 7] + df.iloc[60, 7] + df.iloc[63, 7] +
-                            df.iloc[66, 7] + df.iloc[69, 7]
-                    )
-                    st.session_state.pass_breve_2 = (
-                            df.iloc[36, 6] + df.iloc[39, 6] + df.iloc[42, 6] + df.iloc[45, 6] + df.iloc[48, 6] +
-                            df.iloc[51, 6] + df.iloc[54, 6] + df.iloc[57, 6] + df.iloc[60, 6] + df.iloc[63, 6] +
-                            df.iloc[66, 6] + df.iloc[69, 6]
-                    )
-
-                    st.session_state.debiti = df.iloc[34, 8]  # I35
-                    st.session_state.debiti_1 = df.iloc[34, 7]
-                    st.session_state.debiti_2 = df.iloc[34, 6]
-
-                    st.session_state.liquidita = (
-                            df.iloc[73, 3] + df.iloc[46, 3] + df.iloc[49, 3] + df.iloc[52, 3] + df.iloc[54, 3] +
-                            df.iloc[56, 3] + df.iloc[59, 3] + df.iloc[62, 3] + df.iloc[64, 3]
-                    )
-                    st.session_state.liquidita_1 = (
-                            df.iloc[73, 2] + df.iloc[46, 2] + df.iloc[49, 2] + df.iloc[52, 2] + df.iloc[54, 2] +
-                            df.iloc[56, 2] + df.iloc[59, 2] + df.iloc[62, 2] + df.iloc[64, 2]
-                    )
-                    st.session_state.liquidita_2 = (
-                            df.iloc[73, 1] + df.iloc[46, 1] + df.iloc[49, 1] + df.iloc[52, 1] + df.iloc[54, 1] +
-                            df.iloc[56, 1] + df.iloc[59, 1] + df.iloc[62, 1] + df.iloc[64, 1]
-                    )
-
-                    st.session_state.ebitda = (
-                            df.iloc[92, 3] + df.iloc[93, 3] + df.iloc[94, 3] + df.iloc[95, 3] - df.iloc[113, 3] -
-                            df.iloc[99, 3] + df.iloc[96, 3] - df.iloc[116, 3] -df.iloc[100, 3] - df.iloc[102, 3] -
-                            df.iloc[101, 3]
-                    )
-                    st.session_state.ebitda_1 = (
-                            df.iloc[92, 2] + df.iloc[93, 2] + df.iloc[94, 2] + df.iloc[95, 2] - df.iloc[113, 2] -
-                            df.iloc[99, 2] + df.iloc[96, 2] - df.iloc[116, 2] -df.iloc[100, 2] - df.iloc[102, 2] -
-                            df.iloc[101, 2]
-                    )
-                    st.session_state.ebitda_2 = (
-                            df.iloc[92, 1] + df.iloc[93, 1] + df.iloc[94, 1] + df.iloc[95, 1] - df.iloc[113, 1] -
-                            df.iloc[99, 1] + df.iloc[96, 1] - df.iloc[116, 1] -df.iloc[100, 1] - df.iloc[102, 1] -
-                            df.iloc[101, 1]
-                    )
-
-                    st.session_state.cf = df.iloc[159, 3] + df.iloc[114, 3]  # D160 + D115
-                    st.session_state.cf_1 = df.iloc[159, 2] + df.iloc[114, 2]
-                    st.session_state.cf_2 = df.iloc[159, 1] + df.iloc[114, 1]
-
-                    st.session_state.oneri = (
-                            df.iloc[35, 8] + df.iloc[38, 8] + df.iloc[41, 8] + df.iloc[44, 8] + df.iloc[59, 8]
-                    )
-                    st.session_state.oneri_1 = (
-                            df.iloc[35, 7] + df.iloc[38, 7] + df.iloc[41, 7] + df.iloc[44, 7] + df.iloc[59, 7]
-                    )
-                    st.session_state.oneri_2 = (
-                            df.iloc[35, 6] + df.iloc[38, 6] + df.iloc[41, 6] + df.iloc[44, 6] + df.iloc[59, 6]
-                    )
-
-                    st.session_state.ricavi = df.iloc[92, 3]  # D93
-                    st.session_state.ricavi_1 = df.iloc[92, 2]
-                    st.session_state.ricavi_2 = df.iloc[92, 1]
-
-                    st.session_state.submitted = True
-                    # st.success("Excel File uploaded correctly")
-                    # st.success(f"✅ Company '{selected_company}' loaded successfully!")
-
-                except Exception as e:
-                    st.error(f"Error loading saved company: {e}")
-
-# ----- LETTURA JSON ASSOCIATO -----
-if st.session_state.modalita == "Companies DB" and "selected_company" in st.session_state:
-    json_repo = Path("./payline")
-    json_path = json_repo / f"{selected_company}.json"
-    json_data = None
-    if json_path.exists():
-        try:
-            
-            with open(json_path, "r", encoding="utf-8") as f:
-                json_data = json.load(f)
-
-            # -----------------------------
-            # ✅ ASSEGNAZIONE VARIABILI 1:1
-            # -----------------------------
-
-            # --- campi principali ---
-            st.session_state.Name = json_data.get("Name")
-            st.session_state.TaxCode = json_data.get("TaxCode")
-            st.session_state.Active_Contracts = json_data.get("Active Contracts")
-
-            # --- Outstanding ---
-            Outstanding = json_data.get("Outstanding", {})
-
-            st.session_state.Overall_Oustanding = Outstanding.get("Overall Oustanding")
-            st.session_state.Rental_Remarketing_Total = Outstanding.get("Rental and Remarketing Total")      # il nome originale ha &amp; → Python non lo vuole
-            st.session_state.Rental = Outstanding.get("Rental")
-            st.session_state.Remarketing = Outstanding.get("Remarketing")
-            st.session_state.Retail_Leasing_Total = Outstanding.get("Retail and Leasing Total")
-            st.session_state.Retail = Outstanding.get("Retail")
-            st.session_state.Leasing = Outstanding.get("Leasing")
-
-            # --- Scaduto ---
-            Scaduto = json_data.get("Scaduto", {})
-
-            st.session_state.Overall_Past_due = Scaduto.get("Overall Past-due")
-            st.session_state.Rental_fees_Past_due = Scaduto.get("Rental fees Past-due")
-            st.session_state.Rental_extra_fees_Past_due = Scaduto.get("Rental extra-fees Past-due")
-
-            # ✅ (opzionale) conferma interna
-            # st.success("JSON loaded and variables assigned.")
-
-        except Exception as e:
-            st.error(f"❌ Error reading JSON file: {e}")
-
-    else:
-        st.warning(f"⚠️ No JSON found for company '{selected_company}'")
+if "selected_company" not in st.session_state:
+    st.session_state.selected_company = None
+
+cases = _cases()
+portfolio = _portfolio()
+
+if st.session_state.modalita != "Companies DB":
+    st.session_state.submitted = False
+    st.session_state.selected_company = None
+    st.info("In this mock-up the Leasys Financial Index is available for the companies of the repository only: "
+            "this mode will be enabled with the production scoring engine.")
+else:
+    selected_company = st.selectbox("Select a company from repository:", list(cases),
+                                    format_func=lambda k: case_label(cases[k]))
+    with st.form("load_company_form"):
+        submit_company = st.form_submit_button("Load Company Data")
+    if submit_company:
+        st.session_state.selected_company = selected_company
+        st.session_state.submitted = True
 
 # CALCOLO + OUTPUT
-if st.session_state.submitted:
-    ind1 = st.session_state.pn / st.session_state.attivo
-    ind2 = st.session_state.att_breve / st.session_state.pass_breve
-    ind3 = (st.session_state.debiti - st.session_state.liquidita) / st.session_state.ebitda
-    ind4 = st.session_state.cf / st.session_state.attivo
-    ind5 = st.session_state.oneri / st.session_state.ricavi
-    cagr_ricavi = (
-        (st.session_state.ricavi / st.session_state.ricavi_2) ** 0.5 - 1
-        if st.session_state.ricavi_2 > 0 else
-        (st.session_state.ricavi / st.session_state.ricavi_1) - 1
-        if st.session_state.ricavi_1 > 0 else
-        np.nan
-    )
+if st.session_state.submitted and st.session_state.selected_company in cases:
+    case_id = st.session_state.selected_company
+    case = cases[case_id]
+    lfi = case["lfi"]
+    fin = case["financials_eur"]
+    years = case["years"]
+    cls = lfi_class(lfi["pd"], lfi["negative_equity"])
+    customer = load_customer(case_id)
 
-    trend_ricavi = {'cagr_ricavi' : [st.session_state.ricavi_2, st.session_state.ricavi_1, st.session_state.ricavi]}
-
-    ind1_1 = st.session_state.pn_1 / st.session_state.attivo_1
-    ind2_1 = st.session_state.att_breve_1 / st.session_state.pass_breve_1
-    ind3_1 = (st.session_state.debiti_1 - st.session_state.liquidita_1) / st.session_state.ebitda_1
-    ind4_1 = st.session_state.cf_1 / st.session_state.attivo_1
-    ind5_1 = st.session_state.oneri_1 / st.session_state.ricavi_1
-
-    ind1_2 = st.session_state.pn_2 / st.session_state.attivo_2
-    ind2_2 = st.session_state.att_breve_2 / st.session_state.pass_breve_2
-    ind3_2 = (st.session_state.debiti_2 - st.session_state.liquidita_2) / st.session_state.ebitda_2
-    ind4_2 = st.session_state.cf_2 / st.session_state.attivo_2
-    ind5_2 = st.session_state.oneri_2 / st.session_state.ricavi_2
-
-    # INDICATORI SINTETICI STORICI
-    indicatori_storici = {
-        "struttura": [ind1_2, ind1_1, ind1],
-        "liquidita": [ind2_2, ind2_1, ind2],
-        "leva": [ind3_2, ind3_1, ind3],
-        "cashflow": [ind4_2, ind4_1, ind4],
-        "profitability": [ind5_2, ind5_1, ind5]
-    }
-
-    bilancio_data = {
-        "patrimonio_netto": {
-            "t-2": st.session_state.pn_2,
-            "t-1": st.session_state.pn_1,
-            "t": st.session_state.pn
-        },
-        "attivo": {
-            "t-2": st.session_state.attivo_2,
-            "t-1": st.session_state.attivo_1,
-            "t": st.session_state.attivo
-        },
-        "attivo_breve": {
-            "t-2": st.session_state.att_breve_2,
-            "t-1": st.session_state.att_breve_1,
-            "t": st.session_state.att_breve
-        },
-        "passivo_breve": {
-            "t-2": st.session_state.pass_breve_2,
-            "t-1": st.session_state.pass_breve_1,
-            "t": st.session_state.pass_breve
-        },
-        "debiti": {
-            "t-2": st.session_state.debiti_2,
-            "t-1": st.session_state.debiti_1,
-            "t": st.session_state.debiti
-        },
-        "liquidita": {
-            "t-2": st.session_state.liquidita_2,
-            "t-1": st.session_state.liquidita_1,
-            "t": st.session_state.liquidita
-        },
-        "ebitda": {
-            "t-2": st.session_state.ebitda_2,
-            "t-1": st.session_state.ebitda_1,
-            "t": st.session_state.ebitda
-        },
-        "cashflow": {
-            "t-2": st.session_state.cf_2,
-            "t-1": st.session_state.cf_1,
-            "t": st.session_state.cf
-        },
-        "oneri_finanziari": {
-            "t-2": st.session_state.oneri_2,
-            "t-1": st.session_state.oneri_1,
-            "t": st.session_state.oneri
-        },
-        "ricavi": {
-            "t-2": st.session_state.ricavi_2,
-            "t-1": st.session_state.ricavi_1,
-            "t": st.session_state.ricavi
-        },
-
-        # --- Indicatori ---
-        "struttura_patrimoniale": {
-            "t-2": ind1_2,
-            "t-1": ind1_1,
-            "t": ind1
-        },
-        "liquidita_indice": {
-            "t-2": ind2_2,
-            "t-1": ind2_1,
-            "t": ind2
-        },
-        "leva": {
-            "t-2": ind3_2,
-            "t-1": ind3_1,
-            "t": ind3
-        },
-        "cashflow_indice": {
-            "t-2": ind4_2,
-            "t-1": ind4_1,
-            "t": ind4
-        },
-        "profitability": {
-            "t-2": ind5_2,
-            "t-1": ind5_1,
-            "t": ind5
-        },
-
-        # --- Crescita ---
-        "cagr_ricavi": {
-            "periodo": "ultimi 2 anni",
-            "valore": cagr_ricavi
-        }
-    }
-
-    bilancio_data_new = {
-        # --- Indicatori ---
-        "struttura_patrimoniale": {
-            "t-2": ind1_2,
-            "t-1": ind1_1,
-            "t": ind1
-        },
-        "liquidita_indice": {
-            "t-2": ind2_2,
-            "t-1": ind2_1,
-            "t": ind2
-        },
-        "leva": {
-            "t-2": ind3_2,
-            "t-1": ind3_1,
-            "t": ind3
-        },
-        "cashflow_indice": {
-            "t-2": ind4_2,
-            "t-1": ind4_1,
-            "t": ind4
-        },
-        "profit": {
-            "t-2": ind5_2,
-            "t-1": ind5_1,
-            "t": ind5
-        },
-
-        # --- Crescita ---
-        "cagr_ricavi": {
-            "periodo": "ultimi 2 anni",
-            "valore": cagr_ricavi
-        }
-    }
-
-    c1 = classe_struttura(ind1)
-    c2 = classe_liquidita(ind2)
-    c3 = classe_leva(ind3)
-    c4 = classe_cashflow(ind4)
-    c5 = classe_profit(ind5)
-    c_cagr_ricavi = classe_cagr(cagr_ricavi)
-
-    score_int = round((c1 + c2 + c3 + c4 + c5) / 5)
-
-    c1_storico = [classe_struttura(x) for x in indicatori_storici["struttura"]]
-    c2_storico = [classe_liquidita(x) for x in indicatori_storici["liquidita"]]
-    c3_storico = [classe_leva(x) for x in indicatori_storici["leva"]]
-    c4_storico = [classe_cashflow(x) for x in indicatori_storici["cashflow"]]
-    c5_storico = [classe_profit(x) for x in indicatori_storici["profitability"]]
-
-    score_int_storico = {'integrato': [
-        round((c1_storico[i] + c2_storico[i] + c3_storico[i] + c4_storico[i] + c5_storico[i]) / 5)
-        for i in range(3)
-    ]}
-
+    # ----- CUSTOMER DATA (stesse card del template) -----
     st.divider()
     st.markdown(section_header("Counterparty", "Customer Data"), unsafe_allow_html=True)
 
-    dati_cliente = {
-        "Name": st.session_state.get("Name") or "n/a",
-        "TaxCode": st.session_state.get("TaxCode") or "n/a",
-        "Active Contracts": st.session_state.get("Active_Contracts") or 0,
-        "Overall Outstanding": st.session_state.get("Overall_Oustanding") or 0,
-        "Rental & RMKT Total": st.session_state.get("Rental_Remarketing_Total") or 0,
-        "Rental": st.session_state.get("Rental") or 0,
-        "Remarketing": st.session_state.get("Remarketing") or 0,
-        "Retail & Leasing Total": st.session_state.get("Retail_Leasing_Total") or 0,
-        "Retail": st.session_state.get("Retail") or 0,
-        "Leasing": st.session_state.get("Leasing") or 0,
-        "Overall Past-due": st.session_state.get("Overall_Past_due") or 0,
-        "Rental fees Past-due": st.session_state.get("Rental_fees_Past_due") or 0,
-        "Rental extra-fees Past-due": st.session_state.get("Rental_extra_fees_Past_due") or 0
-    }
-
+    dati_cliente = {k: customer.get(k) for k in CUSTOMER_FIELDS}
     col1, col2 = st.columns(2)
-
     items = list(dati_cliente.items())
-
     for i, (nome, valore) in enumerate(items):
-
-        # --- primi 3 elementi → NO EURO ---
-        if i < 3:
-            col = col1 if i < len(items) / 2 else col2
-            with col:
-                st.markdown(kpi_card(nome, f"{valore}"), unsafe_allow_html=True)
-            continue
-
-        # --- tutti gli altri → euro + separatore migliaia ---
         col = col1 if i < len(items) / 2 else col2
+        if valore is None:
+            testo = "n/a"
+        elif i < 3:                             # primi 3 elementi: nessun formato euro
+            testo = f"{valore}"
+        else:
+            testo = f"€ {valore:,.0f}"
+        sub = f"{case['sector']} · {case['size_class']} · {case['customer_type']}" if nome == "Name" else ""
         with col:
-            st.markdown(kpi_card(nome, f"€ {valore:,.0f}"), unsafe_allow_html=True)
+            st.markdown(kpi_card(nome, testo, sub=sub), unsafe_allow_html=True)
 
-
+    # ----- FINANCIAL STATEMENT INDICATORS (stesse card del template, voci usate dal modello) -----
     st.divider()
     st.markdown(section_header("Financials", "Financial Statement Indicators"), unsafe_allow_html=True)
 
-    dati_bilancio = {
-        "Most recent Financial Year": st.session_state.anno_bil,
-        "Net Worth": st.session_state.pn,
-        "Total Assets": st.session_state.attivo,
-        "Current Assets": st.session_state.att_breve,
-        "Current Liabilities": st.session_state.pass_breve,
-        "Total Debts": st.session_state.debiti,
-        "Liquidity": st.session_state.liquidita,
-        "EBITDA": st.session_state.ebitda,
-        "Cash Flow": st.session_state.cf,
-        "Financial Payables": st.session_state.oneri,
-        "Revenues": st.session_state.ricavi
-    }
-
+    dati_bilancio = [("Most recent Financial Year", years[-1])] + [(lab, fin[key][-1]) for key, lab in FINANCIAL_CARDS]
     col1, col2 = st.columns(2)
-
-    items = list(dati_bilancio.items())
-
-    for i, (nome, valore) in enumerate(items):
-
-        # Primo item → nessuna formattazione
+    for i, (nome, valore) in enumerate(dati_bilancio):
         if i == 0:
-            col = col1
-            with col:
-                st.markdown(kpi_card(nome, f"{int(valore)}", sub="Reporting year", accent_ink=True), unsafe_allow_html=True)
+            with col1:
+                st.markdown(kpi_card(nome, f"{int(valore)}", sub="Reporting year", accent_ink=True),
+                            unsafe_allow_html=True)
             continue
-
-        # Tutti gli altri → euro + separatore migliaia
-        col = col1 if i < len(items) / 2 else col2
+        col = col1 if i < len(dati_bilancio) / 2 else col2
         with col:
             st.markdown(kpi_card(nome, f"€ {valore:,.0f}"), unsafe_allow_html=True)
 
+    # ----- LEASYS FINANCIAL INDEX – INTEGRATED SCORE -----
     st.divider()
     st.markdown(section_header("Composite", "Leasys Financial Index – Integrated Score"), unsafe_allow_html=True)
-    # st.markdown(badge(score_int), unsafe_allow_html=True)
-    # st.markdown(f""" <div style="font-size:18px; margin-top:8px;"> {DESCRIZIONE_INTEGRATO_eng[score_int]} </div> """,
-    #             unsafe_allow_html=True)
 
-    # colA, colB = st.columns([3, 2])
     colA, colB, colC = st.columns([1, 3, 2.5])
 
     with colA:
-        st.markdown(badge(score_int), unsafe_allow_html=True)
-        st.markdown(f'<div class="aida-ind-desc" style="margin-top:10px;">{DESCRIZIONE_INTEGRATO_eng[score_int]}</div>',
-                    unsafe_allow_html=True)
+        st.markdown(class_badge(cls), unsafe_allow_html=True)
+        descr = ("Class assigned by the negative-equity override, not by the PD." if cls["overridden"]
+                 else BAND_DESCRIPTIONS[cls["band"]])
+        st.markdown(f'<div class="aida-ind-desc" style="margin-top:10px;">{descr}</div>', unsafe_allow_html=True)
+
+    with colB:
+        ratio = lfi["pd"] / lfi["cluster_pd_mean"]
+        versus = "below" if ratio < 0.95 else "above" if ratio > 1.05 else "in line with"
+        st.markdown(
+            f'<div class="aida-ind-fam">Probability of default · 12 months</div>'
+            f'<div class="lfi-pd">{fmt_pct(lfi["pd"])}</div>'
+            f'<div class="aida-ind-value" style="margin-top:.6rem;">90% credible band &nbsp; '
+            f'<b>{fmt_pct(lfi["pd_low"])} – {fmt_pct(lfi["pd_high"])}</b></div><br>'
+            f'<div class="aida-ind-value">Reference segment &nbsp; <b>{CLUSTER_LABELS[case["cluster"]]}</b>'
+            f' &nbsp;·&nbsp; average PD <b>{fmt_pct(lfi["cluster_pd_mean"])}</b></div>'
+            f'<div class="aida-ind-desc">The PD is {versus} the average of the reference segment ({ratio:.2f}×) and '
+            f'higher than {lfi["pd_pct_cluster"]:.0f}% of the applications of the same segment '
+            f'({lfi["pd_pct_portfolio"]:.0f}% of the whole portfolio).</div>',
+            unsafe_allow_html=True
+        )
+        st.markdown(class_scale(cls), unsafe_allow_html=True)
 
     nome_intg = "LEASYS FINANCIAL INDEX – Score Integrato"
     with colC:
+        hist = case["lfi_history"]
+        classi_storico = [lfi_class(p, ne)["final"] for p, ne in zip(hist["pd"], hist["negative_equity"])]
+        st.markdown(f"<div class='aida-spark-title'>{nome_intg} · 3Y trend</div>", unsafe_allow_html=True)
+        st.plotly_chart(sparkline(classi_storico, years, "class", y_range=[0.7, cls["n"] + 0.3]), width="stretch",
+                        key="spark_integrated_score")
+        st.markdown(f"<div class='aida-spark-note'>{score_trend_comment(classi_storico)}</div>",
+                    unsafe_allow_html=True)
+
+    if cls["overridden"]:
         st.markdown(
-            f"<div class='aida-spark-title'>{nome_intg} · 3Y trend</div>",
+            f"<div class='lfi-alert'><b>Override applied · negative equity.</b> The PD alone gives class "
+            f"{cls['model']} (dashed on the scale). Equity is {fmt_eur(fin['equity'][-1])} in {years[-1]}, so the "
+            f"company is assigned to class {cls['final']}, the highest-risk class.</div>",
             unsafe_allow_html=True
         )
-
-        st.plotly_chart(
-            sparkline(score_int_storico['integrato'], st.session_state.anno_bil, score_intg=True),
-            use_container_width=True,
-            key="spark_integrated_score"
-        )
-
-        st.markdown(
-            f"<div class='aida-spark-note'>"
-            f"{commento_score_integrato_eng(score_int_storico['integrato'])}"
-            f"</div>",
-            unsafe_allow_html=True
-        )
+    if LFI_CLASSES_PROVISIONAL:
+        st.caption("Class scale: provisional, pending the official class boundaries.")
 
     st.divider()
 
+    # ----- INDICATOR RESULTS (stessa riga del template: badge | indicatore | trend a 3 anni) -----
     st.markdown(section_header("Assessment", "Indicator Results"), unsafe_allow_html=True)
 
-    risultati = [
-        ("Capital Structure", ind1, c1, "struttura", "Net Worth / Total Assets"),
-        ("Current Liquidity", ind2, c2, "liquidita", "Current Assets / Current Liabilities"),
-        ("Debt Sustainability", ind3, c3, "leva", "(Total Debts - Liquidity) / EBITDA"),
-        ("Cash Flow", ind4, c4, "cashflow", "Cash Flow / Total Assets"),
-        ("Profitability", ind5, c5, "profitability", "Financial Payables / Revenue"),
-    ]
-
-    for nome, valore, c, key, formula in risultati:
-        # colA, colB = st.columns([1, 3])
+    for key in DISPLAY_INDICATORS:
+        meta, ind = INDICATORS[key], case["indicators"][key]
+        c = subindex_class(ind["sub_pd"])
         colA, colB, colC = st.columns([1, 3, 2.5])
 
         with colA:
-            st.markdown(badge(c), unsafe_allow_html=True)
+            st.markdown(class_badge(c), unsafe_allow_html=True)
 
         with colB:
+            segment_position = ("" if ind["value"] is None else
+                                f' &nbsp;·&nbsp; {ordinal(ind["cluster_pct"])} percentile of the segment')
             st.markdown(
                 f'<div class="aida-ind-fam">Indicator</div>'
-                f'<div class="aida-ind-name">{nome}</div>'
-                f'<div class="aida-formula">{formula}</div>'
-                f'<div class="aida-ind-value">Indicator value &nbsp; <b>{valore:.4f}</b></div>'
-                f'<div class="aida-ind-desc">{DESCRIZIONI_eng[key][c]}</div>',
+                f'<div class="aida-ind-name">{meta["label"]}</div>'
+                f'<div class="aida-formula">{meta["formula"]}</div>'
+                f'<div class="aida-ind-value">Indicator value &nbsp; <b>{fmt_value(ind["value"], meta["fmt"])}</b></div> '
+                f'<div class="aida-ind-value">Segment median &nbsp; <b>{fmt_value(ind["cluster_median"], meta["fmt"])}</b>'
+                f'{segment_position}</div>'
+                f'<div class="aida-ind-desc">'
+                f'{subindex_description(ind["sub_pd"], ind["sub_pd_cluster_mean"], meta["reading"])}</div>',
                 unsafe_allow_html=True
             )
 
         with colC:
-            st.markdown(
-                f"<div class='aida-spark-title'>{nome} · 3Y trend</div>",
-                unsafe_allow_html=True
-            )
-
-            st.plotly_chart(
-                sparkline(indicatori_storici[key], st.session_state.anno_bil),
-                use_container_width=True,
-                key=f"spark_{key}"
-            )
-
-            st.markdown(
-                f"<div class='aida-spark-note'>"
-                f"{commento_trend_intelligente_eng(indicatori_storici[key], key)}"
-                f"</div>",
-                unsafe_allow_html=True
-            )
+            series_key, series_label, series_fmt = meta["history"]
+            series = case["ratio_history"].get(series_key) or fin.get(series_key)
+            st.markdown(f"<div class='aida-spark-title'>{series_label} · 3Y trend</div>", unsafe_allow_html=True)
+            ref = ind["cluster_median"] if series_key == key else None      # mediana del segmento, se la serie e' l'indicatore
+            st.plotly_chart(sparkline(series, years, series_fmt, reference=ref), width="stretch", key=f"spark_{key}")
+            st.markdown(f"<div class='aida-spark-note'>{trend_comment(series, series_label, meta['trend_good'])}</div>",
+                        unsafe_allow_html=True)
 
         st.divider()
 
-    risultati_cagr = [("Annual Growth", cagr_ricavi, c_cagr_ricavi, "cagr_ricavi", "Revenue CAGR")]
-    colA, colB, colC = st.columns([1, 3, 2.5])
-
-    for nome, valore, c, key, formula in risultati_cagr:
-        with colA:
-            st.markdown(badge(c), unsafe_allow_html=True)
-
-        with colB:
-            st.markdown(
-                f'<div class="aida-ind-fam">Indicator</div>'
-                f'<div class="aida-ind-name">{nome}</div>'
-                f'<div class="aida-formula">{formula}</div>'
-                f'<div class="aida-ind-value">Indicator value &nbsp; <b>{valore:.4f}</b></div>'
-                f'<div class="aida-ind-desc">{DESCRIZIONI_eng[key][c]}</div>',
-                unsafe_allow_html=True
-            )
-
-        with colC:
-            st.markdown(
-                f"<div class='aida-spark-title'>{nome} · 3Y trend</div>",
-                unsafe_allow_html=True
-            )
-
-
-            st.plotly_chart(
-                sparkline(trend_ricavi['cagr_ricavi'], st.session_state.anno_bil),
-                use_container_width=True,
-                key="spark_cagr_ricavi"
-            )
-
-            st.markdown(
-                f"<div class='aida-spark-note'>"
-                f"{commento_cagr_ricavi_eng(trend_ricavi['cagr_ricavi'], descr_cagr_eng)}"
-                f"</div>",
-                unsafe_allow_html=True
-            )
-
-    st.divider()
-
-
-    # RADAR
+    # ----- RADAR -----
     st.markdown(section_header("Risk Profile", "Risk Profile – Radar"), unsafe_allow_html=True)
-
-    radar_classes = [c1, c2, c3, c4, c5]
-
-    radar_values = radar_classes + [radar_classes[0]]
-    radar_labels_closed = radar_labels_eng + [radar_labels_eng[0]]
-    radar_colors = [colori_classi_radar[c] for c in radar_classes] + [colori_classi_radar[radar_classes[0]]]
-
-    fig = go.Figure()
-
-    # area radar (corporate)
-    _cc = chart_colors(DARK_MODE)
-    fig.add_trace(go.Scatterpolar(
-        r=radar_values,
-        theta=radar_labels_closed,
-        fill='toself',
-        fillcolor=_cc["radar_fill"],
-        line=dict(color=_cc["radar_line"], width=2.5),
-        name="Risk Profile"
-    ))
-
-    # punti colorati per classe
-    fig.add_trace(go.Scatterpolar(
-        r=radar_values,
-        theta=radar_labels_closed,
-        mode='markers',
-        marker=dict(
-            size=14,
-            color=radar_colors,
-            line=dict(color=_cc["hover"] if DARK_MODE else "white", width=2)
-        ),
-        showlegend=False
-    ))
-
-    fig.update_layout(
-        font=dict(family="Inter, system-ui, sans-serif", color=_cc["tick"]),
-        polar=dict(
-            bgcolor="rgba(255,255,255,0)",
-            radialaxis=dict(
-                visible=True,
-                range=[1, 5],
-                tickvals=[1, 2, 3, 4, 5],
-                tickfont=dict(size=11, color=_cc["tick"]),
-                gridcolor=_cc["grid"],
-                linecolor=_cc["grid"]
-            ),
-            angularaxis=dict(
-                tickfont=dict(size=12, color=_cc["angular"]),
-                gridcolor=_cc["grid"],
-                linecolor=_cc["grid"]
-            )
-        ),
-        paper_bgcolor="rgba(0,0,0,0)",
-        plot_bgcolor="rgba(0,0,0,0)",
-        height=520,
-        margin=dict(t=40, b=40)
-    )
-
-    st.plotly_chart(fig, use_container_width=True, key="radar_risk_profile")
+    st.plotly_chart(class_radar(case, DARK_MODE), width="stretch", key="radar_risk_profile")
 
     st.divider()
 
+    # ----- SHAP: contributo di ogni area allo score (qui c'e' anche l'eta' dell'azienda) -----
+    st.markdown(section_header("Explanation", "What drives the score"), unsafe_allow_html=True)
+    st.caption("Each bar shows how far an area moves this company's score from the average applicant of its reference "
+               "segment (log-odds points). The bars add up to the distance between the company and its segment "
+               "average. Company age is part of the model and appears here.")
+
+    colL, colR = st.columns([3, 2])
+    with colL:
+        st.plotly_chart(area_drivers_chart(case), width="stretch", key="lfi_area_drivers")
+
+    with colR:
+        ranked = sorted(case["indicators"].items(), key=lambda t: -t[1]["driver"])
+        up = [(k, v) for k, v in ranked if driver_effect(v["driver"]) == "raises risk"][:3]
+        down = [(k, v) for k, v in reversed(ranked) if driver_effect(v["driver"]) == "lowers risk"][:3]
+
+        def _factors(items, color):
+            if not items:
+                return "<div class='lfi-note'>None.</div>"
+            return "<div class='lfi-factors'>" + "".join(
+                f"<div class='lfi-factor' style='--dc:{color};'><span>{INDICATORS[k]['label']}</span>"
+                f"<span class='v'>{fmt_value(v['value'], INDICATORS[k]['fmt'])} (segment "
+                f"{fmt_value(v['cluster_median'], INDICATORS[k]['fmt'])}) · {v['driver']:+.2f}</span></div>"
+                for k, v in items) + "</div>"
+
+        st.markdown("<div class='aida-spark-title'>Main factors raising risk</div>" + _factors(up, "#E5544A"),
+                    unsafe_allow_html=True)
+        st.write("")
+        st.markdown("<div class='aida-spark-title'>Main mitigating factors</div>" + _factors(down, "#1FBE86"),
+                    unsafe_allow_html=True)
+
+    st.divider()
+
+    # ----- AI ANALYST -----
     col_logo_2, col_title_2 = st.columns([2, 4])
     with col_logo_2:
-        st.image("aida.png", use_container_width=True)
+        st.image("aida.png", width="stretch")
 
-    if st.session_state.anno_bil:
-        bilancio_ai_component_eng(st.session_state.anno_bil, bilancio_data, dati_cliente)
-
-    # bilancio_ai_component_eng(st.session_state.anno_bil, bilancio_data, dati_cliente)
+    lfi_ai_component(case, cls, None, customer)
 
     st.divider()
 
+    # ----- PDF -----
     st.markdown(section_header("Report", "Export PDF"), unsafe_allow_html=True)
 
     if st.button("⬇️ Download Leasys PDF"):
         with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
-            genera_pdf_leasys(
-                output_path=tmp.name,
-                logo_path="logo_nuovo.png",
-                dati_bilancio={
-                    "Patrimonio netto": st.session_state.pn,
-                    "Attivo": st.session_state.attivo,
-                    "Attivo a breve": st.session_state.att_breve,
-                    "Passivo a breve": st.session_state.pass_breve,
-                    "Debiti totali": st.session_state.debiti,
-                    "Liquidità": st.session_state.liquidita,
-                    "EBITDA": st.session_state.ebitda,
-                    "Cash flow": st.session_state.cf,
-                    "Oneri finanziari": st.session_state.oneri,
-                    "Ricavi": st.session_state.ricavi
-                },
-                classi=risultati,
-                descrizioni=DESCRIZIONI_eng,
-                score_int=score_int,
-                descrizione_int=DESCRIZIONE_INTEGRATO_eng[score_int],
-                indicatori_calcolati={
-                    "Struttura patrimoniale": ind1,
-                    "Liquidità": ind2,
-                    "Leva": ind3,
-                    "Cash flow": ind4,
-                    "Profitability": ind5,
-                    "CAGR Ricavi": cagr_ricavi
-                },
-                # grafici={
-                #     "Struttura": sparkline(indicatori_storici["struttura"], st.session_state.anno_bil),
-                #     "Liquidità": sparkline(indicatori_storici["liquidita"], st.session_state.anno_bil),
-                #     "Leva": sparkline(indicatori_storici["leva"], st.session_state.anno_bil),
-                #     "Cash Flow": sparkline(indicatori_storici["cashflow"], st.session_state.anno_bil),
-                #     "Profitability": sparkline(indicatori_storici["profitability"], st.session_state.anno_bil),
-                #     "Radar": fig
-                # }
-            )
-
+            genera_pdf_lfi(output_path=tmp.name, logo_path="logo_nuovo.png", case=case, cls=cls)
             with open(tmp.name, "rb") as f:
-                st.download_button(
-                    "📥 Download PDF",
-                    f,
-                    file_name="Scoring_Integrato_Leasys.pdf",
-                    mime="application/pdf"
-                )
+                st.download_button("📥 Download PDF", f.read(), file_name="Scoring_Integrato_Leasys.pdf",
+                                   mime="application/pdf")

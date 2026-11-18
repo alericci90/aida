@@ -1,0 +1,103 @@
+{
+ "n_applications": 57014,
+ "source": "df_out_v1_runO_solocore.parquet",
+ "clusters": {
+  "commercio_higher": {
+   "n": 3712,
+   "pd_mean": 0.029718,
+   "gamma": 1.63917,
+   "intercept": 23.93293
+  },
+  "commercio_lower": {
+   "n": 16166,
+   "pd_mean": 0.041774,
+   "gamma": 0.98866,
+   "intercept": 13.556811
+  },
+  "costruzioni": {
+   "n": 9202,
+   "pd_mean": 0.034503,
+   "gamma": 0.975767,
+   "intercept": 13.142942
+  },
+  "finance": {
+   "n": 8997,
+   "pd_mean": 0.025424,
+   "gamma": 0.989061,
+   "intercept": 13.032753
+  },
+  "industria_higher": {
+   "n": 4808,
+   "pd_mean": 0.01,
+   "gamma": 1.516851,
+   "intercept": 21.27667
+  },
+  "industria_lower": {
+   "n": 7552,
+   "pd_mean": 0.026564,
+   "gamma": 0.920389,
+   "intercept": 11.991302
+  },
+  "rac": {
+   "n": 3714,
+   "pd_mean": 0.062989,
+   "gamma": 0.752628,
+   "intercept": 9.889202
+  },
+  "socioculturali": {
+   "n": 2863,
+   "pd_mean": 0.028864,
+   "gamma": 0.889542,
+   "intercept": 11.515954
+  }
+ },
+ "pd_mean_all": 0.033275,
+ "pd_median_all": 0.024756,
+ "dr_observed": 0.02687,
+ "subindex_range": {
+  "dyn_liquidity": [
+   0.023611,
+   0.079896
+  ],
+  "anagrafica": [
+   0.00594,
+   0.058279
+  ],
+  "efficiency": [
+   0.025501,
+   0.049104
+  ],
+  "structure": [
+   0.006632,
+   0.055716
+  ],
+  "liquidity": [
+   0.013398,
+   0.045823
+  ],
+  "earnings_quality": [
+   0.019357,
+   0.04298
+  ],
+  "dyn_efficiency": [
+   0.022234,
+   0.10065
+  ],
+  "dynamics": [
+   0.009659,
+   0.066578
+  ],
+  "leverage": [
+   0.022688,
+   0.065787
+  ],
+  "dyn_growth": [
+   0.018406,
+   0.069219
+  ],
+  "dyn_profitability": [
+   0.024195,
+   0.079444
+  ]
+ }
+}

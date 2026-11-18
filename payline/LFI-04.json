@@ -1,0 +1,20 @@
+{
+  "_simulated": true,
+  "Name": "Lavorazioni Ferrandia S.r.l.",
+  "TaxCode": "15471829993",
+  "Active Contracts": 0,
+  "Outstanding": {
+    "Overall Oustanding": 0.0,
+    "Rental and Remarketing Total": 0.0,
+    "Rental": 0.0,
+    "Remarketing": 0.0,
+    "Retail and Leasing Total": 0.0,
+    "Retail": 0,
+    "Leasing": 0.0
+  },
+  "Scaduto": {
+    "Overall Past-due": 0.0,
+    "Rental fees Past-due": 0.0,
+    "Rental extra-fees Past-due": 0.0
+  }
+}
