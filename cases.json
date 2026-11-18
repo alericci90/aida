@@ -152,6 +152,18 @@
     0.209837
    ]
   },
+  "series_segment_median": {
+   "asset_turnover": 1.083072,
+   "liquidita_su_attivo": 0.08396,
+   "tfr_su_attivo": 0.025298,
+   "clca": 0.43975,
+   "imposte_su_utile_ante": 0.288079,
+   "quick_ratio": 1.128096,
+   "ebitda_su_attivo": 0.086073,
+   "equity_ratio": 0.293008,
+   "revenue": 14734500.0,
+   "total_assets": 14175500.0
+  },
   "lfi": {
    "xb": -5.360917,
    "pd_model": 0.004675,
@@ -525,6 +537,18 @@
     0.484848,
     0.49726
    ]
+  },
+  "series_segment_median": {
+   "asset_turnover": 1.207692,
+   "liquidita_su_attivo": 0.12473,
+   "tfr_su_attivo": 0.028414,
+   "clca": 0.484746,
+   "imposte_su_utile_ante": 0.333333,
+   "quick_ratio": 1.435294,
+   "ebitda_su_attivo": 0.106222,
+   "equity_ratio": 0.245902,
+   "revenue": 901000.0,
+   "total_assets": 756000.0
   },
   "lfi": {
    "xb": -4.63541,
@@ -900,6 +924,18 @@
     0.087364
    ]
   },
+  "series_segment_median": {
+   "asset_turnover": 1.694441,
+   "liquidita_su_attivo": 0.08606,
+   "tfr_su_attivo": 0.021487,
+   "clca": 0.505153,
+   "imposte_su_utile_ante": 0.306912,
+   "quick_ratio": 1.076146,
+   "ebitda_su_attivo": 0.088733,
+   "equity_ratio": 0.26216,
+   "revenue": 11704500.0,
+   "total_assets": 7418000.0
+  },
   "lfi": {
    "xb": -3.941211,
    "pd_model": 0.019055,
@@ -1273,6 +1309,18 @@
     -0.028796,
     -0.011019
    ]
+  },
+  "series_segment_median": {
+   "asset_turnover": 1.114655,
+   "liquidita_su_attivo": 0.085848,
+   "tfr_su_attivo": 0.031205,
+   "clca": 0.519165,
+   "imposte_su_utile_ante": 0.324324,
+   "quick_ratio": 1.112764,
+   "ebitda_su_attivo": 0.086281,
+   "equity_ratio": 0.19333,
+   "revenue": 1162000.0,
+   "total_assets": 1043500.0
   },
   "lfi": {
    "xb": -3.545111,
@@ -1648,6 +1696,18 @@
     0.180582
    ]
   },
+  "series_segment_median": {
+   "asset_turnover": 1.248475,
+   "liquidita_su_attivo": 0.092605,
+   "tfr_su_attivo": 0.020879,
+   "clca": 0.56731,
+   "imposte_su_utile_ante": 0.333333,
+   "quick_ratio": 1.231156,
+   "ebitda_su_attivo": 0.103433,
+   "equity_ratio": 0.205882,
+   "revenue": 1237500.0,
+   "total_assets": 1028500.0
+  },
   "lfi": {
    "xb": -3.205696,
    "pd_model": 0.038952,
@@ -2021,6 +2081,18 @@
     0.201167,
     0.166103
    ]
+  },
+  "series_segment_median": {
+   "asset_turnover": 1.132704,
+   "liquidita_su_attivo": 0.142722,
+   "tfr_su_attivo": 0.028638,
+   "clca": 0.464677,
+   "imposte_su_utile_ante": 0.296296,
+   "quick_ratio": 1.247934,
+   "ebitda_su_attivo": 0.091681,
+   "equity_ratio": 0.218771,
+   "revenue": 528000.0,
+   "total_assets": 510500.0
   },
   "lfi": {
    "xb": -3.453472,
@@ -2396,6 +2468,18 @@
     0.199446
    ]
   },
+  "series_segment_median": {
+   "asset_turnover": 1.387828,
+   "liquidita_su_attivo": 0.111036,
+   "tfr_su_attivo": 0.017857,
+   "clca": 0.541217,
+   "imposte_su_utile_ante": 0.305556,
+   "quick_ratio": 1.018513,
+   "ebitda_su_attivo": 0.088235,
+   "equity_ratio": 0.196704,
+   "revenue": 702000.0,
+   "total_assets": 494000.0
+  },
   "lfi": {
    "xb": -2.621975,
    "pd_model": 0.067737,
@@ -2769,6 +2853,18 @@
     0.21645,
     0.185111
    ]
+  },
+  "series_segment_median": {
+   "asset_turnover": 1.387828,
+   "liquidita_su_attivo": 0.111036,
+   "tfr_su_attivo": 0.017857,
+   "clca": 0.541217,
+   "imposte_su_utile_ante": 0.305556,
+   "quick_ratio": 1.018513,
+   "ebitda_su_attivo": 0.088235,
+   "equity_ratio": 0.196704,
+   "revenue": 702000.0,
+   "total_assets": 494000.0
   },
   "lfi": {
    "xb": -2.192838,
@@ -3144,6 +3240,18 @@
     0.146407
    ]
   },
+  "series_segment_median": {
+   "asset_turnover": 1.398298,
+   "liquidita_su_attivo": 0.074219,
+   "tfr_su_attivo": 0.02032,
+   "clca": 0.591928,
+   "imposte_su_utile_ante": 0.296552,
+   "quick_ratio": 1.168699,
+   "ebitda_su_attivo": 0.10193,
+   "equity_ratio": 0.179109,
+   "revenue": 955000.0,
+   "total_assets": 656000.0
+  },
   "lfi": {
    "xb": -2.295685,
    "pd_model": 0.091481,
@@ -3517,6 +3625,18 @@
     0.195965,
     0.352632
    ]
+  },
+  "series_segment_median": {
+   "asset_turnover": 1.248475,
+   "liquidita_su_attivo": 0.092605,
+   "tfr_su_attivo": 0.020879,
+   "clca": 0.56731,
+   "imposte_su_utile_ante": 0.333333,
+   "quick_ratio": 1.231156,
+   "ebitda_su_attivo": 0.103433,
+   "equity_ratio": 0.205882,
+   "revenue": 1237500.0,
+   "total_assets": 1028500.0
   },
   "lfi": {
    "xb": -1.353049,

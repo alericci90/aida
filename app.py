@@ -236,7 +236,7 @@ if st.session_state.submitted and st.session_state.selected_company in cases:
             series_key, series_label, series_fmt = meta["history"]
             series = case["ratio_history"].get(series_key) or fin.get(series_key)
             st.markdown(f"<div class='aida-spark-title'>{series_label} · 3Y trend</div>", unsafe_allow_html=True)
-            ref = ind["cluster_median"] if series_key == key else None      # mediana del segmento, se la serie e' l'indicatore
+            ref = case["series_segment_median"][series_key]        # mediana del segmento della serie mostrata
             st.plotly_chart(sparkline(series, years, series_fmt, reference=ref), width="stretch", key=f"spark_{key}")
             st.markdown(f"<div class='aida-spark-note'>{trend_comment(series, series_label, meta['trend_good'])}</div>",
                         unsafe_allow_html=True)

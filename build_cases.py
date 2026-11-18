@@ -72,6 +72,12 @@ for c in CORE:      # posizione del valore grezzo dentro il segmento (cluster)
 sub_clus_mean = df.groupby("cluster")[[f"subscore_fam_{f}_pd" for f in FAMILY.values()]].mean()
 port_med = df[CORE].median()
 clus_med = df.groupby("cluster")[CORE].median()
+# mediana del segmento delle serie mostrate nei grafici a 3 anni (ultimo bilancio): una linea di riferimento per ogni
+# grafico, anche quando la serie non e' l'indicatore stesso (es. asset turnover per la sua variazione a 2 anni)
+SERIES_COLS = {**{k: f"{k}_lastbil" for k in RATIO_HIST},
+               "revenue": f"{ITEMS['revenue']}_lastbil", "total_assets": f"{ITEMS['total_assets']}_lastbil"}
+SERIES_SCALE = {"revenue": 1000, "total_assets": 1000}          # voci di bilancio: migliaia -> euro
+series_med = pd.DataFrame({k: df.groupby("cluster")[c].median() * SERIES_SCALE.get(k, 1) for k, c in SERIES_COLS.items()})
 
 rev = [f"{ITEMS['revenue']}_{l}" for l in LAGS]
 base = ((df["annobil_lastbil"] >= 2023) & (df["annobil_lastbil"] - df["annobil_lastbil-1"] == 1)
@@ -147,6 +153,7 @@ for n, (i, note) in enumerate(picked, 1):
                                             "RITORNO": "Returning customer"}[r["Tipo_Cliente"]],
         years=years, financials_eur=fin,
         ratio_history={k: [f(r[f"{k}_{l}"]) for l in LAGS] for k in RATIO_HIST},
+        series_segment_median={k: f(series_med.loc[r["cluster"], k]) for k in SERIES_COLS},
         lfi=dict(xb=f(r["xb"]), pd_model=f(r["pd_hat"]), pd=f(r["pd_cal"]), pd_low=f(r["pd_cal_q_lo"]),
                  pd_high=f(r["pd_cal_q_hi"]), model_decile=int(r["classe_rischio_oss"]),
                  cluster_pd_mean=f(r["calib_pd_cal_tutte"]), xb_cluster_mean=f(r["xb_cluster_mean"]),

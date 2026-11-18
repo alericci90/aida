@@ -29,6 +29,7 @@
 #  dell'LFI sui bilanci precedenti (lfi_history) e' REALE dove la stessa azienda ha una
 #  pratica su quel bilancio (source = "model"), simulata altrimenti ("simulated").
 #  cluster_pct / cluster_median / sub_pd_cluster_mean = confronto con il segmento.
+#  series_segment_median {serie: mediana del segmento sull'ultimo bilancio}: linea di riferimento dei grafici a 3 anni.
 #  driver = scostamento dello score (log-odds) dalla pratica media dello stesso
 #  segmento: la somma dei driver degli 11 indicatori e' xb - xb_cluster_mean.
 # ============================================================================
