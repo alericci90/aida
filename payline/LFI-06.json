@@ -2,19 +2,19 @@
   "_simulated": true,
   "Name": "Polisportiva Tivenna S.r.l.",
   "TaxCode": "44253439995",
-  "Active Contracts": 1,
+  "Active Contracts": 16,
   "Outstanding": {
-    "Overall Oustanding": 23615.18,
-    "Rental and Remarketing Total": 20564.79,
-    "Rental": 20564.79,
+    "Overall Oustanding": 377842.82,
+    "Rental and Remarketing Total": 329036.59,
+    "Rental": 329036.59,
     "Remarketing": 0.0,
-    "Retail and Leasing Total": 3050.39,
+    "Retail and Leasing Total": 48806.23,
     "Retail": 0,
-    "Leasing": 3050.39
+    "Leasing": 48806.23
   },
   "Scaduto": {
-    "Overall Past-due": 0.0,
-    "Rental fees Past-due": 0.0,
-    "Rental extra-fees Past-due": 0.0
+    "Overall Past-due": 472.83,
+    "Rental fees Past-due": 432.08,
+    "Rental extra-fees Past-due": 40.75
   }
 }

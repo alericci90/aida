@@ -5,7 +5,7 @@ Dashboard Streamlit di presentazione: risultato del modello LFI (Run O, nucleo f
     pip install -r requirements.txt
     streamlit run app.py
 
-Per l'AI Analyst servono `AZURE_OPENAI_ENDPOINT`, `AZURE_OPENAI_API_KEY`, `AZURE_OPENAI_API_VERSION`. `new_azure_llm.py` li cerca, nell'ordine, in: variabili d'ambiente, `st.secrets`, `.streamlit/secrets.toml` nella cartella dell'app, nelle cartelle superiori, nella cartella di lancio e nella home. Basta quindi il `secrets.toml` che usi gia' per la versione precedente, anche se sta in un'altra cartella del progetto. Senza credenziali la dashboard funziona e l'AI Analyst mostra quale chiave manca.
+Per l'AI Analyst servono `AZURE_OPENAI_ENDPOINT`, `AZURE_OPENAI_API_KEY`, `AZURE_OPENAI_API_VERSION`, letti da `new_azure_llm.py` (identico alla versione precedente) dalle variabili d'ambiente o da `st.secrets`. Le credenziali non sono nel codice: vanno configurate nell'ambiente in cui gira l'app (secrets dell'app su Streamlit Cloud, secrets del repository su Codespaces, `.streamlit/secrets.toml` in locale). Il modo piu' semplice e' copiare questi file nella cartella o nel repository dove la versione precedente funziona.
 
 | File | Contenuto |
 |---|---|
@@ -23,4 +23,5 @@ Scala delle classi: 6 classi, tagli ufficiali sulla PD calibrata in `LFI_CLASS_C
 
 ## Dati reali e dati simulati
 - **Dal parquet del modello (reali)**: voci di bilancio, 11 indicatori, PD calibrata e banda, sottoindici di famiglia, driver (SHAP), confronti con il segmento e con il portafoglio, settore, dimensione, eta' dell'azienda.
-- **Simulati da `tools/build_cases.py` (realistici, non reali; seed fisso)**: nome e partita IVA (codice ufficio 999, inesistente), contratti attivi, outstanding e scaduto; PD dell'LFI sui due bilanci precedenti (trend a 3 anni dello score integrato).
+- **Simulati da `tools/build_cases.py` (realistici, non reali; seed fisso)**: nome e partita IVA (codice ufficio 999, inesistente), contratti attivi, outstanding e scaduto; PD dell'LFI sui due bilanci precedenti solo dove manca il dato reale.
+- **Trend a 3 anni dello score integrato**: la PD sui bilanci precedenti e' quella del modello sulle pratiche precedenti della stessa azienda (stesso codice fiscale): reale per 28 punti su 30; i 2 mancanti (LFI-04 nel 2022, LFI-08 nel 2021) sono simulati. I casi sono scelti dando priorita' alle aziende con storico reale.

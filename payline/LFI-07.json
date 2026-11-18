@@ -2,19 +2,19 @@
   "_simulated": true,
   "Name": "Commerciale Brusata S.r.l.",
   "TaxCode": "91358759990",
-  "Active Contracts": 1,
+  "Active Contracts": 0,
   "Outstanding": {
-    "Overall Oustanding": 22962.41,
-    "Rental and Remarketing Total": 22962.41,
-    "Rental": 22962.41,
+    "Overall Oustanding": 0.0,
+    "Rental and Remarketing Total": 0.0,
+    "Rental": 0.0,
     "Remarketing": 0.0,
     "Retail and Leasing Total": 0.0,
     "Retail": 0,
     "Leasing": 0.0
   },
   "Scaduto": {
-    "Overall Past-due": 575.63,
-    "Rental fees Past-due": 515.65,
-    "Rental extra-fees Past-due": 59.98
+    "Overall Past-due": 0.0,
+    "Rental fees Past-due": 0.0,
+    "Rental extra-fees Past-due": 0.0
   }
 }

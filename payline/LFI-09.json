@@ -2,19 +2,19 @@
   "_simulated": true,
   "Name": "Autoservizi Castrivo S.r.l.",
   "TaxCode": "37266469991",
-  "Active Contracts": 34,
+  "Active Contracts": 6,
   "Outstanding": {
-    "Overall Oustanding": 836531.67,
-    "Rental and Remarketing Total": 836531.67,
-    "Rental": 803787.58,
-    "Remarketing": 32744.09,
+    "Overall Oustanding": 147623.24,
+    "Rental and Remarketing Total": 147623.24,
+    "Rental": 141844.87,
+    "Remarketing": 5778.37,
     "Retail and Leasing Total": 0.0,
     "Retail": 0,
     "Leasing": 0.0
   },
   "Scaduto": {
-    "Overall Past-due": 80514.9,
-    "Rental fees Past-due": 74294.22,
-    "Rental extra-fees Past-due": 6220.68
+    "Overall Past-due": 14208.51,
+    "Rental fees Past-due": 13110.74,
+    "Rental extra-fees Past-due": 1097.77
   }
 }

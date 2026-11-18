@@ -40,7 +40,7 @@ FAMILY = {"quick_ratio_aumento_estremo_lastbil": "dyn_liquidity", "liquidita_su_
 RATIO_HIST = ["asset_turnover", "liquidita_su_attivo", "tfr_su_attivo", "clca", "imposte_su_utile_ante", "quick_ratio",
               "ebitda_su_attivo", "equity_ratio"]
 LAGS = ["lastbil-2", "lastbil-1", "lastbil"]
-meta = ["nuovo_sent_at_annomese", "atecoCerved_2dgt", "cl_atecoCerved_2dgt", "cl_dime", "cluster", "Tipo_Cliente",
+meta = ["fiscalCodeOrPIva", "nuovo_sent_at_annomese", "atecoCerved_2dgt", "cl_atecoCerved_2dgt", "cl_dime", "cluster", "Tipo_Cliente",
         "xb", "pd_hat", "pd_cal", "pd_cal_q_lo", "pd_cal_q_hi", "classe_rischio_oss", "gamma_core",
         "intercetta_cluster", "logit_core", "n_mancanti_core", "annobil_lastbil", "annobil_lastbil-1",
         "annobil_lastbil-2", "calib_pd_cal_tutte", "cluster_n"]
@@ -87,15 +87,43 @@ PLAN = [  # (cluster, classe LFI dalla PD, filtro extra, nota): le 6 classi sono
     ("costruzioni", 3, complete & ~pn_neg, ""), ("socioculturali", 3, complete & ~pn_neg, ""),
     ("commercio_lower", 4, complete & ~pn_neg, ""), ("commercio_lower", 5, tax_missing & ~pn_neg, "missing_tax_rate"),
     ("rac", 5, complete & ~pn_neg, ""), ("costruzioni", 6, complete & ~pn_neg, "")]
+# STORICO REALE DELL'LFI. Nel campione molte aziende hanno pratiche su bilanci di anni diversi: la PD calibrata del
+# modello sui bilanci precedenti e' quella delle loro pratiche precedenti (stesso codice fiscale, ultimo bilancio =
+# quell'anno; se piu' pratiche sullo stesso bilancio, la piu' recente). Si simula solo l'anno che manca.
+H = (df.sort_values("nuovo_sent_at_annomese").groupby(["fiscalCodeOrPIva", "annobil_lastbil"])
+     .agg(pd_cal=("pd_cal", "last"), pn=(f"{ITEMS['equity']}_lastbil", "last")))
+H_PD, H_PN = H["pd_cal"].to_dict(), H["pn"].to_dict()
+
+
+def real_history(r) -> list:
+    """[(pd, pn) o None] per t-2 e t-1 dalle pratiche precedenti della stessa azienda."""
+    out = []
+    for lag in ("annobil_lastbil-2", "annobil_lastbil-1"):
+        key = (r["fiscalCodeOrPIva"], int(r[lag]))
+        out.append((H_PD[key], H_PN[key]) if key in H_PD else None)
+    return out
+
+
+def history_classes(r) -> list:
+    h = real_history(r)
+    return [bisect_right(LFI_CLASS_CUTS, x[0]) + 1 if x else None for x in h] + [int(r["classe_lfi"])]
+
+
 picked, n_new = [], 0
 for cl, k, extra, note in PLAN:
     q = df[base & extra & (df["cluster"] == cl) & (df["classe_lfi"] == k)]
     assert len(q), (cl, k)
     if n_new >= 2 and (q["Tipo_Cliente"] == "ATTIVO").any():      # mock-up: al piu' 2 clienti nuovi (esposizione a zero)
         q = q[q["Tipo_Cliente"] == "ATTIVO"]
-    target = q["pd_cal"].median()      # pratica piu' vicina alla PD mediana del gruppo (scelta deterministica)
-    picked.append((q["pd_cal"].sub(target).abs().idxmin(), note))
-    n_new += int(df.loc[picked[-1][0], "Tipo_Cliente"] != "ATTIVO")
+    target = q["pd_cal"].median()
+    # priorita': 1) piu' anni di storico reale, 2) classi non tutte uguali sui tre anni, 3) PD vicina alla mediana
+    hc = q.apply(history_classes, axis=1)
+    rank_ = pd.DataFrame({"n_real": hc.map(lambda v: sum(x is not None for x in v[:2])),
+                          "varied": hc.map(lambda v: len({x for x in v if x is not None}) > 1),
+                          "dist": q["pd_cal"].sub(target).abs()}, index=q.index)
+    best = rank_.sort_values(["n_real", "varied", "dist"], ascending=[False, False, True]).index[0]
+    picked.append((best, note))
+    n_new += int(df.loc[best, "Tipo_Cliente"] != "ATTIVO")
 
 SECTOR = {"1": "Agriculture, Industry & Manufacturing", "2": "Construction & Real Estate",
           "3": "Trade, Tourism & Consumer Services", "4": "ICT, Finance, Insurance & Professional Services",
@@ -178,15 +206,21 @@ for n, c in enumerate(cases, 1):
                        "Rental extra-fees Past-due": extra_pd}}
     json.dump(pay, open(Path(OUT).parent / "payline" / f"{c['case_id']}.json", "w"), indent=2)
     c["name"] = name
-    # PD sui bilanci precedenti: PD_t * exp(-delta), delta = peggioramento (+) o miglioramento (-) da allora
-    rh, hist = c["ratio_history"], []
-    for j in (0, 1):
+    # PD sui bilanci precedenti: REALE (pratica precedente della stessa azienda) se c'e', altrimenti SIMULATA come
+    # PD_t * exp(-delta), delta = peggioramento (+) o miglioramento (-) di liquidita', redditivita', debito a breve e
+    # patrimonio netto da quell'anno
+    rh, hist, src, neg = c["ratio_history"], [], [], []
+    for j, real in enumerate(real_history(df.loc[picked[n - 1][0]])):
+        if real is not None:
+            hist.append(f(real[0])); src.append("model"); neg.append(bool(real[1] < 0))
+            continue
         d = lambda key: (rh[key][2] or 0.0) - (rh[key][j] if rh[key][j] is not None else (rh[key][2] or 0.0))
         delta = float(np.clip(-3.0 * d("liquidita_su_attivo") - 2.0 * d("ebitda_su_attivo") + 1.0 * d("clca")
                               - 1.5 * d("equity_ratio"), -0.7, 0.7))
-        hist.append(f(c["lfi"]["pd"] * np.exp(-delta)))
-    c["lfi_history"] = dict(simulated=True, years=c["years"], pd=hist + [c["lfi"]["pd"]],
-                            negative_equity=[bool(v < 0) for v in c["financials_eur"]["equity"]])
+        hist.append(f(c["lfi"]["pd"] * np.exp(-delta))); src.append("simulated")
+        neg.append(bool(c["financials_eur"]["equity"][j] < 0))
+    c["lfi_history"] = dict(years=c["years"], pd=hist + [c["lfi"]["pd"]], source=src + ["model"],
+                            negative_equity=neg + [c["lfi"]["negative_equity"]])
 
 portfolio = dict(
     n_applications=int(len(df)), source="df_out_v1_runO_solocore.parquet",

@@ -24,9 +24,10 @@
 #  sub_pct = percentile di rischio del sottoindice nel portafoglio (quota con sottoindice strettamente piu' basso):
 #            da qui la classe 1-5 dell'indicatore (indicator_class).
 #    areas {area: {driver, risk_pct}}
-#    name (simulato), lfi_history {simulated, years, pd [t-2, t-1, t], negative_equity}
-#  SIMULATI (non sono nel df_out): nome e dati cliente (payline/<case_id>.json) e la
-#  PD dell'LFI sui due bilanci precedenti (lfi_history). Vedi tools/build_cases.py.
+#    name (simulato), lfi_history {years, pd [t-2, t-1, t], source, negative_equity}
+#  SIMULATI (non sono nel df_out): nome e dati cliente (payline/<case_id>.json). La PD
+#  dell'LFI sui bilanci precedenti (lfi_history) e' REALE dove la stessa azienda ha una
+#  pratica su quel bilancio (source = "model"), simulata altrimenti ("simulated").
 #  cluster_pct / cluster_median / sub_pd_cluster_mean = confronto con il segmento.
 #  driver = scostamento dello score (log-odds) dalla pratica media dello stesso
 #  segmento: la somma dei driver degli 11 indicatori e' xb - xb_cluster_mean.

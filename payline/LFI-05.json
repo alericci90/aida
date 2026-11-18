@@ -2,19 +2,19 @@
   "_simulated": true,
   "Name": "Edilizia Rovanto S.r.l.",
   "TaxCode": "64144829993",
-  "Active Contracts": 18,
+  "Active Contracts": 60,
   "Outstanding": {
-    "Overall Oustanding": 471757.47,
-    "Rental and Remarketing Total": 471757.47,
-    "Rental": 471757.47,
+    "Overall Oustanding": 1572524.89,
+    "Rental and Remarketing Total": 1572524.89,
+    "Rental": 1572524.89,
     "Remarketing": 0.0,
     "Retail and Leasing Total": 0.0,
     "Retail": 0,
     "Leasing": 0.0
   },
   "Scaduto": {
-    "Overall Past-due": 4041.31,
-    "Rental fees Past-due": 3642.88,
-    "Rental extra-fees Past-due": 398.43
+    "Overall Past-due": 13471.03,
+    "Rental fees Past-due": 12142.92,
+    "Rental extra-fees Past-due": 1328.11
   }
 }
