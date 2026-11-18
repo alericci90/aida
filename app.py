@@ -52,12 +52,10 @@ st.markdown(
 )
 
 
-@st.cache_data
 def _cases() -> dict:
-    return load_cases()
+    return load_cases()          # nessuna cache: dopo un aggiornamento di cases.json i dati nuovi sono subito visibili
 
 
-@st.cache_data
 def _portfolio() -> dict:
     return load_portfolio()
 
@@ -234,9 +232,10 @@ if st.session_state.submitted and st.session_state.selected_company in cases:
 
         with colC:
             series_key, series_label, series_fmt = meta["history"]
-            series = case["ratio_history"].get(series_key) or fin.get(series_key)
+            series = case["indicator_history"][series_key]["values"]      # l'indicatore stesso sui tre bilanci
+            series_label = series_label or meta["label"]
             st.markdown(f"<div class='aida-spark-title'>{series_label} · 3Y trend</div>", unsafe_allow_html=True)
-            ref = case["series_segment_median"][series_key]        # mediana del segmento della serie mostrata
+            ref = ind["cluster_median"]                             # mediana del segmento dell'indicatore
             st.plotly_chart(sparkline(series, years, series_fmt, reference=ref), width="stretch", key=f"spark_{key}")
             st.markdown(f"<div class='aida-spark-note'>{trend_comment(series, series_label, meta['trend_good'])}</div>",
                         unsafe_allow_html=True)

@@ -152,17 +152,127 @@
     0.209837
    ]
   },
-  "series_segment_median": {
-   "asset_turnover": 1.083072,
-   "liquidita_su_attivo": 0.08396,
-   "tfr_su_attivo": 0.025298,
-   "clca": 0.43975,
-   "imposte_su_utile_ante": 0.288079,
-   "quick_ratio": 1.128096,
-   "ebitda_su_attivo": 0.086073,
-   "equity_ratio": 0.293008,
-   "revenue": 14734500.0,
-   "total_assets": 14175500.0
+  "indicator_history": {
+   "quick_ratio_aumento_estremo": {
+    "values": [
+     0.002731,
+     0.0,
+     0.073062
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "asset_turnover": {
+    "values": [
+     0.746269,
+     0.763328,
+     1.005675
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "tfr_su_attivo": {
+    "values": [
+     0.092135,
+     0.102465,
+     0.090367
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "liquidita_su_attivo": {
+    "values": [
+     0.190442,
+     0.007858,
+     0.210128
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "imposte_su_utile_ante": {
+    "values": [
+     0.484772,
+     0.403398,
+     0.377399
+    ],
+    "source": [
+     "model",
+     "simulated",
+     "model"
+    ]
+   },
+   "d_asset_turnover_2y": {
+    "values": [
+     -0.15295,
+     0.188491,
+     0.259407
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "vol_ricavi_3y": {
+    "values": [
+     0.080337,
+     0.061218,
+     0.187398
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "clca": {
+    "values": [
+     0.339265,
+     0.34792,
+     0.420547
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "cagr_attivo_1y": {
+    "values": [
+     -0.129435,
+     -0.068599,
+     0.05886
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "d_ebitda_su_attivo_2y": {
+    "values": [
+     -0.097843,
+     0.055385,
+     0.425474
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   }
   },
   "lfi": {
    "xb": -5.360917,
@@ -538,17 +648,127 @@
     0.49726
    ]
   },
-  "series_segment_median": {
-   "asset_turnover": 1.207692,
-   "liquidita_su_attivo": 0.12473,
-   "tfr_su_attivo": 0.028414,
-   "clca": 0.484746,
-   "imposte_su_utile_ante": 0.333333,
-   "quick_ratio": 1.435294,
-   "ebitda_su_attivo": 0.106222,
-   "equity_ratio": 0.245902,
-   "revenue": 901000.0,
-   "total_assets": 756000.0
+  "indicator_history": {
+   "quick_ratio_aumento_estremo": {
+    "values": [
+     0.382332,
+     0.188992,
+     0.072954
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "asset_turnover": {
+    "values": [
+     1.929773,
+     1.770909,
+     1.5715
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "tfr_su_attivo": {
+    "values": [
+     0.094367,
+     0.101212,
+     0.079721
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "liquidita_su_attivo": {
+    "values": [
+     0.309437,
+     0.207879,
+     0.216243
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "imposte_su_utile_ante": {
+    "values": [
+     0.294118,
+     0.299652,
+     0.328814
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "d_asset_turnover_2y": {
+    "values": [
+     -0.92661,
+     -0.501546,
+     -0.358273
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "vol_ricavi_3y": {
+    "values": [
+     0.239501,
+     0.123746,
+     0.088973
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "clca": {
+    "values": [
+     0.435991,
+     0.309697,
+     0.296462
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "cagr_attivo_1y": {
+    "values": [
+     0.364271,
+     0.207023,
+     0.216364
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "d_ebitda_su_attivo_2y": {
+    "values": [
+     0.300868,
+     -0.123673,
+     -0.165221
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   }
   },
   "lfi": {
    "xb": -4.63541,
@@ -924,17 +1144,127 @@
     0.087364
    ]
   },
-  "series_segment_median": {
-   "asset_turnover": 1.694441,
-   "liquidita_su_attivo": 0.08606,
-   "tfr_su_attivo": 0.021487,
-   "clca": 0.505153,
-   "imposte_su_utile_ante": 0.306912,
-   "quick_ratio": 1.076146,
-   "ebitda_su_attivo": 0.088733,
-   "equity_ratio": 0.26216,
-   "revenue": 11704500.0,
-   "total_assets": 7418000.0
+  "indicator_history": {
+   "quick_ratio_aumento_estremo": {
+    "values": [
+     0.116161,
+     0.0,
+     0.083156
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "asset_turnover": {
+    "values": [
+     2.466787,
+     2.634749,
+     2.608061
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "tfr_su_attivo": {
+    "values": [
+     0.024853,
+     0.029697,
+     0.028105
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "liquidita_su_attivo": {
+    "values": [
+     0.065522,
+     0.154871,
+     0.216558
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "imposte_su_utile_ante": {
+    "values": [
+     0.540541,
+     0.92,
+     0.379217
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "d_asset_turnover_2y": {
+    "values": [
+     -0.826719,
+     0.080807,
+     0.141274
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "vol_ricavi_3y": {
+    "values": [
+     0.490396,
+     0.607825,
+     0.366249
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "clca": {
+    "values": [
+     0.68911,
+     0.783236,
+     0.755338
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "cagr_attivo_1y": {
+    "values": [
+     1.295643,
+     0.628107,
+     0.273938
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "d_ebitda_su_attivo_2y": {
+    "values": [
+     -0.030575,
+     -0.052079,
+     0.116088
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   }
   },
   "lfi": {
    "xb": -3.941211,
@@ -1310,17 +1640,127 @@
     -0.011019
    ]
   },
-  "series_segment_median": {
-   "asset_turnover": 1.114655,
-   "liquidita_su_attivo": 0.085848,
-   "tfr_su_attivo": 0.031205,
-   "clca": 0.519165,
-   "imposte_su_utile_ante": 0.324324,
-   "quick_ratio": 1.112764,
-   "ebitda_su_attivo": 0.086281,
-   "equity_ratio": 0.19333,
-   "revenue": 1162000.0,
-   "total_assets": 1043500.0
+  "indicator_history": {
+   "quick_ratio_aumento_estremo": {
+    "values": [
+     0.0,
+     0.198589,
+     0.028071
+    ],
+    "source": [
+     "earlier",
+     "computed",
+     "model"
+    ]
+   },
+   "asset_turnover": {
+    "values": [
+     0.299505,
+     0.34555,
+     0.38843
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "tfr_su_attivo": {
+    "values": [
+     0.037129,
+     0.041885,
+     0.049587
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "liquidita_su_attivo": {
+    "values": [
+     0.032178,
+     0.015707,
+     0.024793
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "imposte_su_utile_ante": {
+    "values": [
+     0.142857,
+     0.25,
+     0.222222
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "d_asset_turnover_2y": {
+    "values": [
+     0.040336,
+     -0.188824,
+     0.088925
+    ],
+    "source": [
+     "earlier",
+     "simulated",
+     "model"
+    ]
+   },
+   "vol_ricavi_3y": {
+    "values": [
+     0.500722,
+     0.01109,
+     0.076269
+    ],
+    "source": [
+     "earlier",
+     "simulated",
+     "model"
+    ]
+   },
+   "clca": {
+    "values": [
+     0.938119,
+     0.769634,
+     0.719008
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "cagr_attivo_1y": {
+    "values": [
+     0.177843,
+     -0.054455,
+     -0.049738
+    ],
+    "source": [
+     "earlier",
+     "computed",
+     "model"
+    ]
+   },
+   "d_ebitda_su_attivo_2y": {
+    "values": [
+     0.000212,
+     0.032891,
+     0.010221
+    ],
+    "source": [
+     "earlier",
+     "simulated",
+     "model"
+    ]
+   }
   },
   "lfi": {
    "xb": -3.545111,
@@ -1696,17 +2136,127 @@
     0.180582
    ]
   },
-  "series_segment_median": {
-   "asset_turnover": 1.248475,
-   "liquidita_su_attivo": 0.092605,
-   "tfr_su_attivo": 0.020879,
-   "clca": 0.56731,
-   "imposte_su_utile_ante": 0.333333,
-   "quick_ratio": 1.231156,
-   "ebitda_su_attivo": 0.103433,
-   "equity_ratio": 0.205882,
-   "revenue": 1237500.0,
-   "total_assets": 1028500.0
+  "indicator_history": {
+   "quick_ratio_aumento_estremo": {
+    "values": [
+     0.20902,
+     0.228507,
+     0.0
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "asset_turnover": {
+    "values": [
+     2.022944,
+     1.367688,
+     1.283771
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "tfr_su_attivo": {
+    "values": [
+     0.004031,
+     0.00327,
+     0.005251
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "liquidita_su_attivo": {
+    "values": [
+     0.145648,
+     0.037312,
+     0.129786
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "imposte_su_utile_ante": {
+    "values": [
+     0.296474,
+     0.316304,
+     0.347157
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "d_asset_turnover_2y": {
+    "values": [
+     1.197762,
+     0.208478,
+     -0.739173
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "vol_ricavi_3y": {
+    "values": [
+     0.952954,
+     0.687841,
+     0.338214
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "clca": {
+    "values": [
+     0.621657,
+     0.597731,
+     0.529427
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "cagr_attivo_1y": {
+    "values": [
+     0.535102,
+     1.725603,
+     0.175156
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "d_ebitda_su_attivo_2y": {
+    "values": [
+     0.168367,
+     -0.052557,
+     -0.106736
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   }
   },
   "lfi": {
    "xb": -3.205696,
@@ -2082,17 +2632,127 @@
     0.166103
    ]
   },
-  "series_segment_median": {
-   "asset_turnover": 1.132704,
-   "liquidita_su_attivo": 0.142722,
-   "tfr_su_attivo": 0.028638,
-   "clca": 0.464677,
-   "imposte_su_utile_ante": 0.296296,
-   "quick_ratio": 1.247934,
-   "ebitda_su_attivo": 0.091681,
-   "equity_ratio": 0.218771,
-   "revenue": 528000.0,
-   "total_assets": 510500.0
+  "indicator_history": {
+   "quick_ratio_aumento_estremo": {
+    "values": [
+     0.0,
+     0.0,
+     0.211829
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "asset_turnover": {
+    "values": [
+     0.849701,
+     1.164591,
+     1.625162
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "tfr_su_attivo": {
+    "values": [
+     0.013772,
+     0.020623,
+     0.034832
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "liquidita_su_attivo": {
+    "values": [
+     0.185629,
+     0.183658,
+     0.18118
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "imposte_su_utile_ante": {
+    "values": [
+     0.480392,
+     0.328257,
+     0.643275
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "d_asset_turnover_2y": {
+    "values": [
+     -1.705855,
+     0.078671,
+     0.775462
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "vol_ricavi_3y": {
+    "values": [
+     0.239918,
+     0.448901,
+     0.693446
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "clca": {
+    "values": [
+     0.34012,
+     0.432296,
+     0.22745
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "cagr_attivo_1y": {
+    "values": [
+     0.205776,
+     0.538922,
+     0.496887
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "d_ebitda_su_attivo_2y": {
+    "values": [
+     -0.019254,
+     0.23053,
+     0.136785
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   }
   },
   "lfi": {
    "xb": -3.453472,
@@ -2468,17 +3128,127 @@
     0.199446
    ]
   },
-  "series_segment_median": {
-   "asset_turnover": 1.387828,
-   "liquidita_su_attivo": 0.111036,
-   "tfr_su_attivo": 0.017857,
-   "clca": 0.541217,
-   "imposte_su_utile_ante": 0.305556,
-   "quick_ratio": 1.018513,
-   "ebitda_su_attivo": 0.088235,
-   "equity_ratio": 0.196704,
-   "revenue": 702000.0,
-   "total_assets": 494000.0
+  "indicator_history": {
+   "quick_ratio_aumento_estremo": {
+    "values": [
+     0.0,
+     0.0,
+     0.104527
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "asset_turnover": {
+    "values": [
+     1.011364,
+     0.822695,
+     0.623269
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "tfr_su_attivo": {
+    "values": [
+     0.0,
+     0.003546,
+     0.00277
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "liquidita_su_attivo": {
+    "values": [
+     0.045455,
+     0.003546,
+     0.044321
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "imposte_su_utile_ante": {
+    "values": [
+     0.041667,
+     0.269231,
+     0.375
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "d_asset_turnover_2y": {
+    "values": [
+     0.083827,
+     0.387211,
+     -0.388095
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "vol_ricavi_3y": {
+    "values": [
+     0.261272,
+     0.360068,
+     0.138735
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "clca": {
+    "values": [
+     0.602273,
+     0.815603,
+     0.739612
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "cagr_attivo_1y": {
+    "values": [
+     -0.290323,
+     0.602273,
+     0.280142
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "d_ebitda_su_attivo_2y": {
+    "values": [
+     0.013175,
+     0.147192,
+     -0.01171
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   }
   },
   "lfi": {
    "xb": -2.621975,
@@ -2854,17 +3624,127 @@
     0.185111
    ]
   },
-  "series_segment_median": {
-   "asset_turnover": 1.387828,
-   "liquidita_su_attivo": 0.111036,
-   "tfr_su_attivo": 0.017857,
-   "clca": 0.541217,
-   "imposte_su_utile_ante": 0.305556,
-   "quick_ratio": 1.018513,
-   "ebitda_su_attivo": 0.088235,
-   "equity_ratio": 0.196704,
-   "revenue": 702000.0,
-   "total_assets": 494000.0
+  "indicator_history": {
+   "quick_ratio_aumento_estremo": {
+    "values": [
+     1.43094,
+     0.143858,
+     1.428761
+    ],
+    "source": [
+     "simulated",
+     "earlier",
+     "model"
+    ]
+   },
+   "asset_turnover": {
+    "values": [
+     1.161039,
+     1.290043,
+     1.118712
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "tfr_su_attivo": {
+    "values": [
+     0.015584,
+     0.02381,
+     0.030181
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "liquidita_su_attivo": {
+    "values": [
+     0.148052,
+     0.108225,
+     0.014085
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "imposte_su_utile_ante": {
+    "values": [
+     0.423077,
+     0.346939,
+     null
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "d_asset_turnover_2y": {
+    "values": [
+     0.289352,
+     0.118222,
+     -0.042327
+    ],
+    "source": [
+     "simulated",
+     "earlier",
+     "model"
+    ]
+   },
+   "vol_ricavi_3y": {
+    "values": [
+     0.247517,
+     0.27768,
+     0.144684
+    ],
+    "source": [
+     "simulated",
+     "earlier",
+     "model"
+    ]
+   },
+   "clca": {
+    "values": [
+     0.67013,
+     0.664502,
+     0.299799
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "cagr_attivo_1y": {
+    "values": [
+     0.245073,
+     0.2,
+     0.075758
+    ],
+    "source": [
+     "simulated",
+     "earlier",
+     "model"
+    ]
+   },
+   "d_ebitda_su_attivo_2y": {
+    "values": [
+     0.016167,
+     -0.057482,
+     -0.059557
+    ],
+    "source": [
+     "simulated",
+     "earlier",
+     "model"
+    ]
+   }
   },
   "lfi": {
    "xb": -2.192838,
@@ -3240,17 +4120,127 @@
     0.146407
    ]
   },
-  "series_segment_median": {
-   "asset_turnover": 1.398298,
-   "liquidita_su_attivo": 0.074219,
-   "tfr_su_attivo": 0.02032,
-   "clca": 0.591928,
-   "imposte_su_utile_ante": 0.296552,
-   "quick_ratio": 1.168699,
-   "ebitda_su_attivo": 0.10193,
-   "equity_ratio": 0.179109,
-   "revenue": 955000.0,
-   "total_assets": 656000.0
+  "indicator_history": {
+   "quick_ratio_aumento_estremo": {
+    "values": [
+     0.105438,
+     0.0,
+     0.039851
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "asset_turnover": {
+    "values": [
+     1.759259,
+     1.415561,
+     1.499664
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "tfr_su_attivo": {
+    "values": [
+     0.036008,
+     0.0,
+     0.0
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "liquidita_su_attivo": {
+    "values": [
+     0.044239,
+     0.041013,
+     0.020819
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "imposte_su_utile_ante": {
+    "values": [
+     0.133333,
+     0.823529,
+     0.769231
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "d_asset_turnover_2y": {
+    "values": [
+     0.275168,
+     -0.361418,
+     -0.259595
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "vol_ricavi_3y": {
+    "values": [
+     0.441413,
+     0.316306,
+     0.162009
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "clca": {
+    "values": [
+     0.410494,
+     0.849216,
+     0.825386
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "cagr_attivo_1y": {
+    "values": [
+     0.398561,
+     0.705761,
+     -0.10193
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "d_ebitda_su_attivo_2y": {
+    "values": [
+     0.216695,
+     -0.012973,
+     -0.16085
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   }
   },
   "lfi": {
    "xb": -2.295685,
@@ -3626,17 +4616,127 @@
     0.352632
    ]
   },
-  "series_segment_median": {
-   "asset_turnover": 1.248475,
-   "liquidita_su_attivo": 0.092605,
-   "tfr_su_attivo": 0.020879,
-   "clca": 0.56731,
-   "imposte_su_utile_ante": 0.333333,
-   "quick_ratio": 1.231156,
-   "ebitda_su_attivo": 0.103433,
-   "equity_ratio": 0.205882,
-   "revenue": 1237500.0,
-   "total_assets": 1028500.0
+  "indicator_history": {
+   "quick_ratio_aumento_estremo": {
+    "values": [
+     0.0,
+     0.014315,
+     0.388218
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "asset_turnover": {
+    "values": [
+     2.0025,
+     1.501441,
+     0.757895
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "tfr_su_attivo": {
+    "values": [
+     0.005,
+     0.008646,
+     0.007895
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "liquidita_su_attivo": {
+    "values": [
+     0.185,
+     0.057637,
+     0.021053
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "imposte_su_utile_ante": {
+    "values": [
+     0.266667,
+     0.26087,
+     0.27027
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "d_asset_turnover_2y": {
+    "values": [
+     0.637115,
+     -0.495463,
+     -1.244605
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "vol_ricavi_3y": {
+    "values": [
+     0.550822,
+     0.213987,
+     0.478618
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "clca": {
+    "values": [
+     0.8675,
+     0.795389,
+     0.639474
+    ],
+    "source": [
+     "model",
+     "model",
+     "model"
+    ]
+   },
+   "cagr_attivo_1y": {
+    "values": [
+     0.23839,
+     -0.1325,
+     0.095101
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   },
+   "d_ebitda_su_attivo_2y": {
+    "values": [
+     0.155962,
+     -0.012286,
+     -0.185921
+    ],
+    "source": [
+     "earlier",
+     "earlier",
+     "model"
+    ]
+   }
   },
   "lfi": {
    "xb": -1.353049,

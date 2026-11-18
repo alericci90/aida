@@ -34,7 +34,7 @@ from objects import (AREAS, BAND_LABELS, CLUSTER_LABELS, CUSTOMER_FIELDS, DISPLA
 MAX_TURNS = 12                  # turni domanda / risposta inviati all'LLM (i dati del caso restano sempre)
 MAX_QUESTION_CHARS = 1500
 LOG_PATH = Path(__file__).resolve().parent / "logs" / "ai_analyst.jsonl"
-PROMPT_VERSION = "lfi-2026-11-18f"
+PROMPT_VERSION = "lfi-2026-11-18g"
 
 
 # =====================================================
@@ -156,8 +156,11 @@ def build_case_block(case: dict, cls: dict, proposal: dict | None = None, custom
         else:
             pos = (f"{ordinal(ind['portfolio_pct'])} percentile of the portfolio; segment median "
                    f"{fmt_value(ind['cluster_median'], m['fmt'])}")
+        hist = case.get("indicator_history", {}).get(k)
+        trend = ("" if not hist else "; values on the three statements " + ", ".join(
+            f"{y} {fmt_value(v, m['fmt'])}" for y, v in zip(years, hist["values"])))
         L.append(f"{m['label']}: {fmt_value(ind['value'], m['fmt'])}; {pos}; driver {fmt_driver(ind['driver'])}, "
-                 f"{driver_effect(ind['driver'])}")
+                 f"{driver_effect(ind['driver'])}{trend}")
 
     L.append("")
     L.append("FINANCIAL STATEMENTS (EUR)")

@@ -70,29 +70,28 @@ AREAS = {
 # ---------------------------------------------------------------------------
 # GLI 11 INDICATORI DEL NUCLEO (Run O solocore)
 # ---------------------------------------------------------------------------
-# trend_good: verso favorevole della serie a 3 esercizi mostrata nel grafico ("up" / "down"), None se il verso
-#             non e' univoco per il modello (il commento al trend descrive solo l'andamento)
+# trend_good: verso favorevole dell'indicatore nel grafico a 3 esercizi ("up" / "down"), coerente con direction
 # family    : famiglia del modello (una per indicatore: e' la chiave del sottoindice di famiglia)
 # direction : "risk" = valori alti aumentano il rischio; "protective" = lo riducono
 #             (verso con cui l'indicatore entra nel modello; "from data" dove non era imposto)
 # fmt       : come si mostra il valore -> "ratio" | "pct" | "pct_signed" | "ratio_signed" | "years"
-# history   : (serie a 3 esercizi da mostrare nel grafico, etichetta, formato) oppure None
-#             la serie e' una chiave di case["ratio_history"] o di case["financials_eur"]
+# history   : (chiave di case["indicator_history"], etichetta (None = label), formato) oppure None.
+#             Il grafico mostra l'INDICATORE STESSO sui tre bilanci, con la mediana del segmento dell'indicatore.
 INDICATORS = {
     "liquidita_su_attivo": dict(
         trend_good='up', family="liquidity", family_label="Liquidity",
         label="Cash buffer", area="liquidity", direction="protective", fmt="pct",
         formula="Liquidity / Total assets",
         reading="Share of assets held in cash and liquid financial assets: the buffer available to meet payments.",
-        history=("liquidita_su_attivo", "Liquidity / Total assets", "pct")),
+        history=("liquidita_su_attivo", None, "pct")),
     "quick_ratio_aumento_estremo": dict(
-        trend_good=None, family="dyn_liquidity", family_label="Liquidity dynamics",
+        trend_good='down', family="dyn_liquidity", family_label="Liquidity dynamics",
         label="Sharp rise in quick ratio", area="liquidity", direction="risk", fmt="ratio",
         formula="max(Quick ratio(t) − Quick ratio(t−1), 0)  ·  Quick ratio = (Current assets − Inventories) / Current liabilities",
         reading="Size of the one-year jump in the quick ratio (0 if it fell). In the portfolio the one-year change in "
                 "the quick ratio has a U-shaped relation with default: an abrupt jump goes with higher risk, like an "
                 "abrupt fall.",
-        history=("quick_ratio", "Quick ratio", "ratio")),
+        history=("quick_ratio_aumento_estremo", None, "ratio")),
     "eta_azienda": dict(
         trend_good=None, family="anagrafica", family_label="Company age",
         label="Company age", area="anagrafica", direction="protective", fmt="years",
@@ -105,25 +104,25 @@ INDICATORS = {
         formula="Employee severance provision (TFR) / Total assets",
         reading="A proxy of a stable, structured workforce: companies with a sizeable provision built up over the "
                 "years default less often.",
-        history=("tfr_su_attivo", "TFR / Total assets", "pct")),
+        history=("tfr_su_attivo", None, "pct")),
     "asset_turnover": dict(
         trend_good='up', family="efficiency", family_label="Efficiency",
         label="Asset turnover", area="efficiency", direction="protective", fmt="ratio",
         formula="Revenue / Total assets",
         reading="Revenue generated per euro of assets.",
-        history=("asset_turnover", "Revenue / Total assets", "ratio")),
+        history=("asset_turnover", None, "ratio")),
     "d_asset_turnover_2y": dict(
         trend_good='up', family="dyn_efficiency", family_label="Efficiency dynamics",
         label="Asset turnover change (2Y)", area="efficiency", direction="protective", fmt="ratio_signed",
         formula="Asset turnover(t) − Asset turnover(t−2)",
         reading="Whether assets are producing more or less revenue than two years earlier.",
-        history=("asset_turnover", "Revenue / Total assets", "ratio")),
+        history=("d_asset_turnover_2y", None, "ratio")),
     "vol_ricavi_3y": dict(
-        trend_good=None, family="dynamics", family_label="Revenue dynamics",
+        trend_good='down', family="dynamics", family_label="Revenue dynamics",
         label="Revenue volatility (3Y)", area="dynamics", direction="risk", fmt="ratio",
         formula="Standard deviation / |mean| of revenue over the last three fiscal years",
         reading="How unstable revenue has been, in either direction: strong swings go with higher risk.",
-        history=("revenue", "Revenue", "eur")),
+        history=("vol_ricavi_3y", None, "ratio")),
     "imposte_su_utile_ante": dict(
         trend_good='up', family="earnings_quality", family_label="Earnings quality",
         label="Effective tax rate", area="earnings_quality", direction="protective (from data)", fmt="pct",
@@ -131,26 +130,26 @@ INDICATORS = {
         reading="In the portfolio a higher effective tax rate goes with lower risk. Not available when the "
                 "pre-tax result is zero or negative: in that case the model uses the risk level observed for "
                 "companies without a positive pre-tax result.",
-        history=("imposte_su_utile_ante", "Taxes / Pre-tax result", "pct")),
+        history=("imposte_su_utile_ante", None, "pct")),
     "clca": dict(
         trend_good='down', family="leverage", family_label="Leverage",
         label="Short-term debt on assets", area="leverage", direction="risk", fmt="pct",
         formula="Debts due within 12 months / Total assets",
         reading="Weight of the debts to be repaid within the year on total assets.",
-        history=("clca", "Short-term debts / Total assets", "pct")),
+        history=("clca", None, "pct")),
     "cagr_attivo_1y": dict(
-        trend_good=None, family="dyn_growth", family_label="Growth dynamics",
+        trend_good='down', family="dyn_growth", family_label="Growth dynamics",
         label="Asset growth (1Y)", area="growth", direction="risk (from data)", fmt="pct_signed",
         formula="Total assets(t) / Total assets(t−1) − 1",
         reading="Very fast balance-sheet growth in one year goes with higher risk (expansion ahead of the company's "
                 "financial capacity).",
-        history=("total_assets", "Total assets", "eur")),
+        history=("cagr_attivo_1y", None, "pct")),
     "d_ebitda_su_attivo_2y": dict(
         trend_good='up', family="dyn_profitability", family_label="Profitability dynamics",
         label="EBITDA on assets change (2Y)", area="profitability", direction="protective", fmt="ratio_signed",
         formula="EBITDA / Total assets(t) − EBITDA / Total assets(t−2)  ·  EBITDA = gross operating margin + other income/charges",
         reading="Whether gross operating profitability has improved or worsened over two years.",
-        history=("ebitda_su_attivo", "EBITDA / Total assets", "pct")),
+        history=("d_ebitda_su_attivo_2y", None, "ratio")),
 }
 
 # ---------------------------------------------------------------------------

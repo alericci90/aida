@@ -72,12 +72,6 @@ for c in CORE:      # posizione del valore grezzo dentro il segmento (cluster)
 sub_clus_mean = df.groupby("cluster")[[f"subscore_fam_{f}_pd" for f in FAMILY.values()]].mean()
 port_med = df[CORE].median()
 clus_med = df.groupby("cluster")[CORE].median()
-# mediana del segmento delle serie mostrate nei grafici a 3 anni (ultimo bilancio): una linea di riferimento per ogni
-# grafico, anche quando la serie non e' l'indicatore stesso (es. asset turnover per la sua variazione a 2 anni)
-SERIES_COLS = {**{k: f"{k}_lastbil" for k in RATIO_HIST},
-               "revenue": f"{ITEMS['revenue']}_lastbil", "total_assets": f"{ITEMS['total_assets']}_lastbil"}
-SERIES_SCALE = {"revenue": 1000, "total_assets": 1000}          # voci di bilancio: migliaia -> euro
-series_med = pd.DataFrame({k: df.groupby("cluster")[c].median() * SERIES_SCALE.get(k, 1) for k, c in SERIES_COLS.items()})
 
 rev = [f"{ITEMS['revenue']}_{l}" for l in LAGS]
 base = ((df["annobil_lastbil"] >= 2023) & (df["annobil_lastbil"] - df["annobil_lastbil-1"] == 1)
@@ -97,8 +91,47 @@ PLAN = [  # (cluster, classe LFI dalla PD, filtro extra, nota): le 6 classi sono
 # modello sui bilanci precedenti e' quella delle loro pratiche precedenti (stesso codice fiscale, ultimo bilancio =
 # quell'anno; se piu' pratiche sullo stesso bilancio, la piu' recente). Si simula solo l'anno che manca.
 H = (df.sort_values("nuovo_sent_at_annomese").groupby(["fiscalCodeOrPIva", "annobil_lastbil"])
-     .agg(pd_cal=("pd_cal", "last"), pn=(f"{ITEMS['equity']}_lastbil", "last")))
+     .agg(pd_cal=("pd_cal", "last"), pn=(f"{ITEMS['equity']}_lastbil", "last"), **{c: (c, "last") for c in CORE}))
 H_PD, H_PN = H["pd_cal"].to_dict(), H["pn"].to_dict()
+H_IND = {c: H[c].to_dict() for c in CORE}
+IQR = (df[CORE].quantile(0.75) - df[CORE].quantile(0.25)).to_dict()
+LEVEL_LAGS = ["liquidita_su_attivo_lastbil", "tfr_su_attivo_lastbil", "asset_turnover_lastbil",
+              "imposte_su_utile_ante_lastbil", "clca_lastbil"]          # indici di livello: t-1 e t-2 sono nel parquet
+
+
+def indicator_history(r, case_rng) -> dict:
+    """Ogni indicatore del nucleo (tranne l'eta') sui tre bilanci [t-2, t-1, t], con l'origine di ogni valore:
+       model      = colonna del parquet (t; t-1 e t-2 per gli indici di livello)
+       earlier    = pratica precedente della stessa azienda su quel bilancio (valore calcolato dal modello)
+       computed   = ricalcolato dalle voci dei bilanci disponibili (quick ratio, attivo)
+       simulated  = simulato: valore di t piu' un'oscillazione proporzionale alla dispersione del portafoglio"""
+    cf, yrs = r["fiscalCodeOrPIva"], [int(r["annobil_lastbil-2"]), int(r["annobil_lastbil-1"])]
+    qr = [r["quick_ratio_lastbil-2"], r["quick_ratio_lastbil-1"]]
+    at = [r[f"{ITEMS['total_assets']}_lastbil-2"], r[f"{ITEMS['total_assets']}_lastbil-1"]]
+    out = {}
+    for c in CORE:
+        if c == "eta_azienda":
+            continue
+        k = c.replace("_lastbil", "")
+        vals, src = [], []
+        for j, lag in enumerate(("lastbil-2", "lastbil-1")):
+            v, s = None, None
+            if c in LEVEL_LAGS and pd.notna(r.get(f"{k}_{lag}")):
+                v, s = r[f"{k}_{lag}"], "model"
+            elif (cf, yrs[j]) in H_IND[c] and pd.notna(H_IND[c][(cf, yrs[j])]):
+                v, s = H_IND[c][(cf, yrs[j])], "earlier"
+            elif c == "quick_ratio_aumento_estremo_lastbil" and j == 1 and pd.notna(qr[0]) and pd.notna(qr[1]):
+                v, s = max(qr[1] - qr[0], 0.0), "computed"
+            elif c == "cagr_attivo_1y_lastbil" and j == 1 and at[0] and at[0] > 0 and pd.notna(at[1]):
+                v, s = at[1] / at[0] - 1, "computed"
+            elif pd.notna(r[c]):
+                v = r[c] + case_rng.normal(0, 0.35 * IQR[c])
+                if c in ("quick_ratio_aumento_estremo_lastbil", "vol_ricavi_3y_lastbil"):
+                    v = max(v, 0.0)
+                s = "simulated"
+            vals.append(f(v)); src.append(s)
+        out[k] = dict(values=vals + [f(r[c])], source=src + ["model"])
+    return out
 
 
 def real_history(r) -> list:
@@ -153,7 +186,7 @@ for n, (i, note) in enumerate(picked, 1):
                                             "RITORNO": "Returning customer"}[r["Tipo_Cliente"]],
         years=years, financials_eur=fin,
         ratio_history={k: [f(r[f"{k}_{l}"]) for l in LAGS] for k in RATIO_HIST},
-        series_segment_median={k: f(series_med.loc[r["cluster"], k]) for k in SERIES_COLS},
+        indicator_history=indicator_history(r, np.random.default_rng(7000 + n)),
         lfi=dict(xb=f(r["xb"]), pd_model=f(r["pd_hat"]), pd=f(r["pd_cal"]), pd_low=f(r["pd_cal_q_lo"]),
                  pd_high=f(r["pd_cal_q_hi"]), model_decile=int(r["classe_rischio_oss"]),
                  cluster_pd_mean=f(r["calib_pd_cal_tutte"]), xb_cluster_mean=f(r["xb_cluster_mean"]),
