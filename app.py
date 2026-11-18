@@ -22,11 +22,11 @@ from pathlib import Path
 import streamlit as st
 
 from functions import (area_drivers_chart, class_badge, class_radar, class_scale, driver_effect, fmt_eur, fmt_pct,
-                       fmt_value, genera_pdf_lfi, ordinal, score_trend_comment, sparkline, subindex_description,
+                       fmt_value, genera_pdf_lfi, score_trend_comment, sparkline, subindex_description,
                        trend_comment)
 from funzione_ai_azure_eng import lfi_ai_component
-from lfi_engine import (case_label, lfi_class, load_cases, load_customer, load_portfolio, statement_age_months,
-                        subindex_class)
+from lfi_engine import (case_label, indicator_class, lfi_class, load_cases, load_customer, load_portfolio,
+                        statement_age_months)
 from objects import (BAND_DESCRIPTIONS, CLUSTER_LABELS, CUSTOMER_FIELDS, DISPLAY_INDICATORS, FINANCIAL_CARDS, INDICATORS,
                      LFI_CLASSES_PROVISIONAL)
 from style import inject_lfi_css, inject_theme, kpi_card, section_header
@@ -212,26 +212,25 @@ if st.session_state.submitted and st.session_state.selected_company in cases:
 
     for key in DISPLAY_INDICATORS:
         meta, ind = INDICATORS[key], case["indicators"][key]
-        c = subindex_class(ind["sub_pd"])
+        c = indicator_class(ind["sub_pct"])
         colA, colB, colC = st.columns([1, 3, 2.5])
 
         with colA:
             st.markdown(class_badge(c), unsafe_allow_html=True)
 
         with colB:
-            segment_position = ("" if ind["value"] is None else
-                                f' &nbsp;·&nbsp; {ordinal(ind["cluster_pct"])} percentile of the segment')
             st.markdown(
                 f'<div class="aida-ind-fam">Indicator</div>'
                 f'<div class="aida-ind-name">{meta["label"]}</div>'
                 f'<div class="aida-formula">{meta["formula"]}</div>'
                 f'<div class="aida-ind-value">Indicator value &nbsp; <b>{fmt_value(ind["value"], meta["fmt"])}</b></div> '
                 f'<div class="aida-ind-value">Segment median &nbsp; <b>{fmt_value(ind["cluster_median"], meta["fmt"])}</b>'
-                f'{segment_position}</div>'
+                f'</div>'
                 f'<div class="aida-ind-desc">'
                 f'{subindex_description(ind["sub_pd"], ind["sub_pd_cluster_mean"], meta["reading"])}</div>',
                 unsafe_allow_html=True
             )
+            st.markdown(class_scale(c), unsafe_allow_html=True)
 
         with colC:
             series_key, series_label, series_fmt = meta["history"]

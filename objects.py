@@ -22,7 +22,13 @@ LFI_CLASSES_PROVISIONAL = False     # True mostra in pagina l'avviso "scala prov
 OVERRIDE_NEGATIVE_EQUITY = True
 
 # Colori di riferimento (il colore di ogni classe e' interpolato su questa scala) ed etichette di fascia.
-BAND_COLORS = {1: "#16976A", 2: "#67B35A", 3: "#F3B13C", 4: "#EE6B2C", 5: "#9E1B14"}
+BAND_COLORS = {1: "#16976A", 2: "#67B35A", 3: "#E9B820", 4: "#EE6B2C", 5: "#9E1B14"}     # classe 3 = giallo
+# Colori delle 6 classi dell'LFI (1 verde -> 3 giallo -> 6 rosso scuro)
+LFI_CLASS_COLORS = {1: "#16976A", 2: "#67B35A", 3: "#E9B820", 4: "#EE8A2C", 5: "#E0532A", 6: "#9E1B14"}
+
+# Classi degli INDICATORI (5 classi, 1 = lowest risk): percentile di rischio del sottoindice di famiglia nel
+# portafoglio. Classe 1 [0, 20), 2 [20, 50), 3 [50, 75), 4 [75, 90), 5 [90, 100].
+IND_CLASS_CUTS_PCT = [20, 50, 75, 90]
 BAND_LABELS = {1: "EXCELLENT", 2: "GOOD", 3: "ADEQUATE", 4: "WEAK", 5: "CRITICAL"}
 BAND_DESCRIPTIONS = {
     1: "Default risk well below the portfolio average.",

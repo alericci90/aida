@@ -21,7 +21,8 @@
 #  sub_pd = sottoindice di famiglia: PD che l'azienda avrebbe guardando SOLO
 #  quella famiglia (sottoscore del nucleo ricalibrato con una logit univariata
 #  sul default osservato: colonne subscore_fam_<famiglia>_pd del df_out);
-#  sub_pct = quota di pratiche del portafoglio con sottoindice piu' basso.
+#  sub_pct = percentile di rischio del sottoindice nel portafoglio (quota con sottoindice strettamente piu' basso):
+#            da qui la classe 1-5 dell'indicatore (indicator_class).
 #    areas {area: {driver, risk_pct}}
 #    name (simulato), lfi_history {simulated, years, pd [t-2, t-1, t], negative_equity}
 #  SIMULATI (non sono nel df_out): nome e dati cliente (payline/<case_id>.json) e la
@@ -35,7 +36,7 @@ from bisect import bisect_right
 from math import ceil
 from pathlib import Path
 
-from objects import BAND_COLORS, LFI_CLASS_CUTS, OVERRIDE_NEGATIVE_EQUITY
+from objects import BAND_COLORS, IND_CLASS_CUTS_PCT, LFI_CLASS_COLORS, LFI_CLASS_CUTS, OVERRIDE_NEGATIVE_EQUITY
 
 REPO = Path(__file__).resolve().parent / "repository_lfi"
 
@@ -87,10 +88,11 @@ def lfi_class(pd_value: float, negative_equity: bool) -> dict:
                 color=class_color(final, n))
 
 
-def subindex_class(sub_pd: float) -> dict:
-    """Classe di un sottoindice di famiglia: la sua PD letta sulla STESSA scala dell'LFI (nessun override)."""
-    n = len(LFI_CLASS_CUTS) + 1
-    c = bisect_right(LFI_CLASS_CUTS, sub_pd) + 1
+def indicator_class(sub_pct: float) -> dict:
+    """Classe di un indicatore (1-5) dal percentile di rischio del suo sottoindice di famiglia nel portafoglio:
+    1 [0, 20), 2 [20, 50), 3 [50, 75), 4 [75, 90), 5 [90, 100] (objects.IND_CLASS_CUTS_PCT)."""
+    n = len(IND_CLASS_CUTS_PCT) + 1
+    c = bisect_right(IND_CLASS_CUTS_PCT, sub_pct) + 1
     return dict(final=c, model=c, n=n, overridden=False, band=class_band(c, n), color=class_color(c, n))
 
 
@@ -101,8 +103,13 @@ def class_band(c: int, n: int) -> int:
 
 
 def class_color(c: int, n: int) -> str:
-    """Colore della classe c su n classi, interpolato sui 5 colori di riferimento (verde -> rosso)."""
-    t = 2.0 if n == 1 else (c - 1) * 4 / (n - 1)          # posizione 0..4 sulla scala dei colori
+    """Colore della classe c su n classi: 5 classi -> BAND_COLORS, 6 -> LFI_CLASS_COLORS (classe 3 gialla in
+    entrambe), altrimenti interpolato sui 5 colori di riferimento."""
+    if n == len(BAND_COLORS):
+        return BAND_COLORS[c]
+    if n == len(LFI_CLASS_COLORS):
+        return LFI_CLASS_COLORS[c]
+    t = 2.0 if n == 1 else (c - 1) * 4 / (n - 1)
     lo = min(int(t), 3)
     f = t - lo
     a, b = (BAND_COLORS[lo + 1].lstrip("#"), BAND_COLORS[lo + 2].lstrip("#"))

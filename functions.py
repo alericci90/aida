@@ -11,7 +11,7 @@ import math
 
 import plotly.graph_objects as go
 
-from lfi_engine import class_color, subindex_class
+from lfi_engine import class_color, indicator_class
 from objects import AREAS, BAND_LABELS, DISPLAY_INDICATORS, FINANCIAL_ITEMS, INDICATORS
 from style import chart_colors
 
@@ -245,9 +245,9 @@ def area_drivers_chart(case: dict):
 
 
 def class_radar(case: dict, dark: bool = True):
-    """Radar del profilo di rischio (stesso grafico del template): classe del sottoindice di ogni indicatore."""
+    """Radar del profilo di rischio (stesso grafico del template): classe 1-5 di ogni indicatore."""
     cc = chart_colors()
-    classes = [subindex_class(case["indicators"][k]["sub_pd"]) for k in DISPLAY_INDICATORS]
+    classes = [indicator_class(case["indicators"][k]["sub_pct"]) for k in DISPLAY_INDICATORS]
     n = classes[0]["n"]
     closed = lambda x: x + [x[0]]
     labels = closed([INDICATORS[k]["label"].replace(" on ", "<br>on ").replace(" change", "<br>change")
@@ -325,7 +325,7 @@ def genera_pdf_lfi(output_path: str, logo_path: str, case: dict, cls: dict) -> N
     for k in DISPLAY_INDICATORS:
         meta, ind = INDICATORS[k], case["indicators"][k]
         rows.append([meta["family_label"], meta["label"], fmt_value(ind["value"], meta["fmt"]),
-                     fmt_pct(ind["sub_pd"]), str(subindex_class(ind["sub_pd"])["final"]), f"{ind['driver']:+.2f}"])
+                     fmt_pct(ind["sub_pd"]), str(indicator_class(ind["sub_pct"])["final"]), f"{ind['driver']:+.2f}"])
     story.append(_table(rows, [3.4 * cm, 5 * cm, 2.3 * cm, 2.2 * cm, 1.3 * cm, 1.8 * cm]))
 
     story.append(Paragraph("Financial statements (EUR)", styles["Sezione"]))
