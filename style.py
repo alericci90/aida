@@ -11,6 +11,8 @@
 #  Tutti gli helper restituiscono stringhe HTML da passare a st.markdown.
 # ============================================================================
 
+MOCKUP_BUILD = "2026-11-18.1340"          # versione del mock-up: deve coincidere con app.py
+
 import streamlit as st
 
 # ---------------------------------------------------------------------------

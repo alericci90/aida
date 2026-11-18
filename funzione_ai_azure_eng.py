@@ -18,6 +18,8 @@
 #      registrata in logs/ai_analyst.jsonl.
 #   7. Chiavi di session_state con prefisso "lfi_ai_".
 # ============================================================================
+MOCKUP_BUILD = "2026-11-18.1340"          # versione del mock-up: deve coincidere con app.py
+
 import hashlib
 import html
 import json

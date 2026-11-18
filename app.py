@@ -19,11 +19,30 @@
 import tempfile
 from pathlib import Path
 
+import importlib
+
 import streamlit as st
 
-from functions import (class_badge, class_radar, class_scale, fmt_customer, fmt_eur, indicator_summary_table,
-                       fmt_pct,
-                       fmt_value, genera_pdf_lfi, score_trend_comment, sparkline, subindex_description,
+st.set_page_config(page_title="Financial Index Dashboard", layout="wide")
+
+# CONTROLLO DEI FILE: tutti i moduli del mock-up devono essere della stessa versione (MOCKUP_BUILD). Se un file non e'
+# stato aggiornato la pagina dice quale, invece di fermarsi su un ImportError senza spiegazioni.
+MOCKUP_BUILD = "2026-11-18.1340"
+_outdated = []
+for _m in ("objects", "style", "lfi_engine", "functions", "funzione_ai_azure_eng"):
+    try:
+        _ver = getattr(importlib.import_module(_m), "MOCKUP_BUILD", None)
+    except Exception as _e:                                 # modulo vecchio che importa nomi che non esistono piu'
+        _ver = f"error on import ({type(_e).__name__})"
+    if _ver != MOCKUP_BUILD:
+        _outdated.append(f"{_m}.py ({_ver or 'older version'})")
+if _outdated:
+    st.error("Some files of the mock-up are not up to date: " + ", ".join(_outdated) + ". Replace them with the "
+             f"latest version (build {MOCKUP_BUILD}) together with app.py.")
+    st.stop()
+
+from functions import (class_badge, class_radar, class_scale, fmt_customer, fmt_eur, fmt_pct, fmt_value,
+                       genera_pdf_lfi, indicator_summary_table, score_trend_comment, sparkline, subindex_description,
                        trend_comment)
 from funzione_ai_azure_eng import lfi_ai_component
 from lfi_engine import (case_label, indicator_class, lfi_class, load_cases, load_customer, load_portfolio,
@@ -36,7 +55,6 @@ from style import inject_lfi_css, inject_theme, kpi_card, section_header
 APP_DIR = Path(__file__).resolve().parent     # immagini lette dalla cartella dell'app, da qualunque cartella si lanci
 # CONFIG
 PLOT_CONFIG = {"displayModeBar": False}          # grafici senza la barra degli strumenti di plotly
-st.set_page_config(page_title="Financial Index Dashboard", layout="wide")
 
 # CSS + FONT (theme layer, solo estetica)
 DARK_MODE = True   # <-- True = dark premium, False = light

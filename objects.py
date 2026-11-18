@@ -14,6 +14,8 @@
 # Tagli ufficiali forniti dall'utente il 18/11/2026: 5 soglie sulla PD calibrata (pd_cal) -> 6 classi.
 # Ogni valore e' l'estremo superiore della classe (PD < soglia); l'ultima classe non ha tetto.
 # Il numero di classi e' len(LFI_CLASS_CUTS) + 1: cambiando la lista tutto il resto si adegua.
+MOCKUP_BUILD = "2026-11-18.1340"          # versione del mock-up: deve coincidere con app.py
+
 LFI_CLASS_CUTS = [0.006187781657340546, 0.015126294306543511, 0.03135440708411206, 0.051596325904445246,
                   0.08868207243027773]
 LFI_CLASSES_PROVISIONAL = False     # True mostra in pagina l'avviso "scala provvisoria"

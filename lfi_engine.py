@@ -34,6 +34,8 @@
 #  driver = scostamento dello score (log-odds) dalla pratica media dello stesso
 #  segmento: la somma dei driver degli 11 indicatori e' xb - xb_cluster_mean.
 # ============================================================================
+MOCKUP_BUILD = "2026-11-18.1340"          # versione del mock-up: deve coincidere con app.py
+
 import json
 from bisect import bisect_right
 from math import ceil

@@ -7,6 +7,8 @@
 #  costruire il testo passato all'AI Analyst: un numero ha la stessa forma
 #  nella pagina e nel prompt.
 # ============================================================================
+MOCKUP_BUILD = "2026-11-18.1340"          # versione del mock-up: deve coincidere con app.py
+
 import math
 
 import plotly.graph_objects as go
